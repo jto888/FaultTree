@@ -9,9 +9,9 @@ in a batch fashion.  Event trees are much simpler and calculations proceed durin
 There is no GUI associated with this package, nor is one expected in the R environment. A user is expected
 to code scripts defining the tree as a final version. Minimal cutsets are not determined with this package
 since the tree to be built assumes this to be a final tree. Logic gate calculations are performed using boolean
-algebra and cross-multiplication of demands with unreliability values. Dormant component events assume
-exponential fail rates for calculation of fractional downtime values.
+algebra and cross-multiplication of demands (conditional fail rates) with failed state probability values. 
+Dormant component events assume exponential fail rates for calculation of fractional downtime values.
 
 It is possible to augment this package with the solution of Markov models, but this is a subject for
 further development. As is, the presentation of simple results is believed to be more powerful for practical
-purposes than seeking a more scholarly approach.
+purposes than seeking a more complex approach.
