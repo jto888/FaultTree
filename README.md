@@ -28,7 +28,7 @@ tree1<-addDemand(tree1, at=1, demand_rate=1.0, name="Site power interruption")
 
 tree1<-addLogic(tree1, at=1, type="or", name="neither emergency generator operable")
 
-tree1<-addLogic(tree1, at=3, type="and", name="Sequential failure of generators")
+tree1<-addLogic(tree1, at=3, type="and", name="Independent failure of generators")
 
 tree1<-addDormant(tree1, at=4, mttf=5,mttr=12/8760,inspect=1/26, name="e-gen set fails")
 
