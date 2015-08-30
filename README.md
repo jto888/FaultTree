@@ -24,7 +24,7 @@ Example Scripts:
 ## ftree example 1
 tree1<-ftree.make(type="and",name="Site power loss")
 
-tree1<-addDemand(tree1, at=1, demand_rate=1.0, name="Site power interruption")
+tree1<-addDemand(tree1, at=1, demand_rate=1.0, name="Extermal power interruption")
 
 tree1<-addLogic(tree1, at=1, type="or", name="neither emergency generator operable")
 
