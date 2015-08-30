@@ -31,6 +31,7 @@ Returns a dataframe containing 18 columns for holding data, results, and connect
   
   Vesely, W.E., Stamatelato, M., Dugan, J., Fragola, J., Minarick, J., Railsback, J. (2002)
   Fault Tree Handbook with Aerospace Applications   NASA
+}
 
 \examples{
 mytree <- ftree.make(type="and", name="a specific undesired event")

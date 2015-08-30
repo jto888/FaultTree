@@ -1,12 +1,12 @@
 \name{addProbability}
-\alias{addDemand}
+\alias{addProbability}
 
 \title{ Add a Pure Probability }
 
 \description{Modifies an existing fault tree with the addition of a pure probability.}
 
 \usage{
-addProbability(DF, at, prob, name="", description="") 
+addProbability(DF, at, prob, name="", description="")
 }
 
 \arguments{

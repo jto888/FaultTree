@@ -6,7 +6,8 @@
 \description{Modifies an existing fault tree with the addition of a dormant component event.}
 
 \usage{
-addDormant(DF, at, mttf=NULL, mttr=NULL, prob="repair", inspect=NULL, name="",description="")
+addDormant(DF, at, mttf=NULL, mttr=NULL, prob="repair", inspect=NULL, 
+			name="",description="")
 }
 
 \arguments{
