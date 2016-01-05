@@ -15,9 +15,9 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 addProbability<-function(DF, at, prob, name="", description="")  {				
-	if(length(names(DF))!=18)   stop("first argument must be a fault tree")
+	if(length(names(DF))!=19)   stop("first argument must be a fault tree")
 	ftree_test<-NULL
-	for(nm in 1:18) {ftree_test<-c(ftree_test,names(DF)[nm]==FT_FIELDS[nm])}
+	for(nm in 1:19) {ftree_test<-c(ftree_test,names(DF)[nm]==FT_FIELDS[nm])}
 	if(!all(ftree_test))   stop("first argument must be a fault tree")
 						
  	tp=3			
@@ -41,25 +41,27 @@ addProbability<-function(DF, at, prob, name="", description="")  {
 								
 	Dfrow<-data.frame(			
 		ID=	thisID	,
-		Level=	DF$Level[parent]+1	,
 		Name=	name	,
-		ParentID=	at	,
+		Parent=	at	,
 		Type=	tp	,
 		CFR=	-1	,
 		PBF=	prob	,
+		CRT=    -1  ,
 		Child1=	-1	,
 		Child2=	-1	,
 		Child3=	-1	,
 		Child4=	-1	,
 		Child5=	-1	,
-		ProbabilityEntry=	-1	,
-		MTTF=	-1	,
-		MTTR=	-1	,
+		Level=	DF$Level[parent]+1	,
+		Independent=    TRUE    ,
+		PHF=    -1  ,
+		Repairable= FALSE   ,
 		inspectionInterval=	-1	,
 		InspectIonObject=	""	,
 		Description=	description	
 		)		
-	## }  ## type condition removed			
+
+		
 	DF<-rbind(DF, Dfrow)			
 	DF			
 }				

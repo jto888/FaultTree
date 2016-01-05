@@ -1,5 +1,5 @@
 # ftree.make.R
-# copyright 2015, openreliability.org
+# copyright 2015-2016, openreliability.org
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -19,26 +19,46 @@ ftree.make<-function(type, name="top event", description="")  {
 	tp<-switch(type,			
 		or = 10,		
 		and = 11,		
-		conditional =12,		
+		inhibit=12,
+		alarm=13,
+		cond=14,
+		conditional =14,		
 		stop("gate type not recognized")		
 	)			
-				
+
+## Must place this test here before tp==13 test, since alarm gate is being assigned FALSE repairability
+	if(repairable_cond==FALSE && tp!=14) {
+		warning(paste0("repairable_cond entry ignored at gate ",as.character(thisID)))
+	}
+
+	if(tp == 13) {
+		repairable_cond=FALSE
+		if(human_pbf < 0 || human_pbf >1) {
+			stop(paste0("alarm gate at ID ", as.character(thisID), " requires human failure probability value"))
+		}
+	}else{
+		if(human_pbf!=-1) {
+			warning(paste0("human failure probability for  non-alarm gate at ID ",as.character(thisID), " has been ignored"))
+			human_pbf=-1
+		}
+	}				
 	DF<-data.frame(			
 		ID=	1	,
-		Level=	1	,
 		Name=	name	,
 		ParentID=	-1	,
 		Type=	tp	,
 		CFR=	-1	,
 		PBF=	-1	,
+		CRT=    -1  ,
 		Child1=	-1	,
 		Child2=	-1	,
 		Child3=	-1	,
 		Child4=	-1	,
 		Child5=	-1	,
-		ProbabilityEntry=	-1	,
-		MTTF=	-1	,
-		MTTR=	-1	,
+		Level=  1   ,
+		Independent=    -1  ,
+		PHF=    human_pbf  ,
+		Repairable= repairable_cond  ,
 		inspectionInterval=	-1	,
 		InspectIonObject=	""	,
 		Description=	description	,
@@ -48,20 +68,21 @@ DF
 }
 
 FT_FIELDS<-c("ID",
-	"Level",
 	"Name",
-	"ParentID",
+	"Parent",
 	"Type",
 	"CFR",
 	"PBF",
+	"CRT"	
 	"Child1",
 	"Child2",
 	"Child3",
 	"Child4",
 	"Child5",
-	"ProbabilityEntry",
-	"MTTF",
-	"MTTR",
+	"Level",
+	"Independent",
+	"PHF",
+	"Repairable",
 	"inspectionInterval",
 	"InspectIonObject",
 	"Description"

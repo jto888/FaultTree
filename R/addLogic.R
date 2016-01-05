@@ -14,16 +14,19 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-addLogic<-function(DF, type, at, name="", description="")  {				
-	if(length(names(DF))!=18)   stop("first argument must be a fault tree")
+addLogic<-function(DF, type, at, name="", human_pbf=-1, repairable_cond=TRUE, description="")  {				
+	if(length(names(DF))!=19)   stop("first argument must be a fault tree")
 	ftree_test<-NULL
-	for(nm in 1:18) {ftree_test<-c(ftree_test,names(DF)[nm]==FT_FIELDS[nm])}
+	for(nm in 1:19) {ftree_test<-c(ftree_test,names(DF)[nm]==FT_FIELDS[nm])}
 	if(!all(ftree_test))   stop("first argument must be a fault tree")
 			
 	tp<-switch(type,			
 		or = 10,		
-		and = 11,		
-		conditional =12,		
+		and = 11,
+		inhibit=12,
+		alarm=13,
+		cond=14,		
+		conditional =14,		
 		stop("gate type not recognized")		
 	)			
 	parent<-which(DF$ID== at)			
@@ -40,13 +43,29 @@ addLogic<-function(DF, type, at, name="", description="")  {
 			stop("connection slot not available")	
 		}		
 	}			
+
+## Must place this test here before tp==13 test, since alarm gate is being assigned FALSE repairability
+	if(repairable_cond==FALSE && tp!=14) {
+		warning(paste0("repairable_cond entry ignored at gate ",as.character(thisID)))
+	}
+
+	if(tp == 13) {
+		repairable_cond=FALSE
+		if(human_pbf < 0 || human_pbf >1) {
+			stop(paste0("alarm gate at ID ", as.character(thisID), " requires human failure probability value"))
+		}
+	}else{
+		if(human_pbf!=-1) {
+			warning(paste0("human failure probability for  non-alarm gate at ID ",as.character(thisID), " has been ignored"))
+			human_pbf=-1
+		}
+	}
 				
 				
 	Dfrow<-data.frame(			
 		ID=	thisID	,
-		Level=	DF$Level[parent]+1	,
 		Name=	name	,
-		ParentID=	at	,
+		Parent=	at	,
 		Type=	tp	,
 		CFR=	-1	,
 		PBF=	-1	,
@@ -55,9 +74,10 @@ addLogic<-function(DF, type, at, name="", description="")  {
 		Child3=	-1	,
 		Child4=	-1	,
 		Child5=	-1	,
-		ProbabilityEntry=	-1	,
-		MTTF=	-1	,
-		MTTR=	-1	,
+		Level=	DF$Level[parent]+1	,
+		Independent=    TRUE  ,
+		PHF=    human_pbf   ,
+		Repairable= repairable_cond ,
 		inspectionInterval=	-1	,
 		InspectIonObject=	""	,
 		Description=	description	

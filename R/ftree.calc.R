@@ -1,5 +1,5 @@
 # ftree.calc.R
-# copyright 2015, openreliability.org
+# copyright 2015-2016, openreliability.org
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -15,9 +15,9 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ftree.calc<-function(DF)  {				
-	if(length(names(DF))!=18)   stop("first argument must be a fault tree")
+	if(length(names(DF))!=19)   stop("first argument must be a fault tree")
 	ftree_test<-NULL
-	for(nm in 1:18) {ftree_test<-c(ftree_test,names(DF)[nm]==FT_FIELDS[nm])}
+	for(nm in 1:19) {ftree_test<-c(ftree_test,names(DF)[nm]==FT_FIELDS[nm])}
 	if(!all(ftree_test))   stop("first argument must be a fault tree")
 						
 		NDX<-order(DF$Level)		
@@ -27,70 +27,100 @@ ftree.calc<-function(DF)  {
 for(row in dim(sDF)[1]:1)  {				
 				
 	if(sDF$Type[row] > 9)  {			
-				
+## Build the siblingDF starting with first child				
 		children<-which(sDF[row, 8:12]>0)		
-		if(!length(children)>0)  {stop("empty OR gate found")}		
-		pFR<-sDF$CFR[which(sDF$ID==sDF$Child1[row])]		
-		pPF<-sDF$PBF[which(sDF$ID==sDF$Child1[row])]		
+		if(!length(children)>0)  stop(paste0("empty gate found at ID ", as.character(sDF$ID[row])))		
+	thisChild<-which(sDF$ID==sDF$Child1[row])
+	siblingDF<-data.frame(ID=sDF$ID[thisChild],
+		CFR=sDF$CFR[thisChild],
+		PBF=sDF$PBF[thisChild],
+		CRT=sDF$CRT[thisChild],
+		Type=sDF$Type[thisChild],
+		PHF=sDF$PHF[thisChild]
+		)				
+	if(length(children)>1)  {		
 				
-		if(length(children)>1)  {		
-				
-		## OR gate calculation		
-		if(sDF$Type[row]==10)  {		
-		for(comb in 2:length(children))  {		
-			cFR<-sDF$CFR[which(sDF$ID==sDF[ row, (7+children[comb])])]	
-			cPF<-sDF$PBF[which(sDF$ID==sDF[ row, (7+children[comb])])]	
-			if(pFR<0) {pFR<-0}	
-			if(pPF<0) {pPF<-0}	
-			if(cFR<0) {cFR<-0}	
-			if(cPF<0) {cPF<-0}	
-		## the progressing OR calculation 2x2 (non-entries are zero thus have no effect)		
-			pFR<-pFR+cFR	
-			pPF<-1-(1-pPF)*(1-cPF)	
-		## return any non-entries to -1 indication		
-			if(pFR==0) {pFR<- (-1)}	
-			if(pPF==0)  {pPF<- (-1)}	
-		}		
-		}  ## close OR gate calculation		
-				
-				
-		## AND gate calculation		
-		if(sDF$Type[row]==11)  {		
-		for(comb in 2:length(children))  {		
-			cFR<-sDF$CFR[which(sDF$ID==sDF[ row, (7+children[comb])])]	
-			cPF<-sDF$PBF[which(sDF$ID==sDF[ row, (7+children[comb])])]	
-			x1FR<-pPF*cFR	
-			if(x1FR<0)  {x1FR<-0}	
-			x2FR<-cPF*pFR	
-			if(x2FR<0)  {x2FR<-0}	
-			pFR<-x1FR+x2FR	
-			pPF<-pPF*cPF	
-		## return any non-entries to -1 indication		
-			if(pPF<0) {	
-				pPF<- (-1)
-			}else{	
-		## second order fail rate adjustment often negligable		
-				if(x1FR>0&&x2FR>0)  {
-				pFR<-pFR-(x2FR/cPF+cFR)*pPF
-				}
-				
-			}	
-			if(!pFR>0)  {pFR<- (-1)}	
-		}  ## next child, if any		
-		}  ## close AND gate calculation		
-				
-		}  ## close more than one child check		
-				
-			sDF$CFR[row]<-pFR	
-			sDF$PBF[row]<-pPF	
-				
-	}  ## close logic type check			
-}  ## next row				
-				
-		## reorder by ID		
-		NDX<-order(sDF$ID)		
-		DF<-sDF[NDX,]		
-				
-				
-		DF		
+		for(child in 2:length(children))  {
+		thisChild<-which(sDF$ID==sDF[ row, (7+children[child])])
+		DFrow<-data.frame(ID=sDF$ID[thisChild],
+			CFR=sDF$CFR[thisChild],
+			PBF=sDF$PBF[thisChild],
+			CRT=sDF$CRT[thisChild],
+			Type=sDF$Type[thisChild],
+			PHF=sDF$PHF[thisChild]
+			)
+
+		siblingDF<-rbind(siblingDF,DFrow)
+		}
+	}else{
+		if(sDF$Type[row]>10) {
+## less than 2 feeds to other than OR calc
+		stop(paste0("insufficient feeds at gate ", sDF$ID[row]))
+		}
+	}
+
+
+	## OR gate calculation
+	if(sDF$Type[row]==10)  {
+	resultDF<-ORcalc(siblingDF)
+	}
+
+	## AND gate calculation
+	if(sDF$Type[row]==11)  {
+	resultDF<-ANDcalc(siblingDF)
+	}
+
+	if(sDF$Type[row]>11)  {
+## first feed must have probability of failure for remaining combination gates
+		if(siblingDF$PBF[1]<=0)  {
+			stop(paste0("first feed must have prob of failure at gate ", sDF$ID[row]))
+		}
+	}
+
+	## INHIBIT gate calculation
+	if(sDF$Type[row]==12)  {
+	resultDF<-INHIBITcalc(siblingDF)
+	}
+
+	if(sDF$Type[row]>12)  {
+## second feed must have demand for remaining combination gates
+		if(siblingDF$CFR[1]<=0)  {
+			stop(paste0("second feed must have demand at gate ", sDF$ID[row]))
+		}
+	}
+
+	## ALARM gate calculation
+	if(sDF$Type[row]==13)  {
+	resultDF<-ALARMcalc(siblingDF, sDF$PHF[row])
+	}
+
+	## COND gate calculation
+	if(sDF$Type[row]==14)  {
+## repairable condition must have repair time
+		if(sDF$Repairable[row]==TRUE && siblingDF$CRT[1]<=0)  {
+			stop(paste0("repairable condition at gate ", sDF$ID[row]), " must have repair time")
+		}
+## Test whether Latent condition has been misplaced
+		if(siblingDF$Type[1]==1 && siblingDF$Type[2]==2) {
+			stop(paste0("Active set as condition for Latent component at gate ", sDF$ID[row]))
+		}
+
+	resultDF<-CONDcalc(siblingDF, sDF$Repairable[row])
+	}
+
+
+## Fill the sDF with results of calculations
+	sDF$CFR[row]<- resultDF$CFR[1]
+	sDF$PBF[row]<-resultDF$PBF[1]
+	sDF$CRT[row]<-resultDF$CRT[1]
+
+	}  ## close logic type check
+}  ## next row
+
+	## reorder by ID
+	NDX<-order(sDF$ID)
+	DF<-sDF[NDX,]
+
+
+	DF
 }				
