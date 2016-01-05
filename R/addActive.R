@@ -43,7 +43,7 @@ addActive<-function(DF, at, mttf=NULL, mttr=NULL, name="",description="")  {
 	Dfrow<-data.frame(			
 		ID=	thisID	,
 		Name=	name	,
-		ParentID=	at	,
+		Parent=	at	,
 		Type=	tp	,
 		CFR=	1/mttf	,
 		PBF=	mttr/(mttf+mttr)	,

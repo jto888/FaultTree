@@ -22,23 +22,23 @@ generating a prettier output would be welcome.
 Example Scripts:
 
 ## ftree example 1
-tree1<-ftree.make(type="and",name="Site power loss")
-
-tree1<-addDemand(tree1, at=1, demand_rate=1.0, name="External power interruption")
+tree1<-ftree.make(type="cond",repairable_cond=TRUE, name="Site power loss")
 
 tree1<-addLogic(tree1, at=1, type="or", name="neither emergency generator operable")
 
-tree1<-addLogic(tree1, at=3, type="and", name="Independent failure of generators")
+tree1<-addLogic(tree1, at=2, type="and", name="Independent failure of generators")
 
-tree1<-addDormant(tree1, at=4, mttf=5,mttr=12/8760,inspect=1/26, name="e-gen set fails")
+tree1<-addLatent(tree1, at=3, mttf=5,mttr=12/8760,inspect=1/26, name="e-gen set fails")
 
-tree1<-addDormant(tree1, at=4, mttf=5,mttr=12/8760,inspect=1/26, name="e-gen set fails")
+tree1<-addLatent(tree1, at=3, mttf=5,mttr=12/8760,inspect=1/26, name="e-gen set fails")
 
-tree1<-addLogic(tree1, at=3, type="and", name="Common cause failure of generators")
+tree1<-addLogic(tree1, at=2, type="and", name="Common cause failure of generators")
 
-tree1<-addProbability(tree1, at=7, prob=.05, name="Common cause beta factor")
+tree1<-addProbability(tree1, at=6, prob=.05, name="Common cause beta factor")
 
-tree1<-addDormant(tree1, at=7, mttf=5,mttr=12/8760,inspect=1/26, name="e-gen set fails")
+tree1<-addLatent(tree1, at=6, mttf=5,mttr=12/8760,inspect=1/26, name="e-gen set fails")
+
+tree1<-addDemand(tree1, at=1, demand_rate=1.0, name="External power interruption")
 
 tree1<-ftree.calc(tree1)
 

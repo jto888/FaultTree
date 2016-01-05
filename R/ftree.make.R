@@ -15,7 +15,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-ftree.make<-function(type, name="top event", description="")  {				
+ftree.make<-function(type, name="top event", repairable_cond=FALSE, human_pbf=-1, description="")  {			
 	tp<-switch(type,			
 		or = 10,		
 		and = 11,		
@@ -45,7 +45,7 @@ ftree.make<-function(type, name="top event", description="")  {
 	DF<-data.frame(			
 		ID=	1	,
 		Name=	name	,
-		ParentID=	-1	,
+		Parent=	-1	,
 		Type=	tp	,
 		CFR=	-1	,
 		PBF=	-1	,
@@ -56,7 +56,7 @@ ftree.make<-function(type, name="top event", description="")  {
 		Child4=	-1	,
 		Child5=	-1	,
 		Level=  1   ,
-		Independent=    -1  ,
+		Independent=    TRUE  ,
 		PHF=    human_pbf  ,
 		Repairable= repairable_cond  ,
 		inspectionInterval=	-1	,
@@ -73,7 +73,7 @@ FT_FIELDS<-c("ID",
 	"Type",
 	"CFR",
 	"PBF",
-	"CRT"	
+	"CRT",	
 	"Child1",
 	"Child2",
 	"Child3",

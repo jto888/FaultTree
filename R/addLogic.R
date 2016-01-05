@@ -69,6 +69,7 @@ addLogic<-function(DF, type, at, name="", human_pbf=-1, repairable_cond=TRUE, de
 		Type=	tp	,
 		CFR=	-1	,
 		PBF=	-1	,
+		CRT=    -1  ,
 		Child1=	-1	,
 		Child2=	-1	,
 		Child3=	-1	,
