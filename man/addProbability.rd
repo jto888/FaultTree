@@ -32,6 +32,9 @@ Returns the input fault tree dataframe appended with an entry row for the define
   
   Vesely, W.E., Stamatelato, M., Dugan, J., Fragola, J., Minarick, J., Railsback, J. (2002)
   Fault Tree Handbook with Aerospace Applications   NASA
+  
+  Doelp, L.C., Lee, G.K., Linney, R.E., Ormsby R.W. (1984) Quantitative fault tree analysis: Gate-by-gate method Plant/Operations Progress
+Volume 3, Issue 4 American Institute of Chemical Engineers
 }
 
 \examples{

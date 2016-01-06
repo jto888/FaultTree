@@ -28,17 +28,17 @@ ftree.make<-function(type, name="top event", repairable_cond=FALSE, human_pbf=-1
 
 ## Must place this test here before tp==13 test, since alarm gate is being assigned FALSE repairability
 	if(repairable_cond==FALSE && tp!=14) {
-		warning(paste0("repairable_cond entry ignored at gate ",as.character(thisID)))
+		warning(paste0("repairable_cond entry ignored at top gate"))
 	}
 
 	if(tp == 13) {
 		repairable_cond=FALSE
 		if(human_pbf < 0 || human_pbf >1) {
-			stop(paste0("alarm gate at ID ", as.character(thisID), " requires human failure probability value"))
+			stop(paste0("alarm gate at top gate requires human failure probability value"))
 		}
 	}else{
 		if(human_pbf!=-1) {
-			warning(paste0("human failure probability for  non-alarm gate at ID ",as.character(thisID), " has been ignored"))
+			warning(paste0("human failure probability for  non-alarm gate at top gate has been ignored"))
 			human_pbf=-1
 		}
 	}				
