@@ -1,4 +1,4 @@
- \name{addLogic}
+\name{addLogic}
 \alias{addLogic}
 
 \title{ Add a Logic Gate }
@@ -6,14 +6,16 @@
 \description{Modifies an existing fault tree with the addition of a logic gate.}
 
 \usage{
-addLogic(DF, type, at, name="", description="")
+addLogic(DF, type, at, name="", human_pbf=-1, repairable_cond=TRUE, description="")	
 }
 
 \arguments{
-\item{DF}{ A fault tree dataframe such as returned from ftree.make or related add... functions.}
-\item{type}{A string signifying the type of logic to be applied. Initially only "or" and "and" have been implemented.}
-\item{at}{ The ID of the parent node for this addition.}
-\item{name}{ A short identifying string }
+\item{DF}{A fault tree dataframe such as returned from ftree.make or related add... functions.}
+\item{type}{A string signifying the type of logic to be applied. Implemented gate types "or","and","inhibit","conditional" (or "cond"), and "alarm" have been implemented.}
+\item{at}{The ID of the parent node for this addition.}
+\item{name}{A short identifying string }
+\item{human_pbf}{A probability of failure for a human to respond as needed to an alarm. This value is only used by the alarm gate.}
+\item{repairable_cond}{A boolean value used only by the conditional gate type indicating whether repair of the input condition is viable to the model.}
 \item{description}{ An optional string providing more detail for the resultant event.}
 }
 
@@ -32,12 +34,17 @@ Returns the input fault tree dataframe appended with an entry row to accept the 
   
   Vesely, W.E., Stamatelato, M., Dugan, J., Fragola, J., Minarick, J., Railsback, J. (2002)
   Fault Tree Handbook with Aerospace Applications   NASA
+  
+  Doelp, L.C., Lee, G.K., Linney, R.E., Ormsby R.W. (1984) Quantitative fault tree analysis: Gate-by-gate method Plant/Operations Progress
+Volume 3, Issue 4 American Institute of Chemical Engineers
 }
 
 \examples{
-mytree <-ftree.make(type="and", name="power outage")
-mytree <- addDemand(mytree,  at=1, demand_rate=1, name="incomming power interruption")
+mytree <-ftree.make(type="cond", repairable_cond=TRUE, name="power outage")
 mytree<-addLogic(mytree, at=1, type="and", name="neither emergency generator operable")
+mytree<-addLatent(mytree, at=2, mttf=5,mttr=12/8760,inspect=1/26, name="e-gen set fails")
+mytree<-addLatent(mytree, at=2, mttf=5,mttr=12/8760,inspect=1/26, name="e-gen set fails")
+mytree <- addDemand(mytree,  at=1, demand_rate=1, name="incomming power interruption")
 }
 
 \keyword{ logic, risk, failure }

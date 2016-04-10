@@ -7,12 +7,14 @@
 }
 
 \usage{
-ftree.make(type, name="top event", description="")
+ftree.make(type, name="top event", repairable_cond=FALSE, human_pbf=-1, description="") 
 }
 
 \arguments{
 \item{type}{ The logic type for the top gate. Currently only "or" and "and" are implemented.}
 \item{name}{ An identifying string for the logic gate}
+\item{human_pbf}{A probability of failure for a human to respond as needed to an alarm. This value is only used by the alarm gate.}
+\item{repairable_cond}{A boolean value used only by the conditional gate type indicating whether repair of the input condition is viable to the model.}
 \item{description}{ An optional string providing more detail for the resultant event.}
 }
 
@@ -31,6 +33,9 @@ Returns a dataframe containing 18 columns for holding data, results, and connect
   
   Vesely, W.E., Stamatelato, M., Dugan, J., Fragola, J., Minarick, J., Railsback, J. (2002)
   Fault Tree Handbook with Aerospace Applications   NASA
+  
+  Doelp, L.C., Lee, G.K., Linney, R.E., Ormsby R.W. (1984) Quantitative fault tree analysis: Gate-by-gate method Plant/Operations Progress
+Volume 3, Issue 4 American Institute of Chemical Engineers
 }
 
 \examples{
