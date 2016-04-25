@@ -7,7 +7,7 @@
 
 \usage{
 addLatent(DF, at, mttf=NULL, mttr=NULL, prob="repair", inspect=NULL, 
-			name="",description="")
+			name="", name2="", description="")
 }
 
 \arguments{
@@ -17,7 +17,8 @@ addLatent(DF, at, mttf=NULL, mttr=NULL, prob="repair", inspect=NULL,
 \item{mttr}{The mean time to repair (restore).  It is the user's responsibility to maintain constant units of time.}
 \item{prob}{An underlying probability of the component being in a failed state. This will be additive to the fractional downtime due to inspection interval. A probability value >=0 && <1 can be provided. Often it is known that unavailable risk continues during repair upon inspection detection, so a string value of "repair" is accepted and the Pzero will be calculated as mttr/(mttf/mttr).}
 \item{inspect}{The time interval between inspections for the dormant component. (It will be possible upon future development to enter the string for the named inspection dataframe object.  In this case the inspection object will be read to get the inspection interval. An inspection object must be a dataframe with interval and duration columns. If a positive duration value other than zero is found it is taken that the system is at risk during the time of inspection. An unavailable probability calculated as duration/(interval+duration) will be added to the fractional downtime.}
-\item{name}{ A short identifying string }
+\item{name}{ A short identifying string  (typically less than 24 characters)}
+\item{name2}{ A second line, if needed for the identifying string label}
 \item{description}{ An optional string providing more detail for the resultant event.}
 }
 

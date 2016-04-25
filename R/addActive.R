@@ -14,11 +14,8 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-addActive<-function(DF, at, mttf=NULL, mttr=NULL, name="",description="")  {				
-	if(length(names(DF))!=19)   stop("first argument must be a fault tree")
-	ftree_test<-NULL
-	for(nm in 1:19) {ftree_test<-c(ftree_test,names(DF)[nm]==FT_FIELDS[nm])}
-	if(!all(ftree_test))   stop("first argument must be a fault tree")
+addActive<-function(DF, at, mttf=NULL, mttr=NULL, name="",name2="",description="")  {
+	if(!ftree.test(DF)) stop("first argument must be a fault tree")					
 						
 	tp<-1			
 	parent<-which(DF$ID== at)			
@@ -57,8 +54,8 @@ addActive<-function(DF, at, mttf=NULL, mttr=NULL, name="",description="")  {
 		Independent=    TRUE    ,
 		PHF=    -1  ,
 		Repairable= TRUE    ,
-		inspectionInterval=	-1	,
-		InspectIonObject=	""	,
+		Interval=	-1	,
+		Name2=	name2	,
 		Description=	description	
 		)		
 

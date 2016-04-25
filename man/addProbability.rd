@@ -13,7 +13,8 @@ addProbability(DF, at, prob, name="", description="")
 \item{DF}{ A fault tree dataframe such as returned from ftree.make or related add... functions.}
 \item{at}{ The ID of the parent node for this addition.}
 \item{prob}{A probability value >0 && <1}
-\item{name}{ A short identifying string }
+\item{name}{ A short identifying string  (typically less than 24 characters)}
+\item{name2}{ A second line, if needed for the identifying string label}
 \item{description}{ An optional string providing more detail for this probability.}
 }
 
@@ -38,9 +39,9 @@ Volume 3, Issue 4 American Institute of Chemical Engineers
 }
 
 \examples{
-mytree <-ftree.make(type="and", name="common cause failure of redundant pumps")
+mytree <-ftree.make(type="and", name="common cause failure", name2="of redundant pumps")
 mytree<-addActive(mytree,at=1,mttf=3,mttr=12/8760, name="Pump")
-mytree <- addProbability(mytree,  at=1, prob=.05, name="common cause beta factor")
+mytree <- addProbability(mytree,  at=1, prob=.05, name="common cause", name2="beta factor")
 }
 
 \keyword{ logic, risk, failure }

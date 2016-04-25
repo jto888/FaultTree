@@ -14,12 +14,8 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-addLatent<-function(DF, at, mttf=NULL, mttr=NULL, prob="repair", inspect=NULL, name="",description="")  {
-
-	if(length(names(DF))!=19)   stop("first argument must be a fault tree")
-	ftree_test<-NULL
-	for(nm in 1:18) {ftree_test<-c(ftree_test,names(DF)[nm]==FT_FIELDS[nm])}
-	if(!all(ftree_test))   stop("first argument must be a fault tree")
+addLatent<-function(DF, at, mttf, mttr=NULL, prob="repair", inspect=NULL, name="",name2="", description="")  {
+	if(!ftree.test(DF)) stop("first argument must be a fault tree")	
 
 	tp<-2
 	parent<-which(DF$ID== at)
@@ -48,12 +44,12 @@ addLatent<-function(DF, at, mttf=NULL, mttr=NULL, prob="repair", inspect=NULL, n
 	if(is.null(prob)) {prob<- (-1)}
 	if(is.character(inspect))  {
 		if(exists("inspect")) {
-			T<-eval((parse(text=inspect)))
+			Tao<-eval((parse(text=inspect)))
 		}else{
 			stop("inspection interval object does not exist")
 		}
 	}else{
-		T=inspect
+		Tao=inspect
 	}
 
 	## default Pzero handling
@@ -63,7 +59,7 @@ addLatent<-function(DF, at, mttf=NULL, mttr=NULL, prob="repair", inspect=NULL, n
 	}
 
 	## fractional downtime method
-	pf<-1-1/((1/mttf)*T)*(1-exp(-(1/mttf)*T))
+	pf<-1-1/((1/mttf)*Tao)*(1-exp(-(1/mttf)*Tao))
 	if(is.numeric(prob))  {
 		if(prob>=0 && prob<1) {
 			pf<- 1-(1-pf)*(1-prob)
@@ -87,8 +83,8 @@ addLatent<-function(DF, at, mttf=NULL, mttr=NULL, prob="repair", inspect=NULL, n
 		Independent=    TRUE    ,
 		PHF=    -1  ,
 		Repairable= TRUE    ,
-		inspectionInterval= -1  ,
-		InspectIonObject=   ""  ,
+		Interval= Tao  ,
+		Name2=   name2  ,
 		Description=    description
 		)
 

@@ -6,14 +6,15 @@
 \description{Modifies an existing fault tree with the addition of a pure demand event.}
 
 \usage{
-addDemand(DF, at, demand_rate, name="", description="")
+addDemand(DF, at, mttf, name="", description="")
 }
 
 \arguments{
 \item{DF}{ A fault tree dataframe such as returned from ftree.make or related add... functions.}
 \item{at}{ The ID of the parent node for this addition.}
-\item{demand_rate}{The reciprocal of time to event.  It is the user's responsibility to maintain constant units of time.}
-\item{name}{ A short identifying string }
+\item{mttf}{The mean time interval to events.  It is the user's responsibility to maintain constant units of time.}
+\item{name}{ A short identifying string  (typically less than 24 characters)}
+\item{name2}{ A second line, if needed for the identifying string label}
 \item{description}{ An optional string providing more detail for the resultant event.}
 }
 
@@ -39,7 +40,7 @@ Volume 3, Issue 4 American Institute of Chemical Engineers
 
 \examples{
 mytree <-ftree.make(type="and")
-mytree <- addDemand(mytree,  at=1, demand_rate=1, name="power interruption")
+mytree <- addDemand(mytree,  at=1, mttf=1, name="power interruption")
 }
 
 \keyword{ logic, risk, failure }

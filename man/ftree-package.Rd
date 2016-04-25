@@ -2,10 +2,10 @@
 \alias{ftree}
 \docType{package}
 \title{
-Fault Trees and Event Trees for Risk and Reliability Analysis
+Fault Trees for Risk and Reliability Analysis
 }
 \description{
-A package for constructing and calculating fault trees and event trees.
+A package for constructing,calculating and displaying fault trees.
 
 }
 
@@ -16,9 +16,6 @@ A package for constructing and calculating fault trees and event trees.
 	component entries.  Component event entries may be active (failures immediately 
 	revealed) or dormant (failures remain hidden until activation or inspection).  
 	The fault tree may also accept pure probability or pure demand input components.
-	Event trees are a simpler arrangment of initiating event followed by a series of 
-	mitigating controls. Each mitigating control has a complimentary hazard state
-	corresponding to failure of the control.
 }
 
 \author{

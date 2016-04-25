@@ -32,7 +32,7 @@ tree1<-addLatent(tree1, at=3, mttf=5,mttr=12/8760,inspect=1/26, name="e-gen set 
 
 tree1<-addLatent(tree1, at=3, mttf=5,mttr=12/8760,inspect=1/26, name="e-gen set fails")
 
-tree1<-addLogic(tree1, at=2, type="and", name="Common cause failure of generators")
+tree1<-addLogic(tree1, at=2, type="inhibit", name="Common cause failure of generators")
 
 tree1<-addProbability(tree1, at=6, prob=.05, name="Common cause beta factor")
 
@@ -61,19 +61,4 @@ tree2<- ftree.calc(tree2)
 
 tree2[,1:7]
 
-## etree example
 
-
-etree1<-etree.make(name="conveyor belt fire")
-
-etree1<-addCtrl(etree1,at=1, prob=.99, severity=.9, name="heat sensor detects")
-
-etree1<-addCtrl(etree1,at=2, prob=.99, severity=.3, name="valve operates")
-
-etree1<-addCtrl(etree1, at=4, prob=.9, severity=.1, name="auto water spray")
-
-etree1<-addCtrl(etree1, at=5, prob=.3, severity=.3, name="operators best case")
-
-etree1<-addCtrl(etree1, at=5, prob=.3, severity=.7, name="operators worst case")
-
-etree1[,1:7]

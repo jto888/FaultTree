@@ -14,11 +14,8 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-addLogic<-function(DF, type, at, name="", human_pbf=-1, repairable_cond=TRUE, description="")  {				
-	if(length(names(DF))!=19)   stop("first argument must be a fault tree")
-	ftree_test<-NULL
-	for(nm in 1:19) {ftree_test<-c(ftree_test,names(DF)[nm]==FT_FIELDS[nm])}
-	if(!all(ftree_test))   stop("first argument must be a fault tree")
+addLogic<-function(DF, type, at, name="", human_pbf=-1, repairable_cond=TRUE, name2="", description="")  {				
+	if(!ftree.test(DF)) stop("first argument must be a fault tree")	
 			
 	tp<-switch(type,			
 		or = 10,		
@@ -79,8 +76,8 @@ addLogic<-function(DF, type, at, name="", human_pbf=-1, repairable_cond=TRUE, de
 		Independent=    TRUE  ,
 		PHF=    human_pbf   ,
 		Repairable= repairable_cond ,
-		inspectionInterval=	-1	,
-		InspectIonObject=	""	,
+		Interval=	-1	,
+		Name2=	name2	,
 		Description=	description	
 		)		
 				

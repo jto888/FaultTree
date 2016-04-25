@@ -6,7 +6,7 @@
 \description{Modifies an existing fault tree with the addition of an active component event.}
 
 \usage{
-addActive(DF, at, mttf=NULL, mttr=NULL, name="",description="")
+addActive(DF, at, mttf=NULL, mttr=NULL, name="",name2="", description="")
 }
 
 \arguments{
@@ -14,7 +14,8 @@ addActive(DF, at, mttf=NULL, mttr=NULL, name="",description="")
 \item{at}{ The ID of the parent node for this addition.}
 \item{mttf}{The mean time to failure.  It is the user's responsibility to maintain constant units of time.}
 \item{mttr}{The mean time to repair (restore).  It is the user's responsibility to maintain constant units of time.}
-\item{name}{ A short identifying string }
+\item{name}{ A short identifying string  (typically less than 24 characters)}
+\item{name2}{ A second line, if needed for the identifying string label}
 \item{description}{ An optional string providing more detail for the resultant event.}
 }
 

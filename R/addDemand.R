@@ -14,11 +14,8 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-addDemand<-function(DF, at, demand_rate, name="", description="")  {				
-	if(length(names(DF))!=19)   stop("first argument must be a fault tree")
-	ftree_test<-NULL
-	for(nm in 1:19) {ftree_test<-c(ftree_test,names(DF)[nm]==FT_FIELDS[nm])}
-	if(!all(ftree_test))   stop("first argument must be a fault tree")
+addDemand<-function(DF, at, mttf, name="", name2="", description="")  {				
+	if(!ftree.test(DF)) stop("first argument must be a fault tree")	
 						
  	tp=4			
 	parent<-which(DF$ID== at)			
@@ -38,14 +35,14 @@ addDemand<-function(DF, at, demand_rate, name="", description="")  {
 	}			
 				
 			
-	if(!demand_rate>0)  {stop("demand rate must be greater than zero")}			
+	if(!mttf>0)  {stop("demand interval must be greater than zero")}			
 								
 	Dfrow<-data.frame(			
 		ID=	thisID	,
 		Name=	name	,
 		Parent=	at	,
 		Type=	tp	,
-		CFR=	demand_rate	,
+		CFR=	1/mttf	,
 		PBF=	-1	,
 		CRT=    -1  ,
 		Child1=	-1	,
@@ -57,8 +54,8 @@ addDemand<-function(DF, at, demand_rate, name="", description="")  {
 		Independent=    TRUE    ,
 		PHF=    -1  ,
 		Repairable= FALSE   ,
-		inspectionInterval=	-1	,
-		InspectIonObject=	""	,
+		Interval=	-1	,
+		Name2=	name2	,
 		Description=	description	
 		)		
 

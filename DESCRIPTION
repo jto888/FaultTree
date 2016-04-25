@@ -1,11 +1,11 @@
 Package: ftree
 Type: Package
-Title: Fault Trees and Event Trees for Risk and Reliability Analysis
-Version: 0.0.3
-Date: 2016-1-5
+Title: Fault Trees for Risk and Reliability Analysis
+Version: 0.0.4
+Date: 2016-4-24
 Author: Jacob T. Ormerod
 Maintainer: Jacob T. Ormerod <jake@openreliability.org>
-Description: A package for constructing and calculating fault trees and event trees.
+Description: A package for constructing,calculating and displaying fault trees and event trees.
 License: GPL (>= 2)
 LazyLoad: yes
 
