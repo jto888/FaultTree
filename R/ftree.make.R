@@ -27,9 +27,9 @@ ftree.make<-function(type, name="top event", repairable_cond=FALSE, human_pbf=-1
 	)			
 
 ## Must place this test here before tp==13 test, since alarm gate is being assigned FALSE repairability
-	if(repairable_cond==FALSE && tp!=14) {
-		warning(paste0("repairable_cond entry ignored at top gate"))
-	}
+##	if(repairable_cond==FALSE && tp!=14) {
+##		warning(paste0("repairable_cond entry ignored at top gate"))
+##	}
 
 	if(tp == 13) {
 		repairable_cond=FALSE
@@ -57,7 +57,7 @@ ftree.make<-function(type, name="top event", repairable_cond=FALSE, human_pbf=-1
 		Child5=	-1	,
 		Level=  1   ,
 		Independent=    TRUE  ,
-		PHF=    human_pbf  ,
+		PHF_PZ=    human_pbf  ,
 		Repairable= repairable_cond  ,
 		Interval=	-1	,
 		Name2=	name2	,
@@ -81,7 +81,7 @@ FT_FIELDS<-c("ID",
 	"Child5",
 	"Level",
 	"Independent",
-	"PHF",
+	"PHF_PZ",
 	"Repairable",
 	"Interval",
 	"Name2",

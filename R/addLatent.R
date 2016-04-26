@@ -14,7 +14,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-addLatent<-function(DF, at, mttf, mttr=NULL, prob="repair", inspect=NULL, name="",name2="", description="")  {
+addLatent<-function(DF, at, mttf, mttr=NULL, pzero="repair", inspect=NULL, name="",name2="", description="")  {
 	if(!ftree.test(DF)) stop("first argument must be a fault tree")	
 
 	tp<-2
@@ -41,7 +41,7 @@ addLatent<-function(DF, at, mttf, mttr=NULL, prob="repair", inspect=NULL, name="
 
 	if(is.null(inspect))  {stop("dormant component must have inspection entry")}
 
-	if(is.null(prob)) {prob<- (-1)}
+	if(is.null(pzero)) {pzero<- (-1)}
 	if(is.character(inspect))  {
 		if(exists("inspect")) {
 			Tao<-eval((parse(text=inspect)))
@@ -53,17 +53,17 @@ addLatent<-function(DF, at, mttf, mttr=NULL, prob="repair", inspect=NULL, name="
 	}
 
 	## default Pzero handling
-	if(prob=="repair")  {
-		if(!mttr>0)  {stop("mttr required for probability entry")}
-		prob=mttr/(mttf+mttr)
+	if(pzero=="repair")  {
+		if(!mttr>0)  {stop("mttr required for pzero calculation")}
+		pzero=mttr/(mttf+mttr)
 	}
 
 	## fractional downtime method
 	pf<-1-1/((1/mttf)*Tao)*(1-exp(-(1/mttf)*Tao))
-	if(is.numeric(prob))  {
-		if(prob>=0 && prob<1) {
-			pf<- 1-(1-pf)*(1-prob)
-		}else{ stop("probability entry must be between zero and one")}
+	if(is.numeric(pzero))  {
+		if(pzero>=0 && pzero<1) {
+			pf<- 1-(1-pf)*(1-pzero)
+		}else{ stop("pzero entry must be zero to one")}
 	}
 
 	Dfrow<-data.frame(
@@ -81,7 +81,7 @@ addLatent<-function(DF, at, mttf, mttr=NULL, prob="repair", inspect=NULL, name="
 		Child5= -1  ,
 		Level=  DF$Level[parent]+1  ,
 		Independent=    TRUE    ,
-		PHF=    -1  ,
+		PHF_PZ=    pzero ,
 		Repairable= TRUE    ,
 		Interval= Tao  ,
 		Name2=   name2  ,

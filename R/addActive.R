@@ -52,7 +52,7 @@ addActive<-function(DF, at, mttf=NULL, mttr=NULL, name="",name2="",description="
 		Child5=	-1	,
 		Level=	DF$Level[parent]+1	,
 		Independent=    TRUE    ,
-		PHF=    -1  ,
+		PHF_PZ=    -1  ,
 		Repairable= TRUE    ,
 		Interval=	-1	,
 		Name2=	name2	,
