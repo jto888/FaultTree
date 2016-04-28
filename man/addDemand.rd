@@ -6,7 +6,7 @@
 \description{Modifies an existing fault tree with the addition of a pure demand event.}
 
 \usage{
-addDemand(DF, at, mttf, name="", description="")
+addDemand(DF, at, mttf, name="", name2="", description="")
 }
 
 \arguments{

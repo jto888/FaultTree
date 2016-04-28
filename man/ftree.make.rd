@@ -7,7 +7,9 @@
 }
 
 \usage{
-ftree.make(type, name="top event", repairable_cond=FALSE, human_pbf=-1, description="") 
+ftree.make(type, name="top event", repairable_cond=FALSE, human_pbf=-1,
+ name2="", description="") 
+
 }
 
 \arguments{
@@ -15,6 +17,7 @@ ftree.make(type, name="top event", repairable_cond=FALSE, human_pbf=-1, descript
 \item{name}{ An identifying string for the logic gate}
 \item{human_pbf}{A probability of failure for a human to respond as needed to an alarm. This value is only used by the alarm gate.}
 \item{repairable_cond}{A boolean value used only by the conditional gate type indicating whether repair of the input condition is viable to the model.}
+\item{name2}{ A second line, if needed for the identifying string label}
 \item{description}{ An optional string providing more detail for the resultant event.}
 }
 
