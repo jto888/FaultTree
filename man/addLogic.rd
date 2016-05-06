@@ -6,7 +6,8 @@
 \description{Modifies an existing fault tree with the addition of a logic gate.}
 
 \usage{
-addLogic(DF, type, at, name="", human_pbf=-1, repairable_cond=TRUE, name2="", description="")	
+addLogic(DF, type, at, name="", human_pbf=-1, repairable_cond=TRUE, name2="",
+ description="")	
 }
 
 \arguments{
