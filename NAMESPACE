@@ -1,5 +1,6 @@
 export(addActive,
 addDemand,
+addDuplicate,
 addLatent,
 addLogic,
 addProbability,
@@ -7,4 +8,5 @@ ftree.calc,
 ftree.make,
 ftree.test,
 ftree2json,
-ftree2html)
+ftree2html,
+hierarchyDF2json)

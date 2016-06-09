@@ -73,7 +73,7 @@ addLogic<-function(DF, type, at, name="", human_pbf=-1, repairable_cond=TRUE, na
 		Child4=	-1	,
 		Child5=	-1	,
 		Level=	DF$Level[parent]+1	,
-		Independent=    TRUE  ,
+		MOE=    0  ,
 		PHF_PZ=    human_pbf   ,
 		Repairable= repairable_cond ,
 		Interval=	-1	,

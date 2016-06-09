@@ -3,7 +3,8 @@ ftree2html<-function(DF,dir="", write_file=FALSE){
 			
 	html_string<-paste0(		
 		HTMLhead,
-		ftree2json(DF,c(1,2,4:7,15,17,18))	,
+		##ftree2json(DF,c(1,2,4:7,15,17,18))	,
+		hierarchyDF2json(DF,id.col=1,parent.col=3,data.col=c(1,2,4:7,15,17,18)),
 		HTMLd3script	
 	)		 
 			

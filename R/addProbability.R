@@ -50,7 +50,7 @@ addProbability<-function(DF, at, prob, name="", name2="", description="")  {
 		Child4=	-1	,
 		Child5=	-1	,
 		Level=	DF$Level[parent]+1	,
-		Independent=    TRUE    ,
+		MOE=    0  ,
 		PHF_PZ=    -1  ,
 		Repairable= FALSE   ,
 		Interval=	-1	,

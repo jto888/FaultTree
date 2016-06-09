@@ -80,7 +80,7 @@ addLatent<-function(DF, at, mttf, mttr=NULL, pzero="repair", inspect=NULL, name=
 		Child4= -1  ,
 		Child5= -1  ,
 		Level=  DF$Level[parent]+1  ,
-		Independent=    TRUE    ,
+		MOE=    0    ,
 		PHF_PZ=    pzero ,
 		Repairable= TRUE    ,
 		Interval= Tao  ,

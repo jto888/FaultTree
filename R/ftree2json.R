@@ -3,19 +3,17 @@ ftree2json<-function(DF, data.col=c(2), dir="", write_file=FALSE )  {
 					
 		outstring<-list_ftree_data(DF,row_num=1, data.col)			
 	if(dim(DF)[1]>1) {				
-		children<-DF[,8:12]			
-					
-		parent_row=1			
-		## new parents start children at last one entered,to place on top or right of tree			
-		## num_children<-length(children[parent_row,!is.na(children[parent_row,])])			
+		##children<-DF[,8:12]	
+		## reverse the order of children for left to right ordering of branches
+		children<-rev_pos(DF[,8:12])			
+		parent_row=1					
 		num_children<-length(children[parent_row, children[parent_row,]>0])			
 		child_col=num_children			
 					
 	while(length(parent_row>0) ) {				
-		this_row<-which(DF$ID==parent_row[length(parent_row)])			
-			## num_children<-5-length(children[this_row,is.na(children[this_row,])])		
-			num_children<-5-length(children[this_row, children[this_row,]<0])		
-			##num_children<-length(children[this_row,!is.na(children[this_row,])])		
+		##this_row<-which(DF$ID==parent_row[length(parent_row)])	
+		this_row <-  parent_row[length(parent_row)]
+			num_children<-5-length(children[this_row, children[this_row,]<0])			
 			this_col<-child_col[length(child_col)]		
 					
 					
@@ -25,16 +23,15 @@ ftree2json<-function(DF, data.col=c(2), dir="", write_file=FALSE )  {
 					
 				if(num_children>0 && this_col==num_children ) {	
 				outstring<-paste0(outstring,'"children":[')	
-					
+					 
 				}	
 				child_ptr<-which(DF$ID==children[this_row,this_col])	
 				outstring<-paste0(outstring,list_ftree_data(DF,row_num=child_ptr, data.col))	
 					
 					
 				## add elements to the parent_row and child_col vectors for this new potential parent	
-				parent_row<-c(parent_row,children[this_row,this_col])	
-				## new parents always start children at last one entered	
-				## num_children<-5-length(children[parent_row[length(parent_row)],is.na(children[parent_row[length(parent_row)],])])	
+				##parent_row<-c(parent_row,children[this_row,this_col])
+				parent_row <- c(parent_row, which(DF$ID==children[this_row,  this_col]))
 				num_children<-5-length(children[parent_row[length(parent_row)],children[parent_row[length(parent_row)],]<0])	
 				child_col<-c(child_col,num_children)	
 					
@@ -113,4 +110,28 @@ for( i in 1:length(columns))  {
 		
 }		
 outstring		
-}		
+}
+
+## This is a copy of wavethresh::guyrot to avoid package dependency for this little item
+vector_rotate<-
+function(v, n)
+{
+    l <- length(v)
+    n <- n %% l
+    if(n == 0)
+        return(v)
+    tmp <- v[(l - n + 1):l]
+    v[(n + 1):l] <- v[1:(l - n)]
+    v[1:n] <- tmp
+    v
+}
+
+## Reverse the order of consecutive positive values in a matrix or dataframe		
+rev_pos<-function(df) {	
+rev_df<-rev(df)	
+for(row in 1:dim(df)[1]) {	
+	num_pos<-length(df[row, df[row,]>0])
+	df[row,]<-vector_rotate(rev_df[row,], num_pos-dim(df)[2])
+}	
+df	
+}	
