@@ -29,17 +29,27 @@ addLogic<-function(DF, type, at, name="", human_pbf=-1, repairable_cond=TRUE, na
 	parent<-which(DF$ID== at)			
 	if(length(parent)==0) {stop("connection reference not valid")}			
 	thisID<-max(DF$ID)+1			
-	if(DF$Type[parent]<10) {stop("non-gate connection requested")}			
-	availableconn<-which(DF[parent,8:12]<1)			
-	if(length(availableconn)>3) {			
-		DF[parent,(7+availableconn[1])]<-thisID		
-	}else{			
-		if((DF$Type[parent]==10||DF$Type[parent]==11)&&length(availableconn)>0)  {		
-			DF[parent,(7+availableconn[1])]<-thisID	
-		}else{		
-			stop("connection slot not available")	
-		}		
-	}			
+	if(DF$Type[parent]<10) {stop("non-gate connection requested")}	
+	
+#	availableconn<-which(DF[parent,8:12]<1)			
+#	if(length(availableconn)>3) {			
+#		DF[parent,(7+availableconn[1])]<-thisID		
+#	}else{			
+#		if((DF$Type[parent]==10||DF$Type[parent]==11)&&length(availableconn)>0)  {		
+#			DF[parent,(7+availableconn[1])]<-thisID	
+#		}else{		
+#			stop("connection slot not available")	
+#		}		
+#	}			
+
+## There is no need to limit connections to OR gates for calculation reasons				
+## Since AND gates are calculated in binary fashion, these too should not require a connection limit				
+## All specialty gates must be limited to binary feeds only				
+				
+	if(DF$Type[parent]>11 && length(which(DF$Parent==at))>1) {				
+		stop("connection slot not available")			
+	}				
+
 
 ## Must place this test here before tp==13 test, since alarm gate is being assigned FALSE repairability
 	if(repairable_cond==FALSE && tp!=14) {

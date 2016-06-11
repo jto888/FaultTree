@@ -21,18 +21,27 @@ addActive<-function(DF, at, mttf=NULL, mttr=NULL, name="",name2="",description="
 	parent<-which(DF$ID== at)			
 	if(length(parent)==0) {stop("connection reference not valid")}			
 	thisID<-max(DF$ID)+1			
-	if(DF$Type[parent]<10) {stop("non-gate connection requested")}			
-	## ***Caution Child positions in DF may change ***			
-	availableconn<-which(DF[parent,8:12]<1)			
-	if(length(availableconn)>3) {			
-		DF[parent,(7+availableconn[1])]<-thisID		
-	}else{			
-		if((DF$Type[parent]==10||DF$Type[parent]==11)&&length(availableconn)>0)  {		
-			DF[parent,(7+availableconn[1])]<-thisID	
-		}else{		
-			stop("connection slot not available")	
-		}		
-	}
+	if(DF$Type[parent]<10) {stop("non-gate connection requested")}
+	
+#	availableconn<-which(DF[parent,8:12]<1)			
+#	if(length(availableconn)>3) {			
+#		DF[parent,(7+availableconn[1])]<-thisID		
+#	}else{			
+#		if((DF$Type[parent]==10||DF$Type[parent]==11)&&length(availableconn)>0)  {		
+#			DF[parent,(7+availableconn[1])]<-thisID	
+#		}else{		
+#			stop("connection slot not available")	
+#		}		
+#	}			
+
+## There is no need to limit connections to OR gates for calculation reasons				
+## Since AND gates are calculated in binary fashion, these too should not require a connection limit				
+## All specialty gates must be limited to binary feeds only				
+				
+	if(DF$Type[parent]>11 && length(which(DF$Parent==at))>1) {				
+		stop("connection slot not available")			
+	}				
+
 
 		if(is.null(mttf))  {stop("active component must have mttf")}		
 		if(is.null(mttr))  {stop("active component must have mttr")}		
