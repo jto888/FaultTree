@@ -76,16 +76,26 @@ browseURL('tree2.html')
 
 ## example 3  **************** Minimal Cut Set Generation   ***************
 ## Based on an example described by Clifton A. Ericson II in Fault Tree Analysis Primer, (2011) CreateSpace Inc.
-pwr<-ftree.make(type="or", name="insufficient", name2="Electrical Power")/n
-pwr<-addLogic(pwr, at=1, type="and", name="No Output", name2="G1, G2, G3")/n
-pwr<-addLogic(pwr, at=2, type="or", name="No Power", name2="From G1")/n
-pwr<-addLogic(pwr, at=3, type="or", name="No Output", name2="From G1")/n
-pwr<-addProbability(pwr, at=3, prob=1, name="G1 Conn Open")/n
-pwr<-addProbability(pwr, at=4, prob=1, name="Generator G1", name2="Fails")/n
-pwr<-addLogic(pwr, at=4, type="or", name="No Input", name2="To G1")/n
-pwr<-addProbability(pwr, at=7, prob=1, name="Engine E1", name2="Fails")/n
-pwr<-addProbability(pwr, at=7, prob=1, name="Bleed Air To", name2="G1 Fails")/n
-pwr<-addLogic(pwr, at=2, type="or", name="No Power", name2="From G2")/n
+pwr<-ftree.make(type="or", name="insufficient", name2="Electrical Power")
+
+pwr<-addLogic(pwr, at=1, type="and", name="No Output", name2="G1, G2, G3")
+
+pwr<-addLogic(pwr, at=2, type="or", name="No Power", name2="From G1")
+
+pwr<-addLogic(pwr, at=3, type="or", name="No Output", name2="From G1")
+
+pwr<-addProbability(pwr, at=3, prob=1, name="G1 Conn Open")
+
+pwr<-addProbability(pwr, at=4, prob=1, name="Generator G1", name2="Fails")
+
+pwr<-addLogic(pwr, at=4, type="or", name="No Input", name2="To G1")
+
+pwr<-addProbability(pwr, at=7, prob=1, name="Engine E1", name2="Fails")
+
+pwr<-addProbability(pwr, at=7, prob=1, name="Bleed Air To", name2="G1 Fails")
+
+pwr<-addLogic(pwr, at=2, type="or", name="No Power", name2="From G2")
+
 pwr<-addProbability(pwr, at=10, prob=1, name="G2 Conn Open")
 
 pwr<-addLogic(pwr, at=10, type="or", name="No Output", name2="From G2")
