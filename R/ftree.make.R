@@ -15,21 +15,22 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-ftree.make<-function(type, name="top event", repairable_cond=FALSE, human_pbf=-1, name2="",description="")  {			
-	tp<-switch(type,			
-		or = 10,		
-		and = 11,		
+ftree.make<-function(type, name="top event", repairable_cond=FALSE, human_pbf=-1, start_id=1, name2="",description="")  {
+	tp<-switch(type,
+		or = 10,
+		and = 11,
 		inhibit=12,
 		alarm=13,
 		cond=14,
-		conditional =14,		
-		stop("gate type not recognized")		
-	)			
+		conditional =14,
+		stop("gate type not recognized")
+	)
 
-## Must place this test here before tp==13 test, since alarm gate is being assigned FALSE repairability
-##	if(repairable_cond==FALSE && tp!=14) {
-##		warning(paste0("repairable_cond entry ignored at top gate"))
-##	}
+
+	if(repairable_cond==TRUE && tp!=14) {
+		repairable_cond=FALSE
+		warning(paste0("repairable_cond entry ignored at top gate"))
+	}
 
 	if(tp == 13) {
 		repairable_cond=FALSE
@@ -41,50 +42,50 @@ ftree.make<-function(type, name="top event", repairable_cond=FALSE, human_pbf=-1
 			warning(paste0("human failure probability for  non-alarm gate at top gate has been ignored"))
 			human_pbf=-1
 		}
-	}				
-	DF<-data.frame(			
-		ID=	1	,
-		Name=	name	,
-		Parent=	-1	,
+	}
+	DF<-data.frame(
+		ID=	start_id	,
+		GParent=	-1	,
+		CParent=	-1	,
+		Level=	1	,
 		Type=	tp	,
 		CFR=	-1	,
 		PBF=	-1	,
-		CRT=    -1  ,
-		Child1=	-1	,
-		Child2=	-1	,
-		Child3=	-1	,
-		Child4=	-1	,
-		Child5=	-1	,
-		Level=  1   ,
-		MOE=    0  ,
-		PHF_PZ=    human_pbf  ,
-		Repairable= repairable_cond  ,
+		CRT=	-1	,
+		MOE=	0	,
+		PHF_PZ=	human_pbf	,
+		Condition=	FALSE	,
+		Repairable=	repairable_cond	,
 		Interval=	-1	,
+		Tag_Obj=	""	,
+		Name=	name	,
 		Name2=	name2	,
 		Description=	description	,
+		Unused1=	""	,
+		Unused2=	""	,
 		stringsAsFactors = FALSE
-		)		
+	)
 DF
 }
 
 FT_FIELDS<-c("ID",
-	"Name",
-	"Parent",
+	"GParent",
+	"CParent",
+	"Level",
 	"Type",
 	"CFR",
 	"PBF",
-	"CRT",	
-	"Child1",
-	"Child2",
-	"Child3",
-	"Child4",
-	"Child5",
-	"Level",
+	"CRT",
 	"MOE",
 	"PHF_PZ",
+	"Condition",
 	"Repairable",
 	"Interval",
+	"Tag_Obj",
+	"Name",
 	"Name2",
-	"Description"
+	"Description",
+	"Unused1",
+	"Unused2"
 	)
 

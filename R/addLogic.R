@@ -14,45 +14,36 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-addLogic<-function(DF, type, at, name="", human_pbf=-1, repairable_cond=TRUE, name2="", description="")  {				
-	if(!ftree.test(DF)) stop("first argument must be a fault tree")	
-			
-	tp<-switch(type,			
-		or = 10,		
+addLogic<-function(DF, type, at, name="", human_pbf=-1, repairable_cond=FALSE, name2="", description="")  {
+	if(!ftree.test(DF)) stop("first argument must be a fault tree")
+
+	tp<-switch(type,
+		or = 10,
 		and = 11,
 		inhibit=12,
 		alarm=13,
-		cond=14,		
-		conditional =14,		
-		stop("gate type not recognized")		
-	)			
-	parent<-which(DF$ID== at)			
-	if(length(parent)==0) {stop("connection reference not valid")}			
-	thisID<-max(DF$ID)+1			
-	if(DF$Type[parent]<10) {stop("non-gate connection requested")}	
-	
-#	availableconn<-which(DF[parent,8:12]<1)			
-#	if(length(availableconn)>3) {			
-#		DF[parent,(7+availableconn[1])]<-thisID		
-#	}else{			
-#		if((DF$Type[parent]==10||DF$Type[parent]==11)&&length(availableconn)>0)  {		
-#			DF[parent,(7+availableconn[1])]<-thisID	
-#		}else{		
-#			stop("connection slot not available")	
-#		}		
-#	}			
-
-## There is no need to limit connections to OR gates for calculation reasons				
-## Since AND gates are calculated in binary fashion, these too should not require a connection limit				
-## All specialty gates must be limited to binary feeds only				
-				
-	if(DF$Type[parent]>11 && length(which(DF$Parent==at))>1) {				
-		stop("connection slot not available")			
-	}				
+		cond=14,
+		conditional =14,
+		stop("gate type not recognized")
+	)
+	parent<-which(DF$ID== at)
+	if(length(parent)==0) {stop("connection reference not valid")}
+	thisID<-max(DF$ID)+1
+	if(DF$Type[parent]<10) {stop("non-gate connection requested")}
 
 
-## Must place this test here before tp==13 test, since alarm gate is being assigned FALSE repairability
-	if(repairable_cond==FALSE && tp!=14) {
+	if(!DF$MOE[parent]==0) {
+		stop("connection cannot be made to duplicate nor source of duplication")
+	}
+
+	if(DF$Type[parent]>11 && length(which(DF$Parent==at))>1) {
+		stop("connection slot not available")
+	}
+
+
+
+	if(repairable_cond==TRUE && tp!=14) {
+		repairable_cond=FALSE
 		warning(paste0("repairable_cond entry ignored at gate ",as.character(thisID)))
 	}
 
@@ -63,35 +54,36 @@ addLogic<-function(DF, type, at, name="", human_pbf=-1, repairable_cond=TRUE, na
 		}
 	}else{
 		if(human_pbf!=-1) {
-			warning(paste0("human failure probability for  non-alarm gate at ID ",as.character(thisID), " has been ignored"))
 			human_pbf=-1
+			warning(paste0("human failure probability for  non-alarm gate at ID ",as.character(thisID), " has been ignored"))
 		}
 	}
-				
-				
-	Dfrow<-data.frame(			
+
+
+	Dfrow<-data.frame(
 		ID=	thisID	,
-		Name=	name	,
-		Parent=	at	,
+		GParent=	at	,
+		CParent=	at	,
+		Level=	DF$Level[parent]+1	,
 		Type=	tp	,
 		CFR=	-1	,
 		PBF=	-1	,
-		CRT=    -1  ,
-		Child1=	-1	,
-		Child2=	-1	,
-		Child3=	-1	,
-		Child4=	-1	,
-		Child5=	-1	,
-		Level=	DF$Level[parent]+1	,
-		MOE=    0  ,
-		PHF_PZ=    human_pbf   ,
-		Repairable= repairable_cond ,
+		CRT=	-1	,
+		MOE=	0	,
+		PHF_PZ=	human_pbf	,
+		Condition=	FALSE	,
+		Repairable=	repairable_cond	,
 		Interval=	-1	,
+		Tag_Obj=	""	,
+		Name=	name	,
 		Name2=	name2	,
-		Description=	description	
-		)		
-				
-	DF<-rbind(DF, Dfrow)			
-							
-	DF			
-}				
+		Description=	description	,
+		Unused1=	""	,
+		Unused2=	""
+	)
+
+
+	DF<-rbind(DF, Dfrow)
+
+	DF
+}

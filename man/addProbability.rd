@@ -6,13 +6,14 @@
 \description{Modifies an existing fault tree with the addition of a pure probability.}
 
 \usage{
-addProbability(DF, at, prob, name="", name2="", description="")
+addProbability(DF, at, prob, tag="",  name="", name2="", description="")
 }
 
 \arguments{
 \item{DF}{ A fault tree dataframe such as returned from ftree.make or related add... functions.}
 \item{at}{ The ID of the parent node for this addition.}
 \item{prob}{A probability value >0 && <1}
+\item{tag}{ A very short identifying string (typically 5 characters or less) uniquely identifying a basic event for minimal cutset evaluation}
 \item{name}{ A short identifying string  (typically less than 24 characters)}
 \item{name2}{ A second line, if needed for the identifying string label}
 \item{description}{ An optional string providing more detail for this probability.}
