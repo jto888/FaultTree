@@ -8,7 +8,7 @@
 
 \usage{
 ftree.make(type, name="top event", repairable_cond=FALSE, human_pbf=-1,
- name2="", description="") 
+ start_id=1, name2="", description="") 
 
 }
 
@@ -17,6 +17,7 @@ ftree.make(type, name="top event", repairable_cond=FALSE, human_pbf=-1,
 \item{name}{ An identifying string for the logic gate}
 \item{human_pbf}{A probability of failure for a human to respond as needed to an alarm. This value is only used by the alarm gate.}
 \item{repairable_cond}{A boolean value used only by the conditional gate type indicating whether repair of the input condition is viable to the model.}
+\item{start_id}{ An integer value for the starting unique ID, useful for transfer objects. }
 \item{name2}{ A second line, if needed for the identifying string label}
 \item{description}{ An optional string providing more detail for the resultant event.}
 }
@@ -38,7 +39,7 @@ Returns a dataframe containing 18 columns for holding data, results, and connect
   Fault Tree Handbook with Aerospace Applications   NASA
   
   Doelp, L.C., Lee, G.K., Linney, R.E., Ormsby R.W. (1984) Quantitative fault tree analysis: Gate-by-gate method Plant/Operations Progress
-Volume 3, Issue 4 American Institute of Chemical Engineers
+  Volume 3, Issue 4 American Institute of Chemical Engineers
 }
 
 \examples{

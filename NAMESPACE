@@ -8,6 +8,5 @@ ftree.calc,
 ftree.cutsets,
 ftree.make,
 ftree.test,
-ftree2json,
 ftree2html,
 hierarchyDF2json)

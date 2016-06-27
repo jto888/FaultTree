@@ -14,60 +14,53 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-addProbability<-function(DF, at, prob, name="", name2="", description="")  {				
-	if(!ftree.test(DF)) stop("first argument must be a fault tree")	
-						
- 	tp=3			
-	parent<-which(DF$ID== at)			
-	if(length(parent)==0) {stop("connection reference not valid")}			
-	thisID<-max(DF$ID)+1			
-	if(DF$Type[parent]<10) {stop("non-gate connection requested")}			
-	
-#	availableconn<-which(DF[parent,8:12]<1)			
-#	if(length(availableconn)>3) {			
-#		DF[parent,(7+availableconn[1])]<-thisID		
-#	}else{			
-#		if((DF$Type[parent]==10||DF$Type[parent]==11)&&length(availableconn)>0)  {		
-#			DF[parent,(7+availableconn[1])]<-thisID	
-#		}else{		
-#			stop("connection slot not available")	
-#		}		
-#	}			
+addProbability<-function(DF, at, prob, tag="", name="", name2="", description="")  {
+	if(!ftree.test(DF)) stop("first argument must be a fault tree")
 
-## There is no need to limit connections to OR gates for calculation reasons				
-## Since AND gates are calculated in binary fashion, these too should not require a connection limit				
-## All specialty gates must be limited to binary feeds only				
-				
-	if(DF$Type[parent]>11 && length(which(DF$Parent==at))>1) {				
-		stop("connection slot not available")			
-	}				
-			
-												
-	if(prob<0 || prob>1)  {stop("probability entry must be between zero and one")}			
-								
-	Dfrow<-data.frame(			
+ 	tp=3
+	parent<-which(DF$ID== at)
+	if(length(parent)==0) {stop("connection reference not valid")}
+	thisID<-max(DF$ID)+1
+	if(DF$Type[parent]<10) {stop("non-gate connection requested")}
+
+	if(!DF$MOE[parent]==0) {
+		stop("connection cannot be made to duplicate nor source of duplication")
+	}
+
+## There is no need to limit connections to OR gates for calculation reasons
+## Since AND gates are calculated in binary fashion, these too should not require a connection limit
+## All specialty gates must be limited to binary feeds only
+
+	if(DF$Type[parent]>11 && length(which(DF$Parent==at))>1) {
+		stop("connection slot not available")
+	}
+
+
+	if(prob<0 || prob>1)  {stop("probability entry must be between zero and one")}
+
+	Dfrow<-data.frame(
 		ID=	thisID	,
-		Name=	name	,
-		Parent=	at	,
+		GParent=	at	,
+		CParent=	at	,
+		Level=	DF$Level[parent]+1	,
 		Type=	tp	,
 		CFR=	-1	,
 		PBF=	prob	,
-		CRT=    -1  ,
-		Child1=	-1	,
-		Child2=	-1	,
-		Child3=	-1	,
-		Child4=	-1	,
-		Child5=	-1	,
-		Level=	DF$Level[parent]+1	,
-		MOE=    0  ,
-		PHF_PZ=    -1  ,
-		Repairable= FALSE   ,
+		CRT=	-1	,
+		MOE=	0	,
+		PHF_PZ=	-1	,
+		Condition=	FALSE	,
+		Repairable=	FALSE	,
 		Interval=	-1	,
+		Tag_Obj=	tag	,
+		Name=	name	,
 		Name2=	name2	,
-		Description=	description	
-		)		
+		Description=	description	,
+		Unused1=	""	,
+		Unused2=	""
+	)
 
-		
-	DF<-rbind(DF, Dfrow)			
-	DF			
-}				
+
+	DF<-rbind(DF, Dfrow)
+	DF
+}
