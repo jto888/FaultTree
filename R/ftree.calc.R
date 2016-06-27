@@ -14,32 +14,32 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-ftree.calc<-function(DF)  {				
-	if(!ftree.test(DF)) stop("first argument must be a fault tree")	
-						
-		NDX<-order(DF$Level)		
-		sDF<-DF[NDX,]		
-				
-## note the for loop starts at bottom working up			
-for(row in dim(sDF)[1]:1)  {			
-## only calculating gate nodes			
-	if(sDF$Type[row] > 9)  {		
-## Build the siblingDF starting with first child			
-		child_rows<-which(sDF$Parent==sDF$ID[row])	
-		if(!length(child_rows)>0)  stop(paste0("empty gate found at ID ", as.character(sDF$ID[row])))	
-## the first child is of course at child-rows[1]			
-	siblingDF<-data.frame(ID=sDF$ID[child_rows[1]],		
-		CFR=sDF$CFR[child_rows[1]],	
-		PBF=sDF$PBF[child_rows[1]],	
-		CRT=sDF$CRT[child_rows[1]],	
-		Type=sDF$Type[child_rows[1]],	
-		PHF=sDF$PHF[child_rows[1]]	
-		)	
-	if(length(child_rows)>1)  {		
-			
-		for(child in 2:length(child_rows))  {	
-## thisChild is now at child_rows[child] in the sDF			
-		DFrow<-data.frame(ID=sDF$ID[child_rows[child]],	
+ftree.calc<-function(DF)  {
+	if(!ftree.test(DF)) stop("first argument must be a fault tree")
+
+		NDX<-order(DF$Level)
+		sDF<-DF[NDX,]
+
+## note the for loop starts at bottom working up
+for(row in dim(sDF)[1]:1)  {
+## only calculating gate nodes
+	if(sDF$Type[row] > 9)  {
+## Build the siblingDF starting with first child
+		child_rows<-which(sDF$CParent==sDF$ID[row])
+		if(!length(child_rows)>0)  stop(paste0("empty gate found at ID ", as.character(sDF$ID[row])))
+## the first child is of course at child-rows[1]
+	siblingDF<-data.frame(ID=sDF$ID[child_rows[1]],
+		CFR=sDF$CFR[child_rows[1]],
+		PBF=sDF$PBF[child_rows[1]],
+		CRT=sDF$CRT[child_rows[1]],
+		Type=sDF$Type[child_rows[1]],
+		PHF=sDF$PHF[child_rows[1]]
+		)
+	if(length(child_rows)>1)  {
+
+		for(child in 2:length(child_rows))  {
+## thisChild is now at child_rows[child] in the sDF
+		DFrow<-data.frame(ID=sDF$ID[child_rows[child]],
 			CFR=sDF$CFR[child_rows[child]],
 			PBF=sDF$PBF[child_rows[child]],
 			CRT=sDF$CRT[child_rows[child]],
@@ -121,4 +121,4 @@ for(row in dim(sDF)[1]:1)  {
 
 
 	DF
-}				
+}

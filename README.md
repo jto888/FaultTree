@@ -46,7 +46,7 @@ tree1<-addDemand(tree1, at=1, mttf=1.0, name="External power", name2="interrupti
 
 tree1<-ftree.calc(tree1)
 
-tree1[,1:7]
+tree1[,1:8]
 
 ## The tree can be displayed in the browser using the following commands:
 
