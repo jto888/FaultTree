@@ -28,7 +28,7 @@ ftree.make<-function(type, name="top event", repairable_cond=FALSE, human_pbf=-1
 
 ## default is non-repairable, so
 	repairable=0		
-	if(repariable_cond==TRUE)  {
+	if(repairable_cond==TRUE)  {
 		repairable=1	
 		if(tp!=14) {	
 			repairable=0

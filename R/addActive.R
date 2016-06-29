@@ -42,11 +42,11 @@ addActive<-function(DF, at, mttf=NULL, mttr=NULL, tag="", name="",name2="",descr
 
 	condition=0
 	if(DF$Type[parent]>11 )  {
-		if( length(which(DF$Parent==at))==0)  {
+		if( length(which(DF$CParent==at))==0)  {
 			condition=1
 			waaning("Basic Event with no probability set as a condition")
 		}else{
-			if(length(which(DF$Parent==at))>1)  {
+			if(length(which(DF$CParent==at))>1)  {
 				stop("connection slot not available")
 			}
 		}

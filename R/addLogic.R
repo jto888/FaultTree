@@ -42,10 +42,10 @@ addLogic<-function(DF, type, at, name="", human_pbf=-1, repairable_cond=FALSE, n
 
 	condition=0
 	if(DF$Type[parent]>11 )  {
-		if( length(which(DF$Parent==at))==0)  {
+		if( length(which(DF$CParent==at))==0)  {
 			condition=1
 		}else{
-			if(length(which(DF$Parent==at))>1)  {
+			if(length(which(DF$CParent==at))>1)  {
 				stop("connection slot not available")
 			}
 		}
@@ -53,7 +53,7 @@ addLogic<-function(DF, type, at, name="", human_pbf=-1, repairable_cond=FALSE, n
 
 ## default is non-repairable, so
 	repairable=0
-	if(repariable_cond==TRUE)  {
+	if(repairable_cond==TRUE)  {
 		repairable=1
 		if(tp!=14) {
 			repairable=0

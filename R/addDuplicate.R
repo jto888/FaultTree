@@ -24,10 +24,10 @@ addDuplicate<-function(DF, at, dup_id)  {
 
 	condition=0
 	if(DF$Type[parent]>11 )  {
-		if( length(which(DF$Parent==at))==0)  {
+		if( length(which(DF$CParent==at))==0)  {
 			condition=1
 		}else{
-			if(length(which(DF$Parent==at))>1)  {
+			if(length(which(DF$CParent==at))>1)  {
 				stop("connection slot not available")
 			}
 		}
