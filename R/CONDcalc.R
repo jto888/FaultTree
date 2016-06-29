@@ -5,7 +5,7 @@ CONDcalc<-function(df, repairable)  {
 ## must validate that repariable condition has CRT>0
 	CFRout<-df$PBF[1]*df$CFR[2]
 ## special case of non-repairable condition
-	if(repairable==FALSE) {
+	if(repairable==0) {
 		PBFout= -1
 		CRTout= -1
 	}else{

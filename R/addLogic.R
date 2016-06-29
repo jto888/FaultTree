@@ -36,19 +36,33 @@ addLogic<-function(DF, type, at, name="", human_pbf=-1, repairable_cond=FALSE, n
 		stop("connection cannot be made to duplicate nor source of duplication")
 	}
 
-	if(DF$Type[parent]>11 && length(which(DF$Parent==at))>1) {
-		stop("connection slot not available")
+##	if(DF$Type[parent]>11 && length(which(DF$Parent==at))>1) {
+##		stop("connection slot not available")
+#3	}
+
+	condition=0
+	if(DF$Type[parent]>11 )  {
+		if( length(which(DF$Parent==at))==0)  {
+			condition=1
+		}else{
+			if(length(which(DF$Parent==at))>1)  {
+				stop("connection slot not available")
+			}
+		}
 	}
 
-
-
-	if(repairable_cond==TRUE && tp!=14) {
-		repairable_cond=FALSE
-		warning(paste0("repairable_cond entry ignored at gate ",as.character(thisID)))
+## default is non-repairable, so
+	repairable=0
+	if(repariable_cond==TRUE)  {
+		repairable=1
+		if(tp!=14) {
+			repairable=0
+			warning(paste0("repairable_cond entry ignored at gate ",as.character(thisID)))
+		}
 	}
+
 
 	if(tp == 13) {
-		repairable_cond=FALSE
 		if(human_pbf < 0 || human_pbf >1) {
 			stop(paste0("alarm gate at ID ", as.character(thisID), " requires human failure probability value"))
 		}
@@ -71,8 +85,8 @@ addLogic<-function(DF, type, at, name="", human_pbf=-1, repairable_cond=FALSE, n
 		CRT=	-1	,
 		MOE=	0	,
 		PHF_PZ=	human_pbf	,
-		Condition=	FALSE	,
-		Repairable=	repairable_cond	,
+		Condition=	condition,
+		Repairable=	repairable,
 		Interval=	-1	,
 		Tag_Obj=	""	,
 		Name=	name	,

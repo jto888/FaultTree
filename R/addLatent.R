@@ -32,9 +32,21 @@ addLatent<-function(DF, at, mttf, mttr=NULL, pzero="repair", inspect=NULL, tag="
 ## Since AND gates are calculated in binary fashion, these too should not require a connection limit
 ## All specialty gates must be limited to binary feeds only
 
-	if(DF$Type[parent]>11 && length(which(DF$Parent==at))>1) {
-		stop("connection slot not available")
+##	if(DF$Type[parent]>11 && length(which(DF$Parent==at))>1) {
+##		stop("connection slot not available")
+#3	}
+
+	condition=0
+	if(DF$Type[parent]>11 )  {
+		if( length(which(DF$Parent==at))==0)  {
+			condition=1
+		}else{
+			if(length(which(DF$Parent==at))>1)  {
+				stop("connection slot not available")
+			}
+		}
 	}
+
 
 
 
@@ -80,8 +92,8 @@ addLatent<-function(DF, at, mttf, mttr=NULL, pzero="repair", inspect=NULL, tag="
 		CRT=	mttr	,
 		MOE=	0	,
 		PHF_PZ=	pzero	,
-		Condition=	FALSE	,
-		Repairable=	FALSE	,
+		Condition=	condition,
+		Repairable=	0,
 		Interval=	Tao	,
 		Tag_Obj=	tag	,
 		Name=	name	,

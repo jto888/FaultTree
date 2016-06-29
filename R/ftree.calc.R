@@ -69,6 +69,21 @@ for(row in dim(sDF)[1]:1)  {
 	}
 
 	if(sDF$Type[row]>11)  {
+## Code is required in addXXX to assign the first entry as Condition==1)
+
+## test the Condition setting for the first child
+		##firstSib_DFrow<-which(DF$ID==siblingDF$ID[1] )
+		##secondSib_DFrow<-which(DF$ID==siblingDF$ID[2] )
+		Cond1<-DF$Condition[which(DF$ID==siblingDF$ID[1] )]
+		Cond2<-DF$Condition[which(DF$ID==siblingDF$ID[2] )]
+		if( !(Cond1 + Cond2) == 1 )  {
+			stop(paste0("No indication of Condition at ID", as.character(sDF$ID[row])))
+		}
+		if(Cond1==0)  {
+## re-order the siblingDF rows making sure new row names apply
+			siblingDF<-siblingDF[c(2,1),]
+			row.names(siblingsDF)<-c(1,2)
+		}
 ## first feed must have probability of failure for remaining combination gates
 		if(siblingDF$PBF[1]<=0)  {
 			stop(paste0("first feed must have prob of failure at gate ", sDF$ID[row]))
@@ -95,7 +110,7 @@ for(row in dim(sDF)[1]:1)  {
 	## COND gate calculation
 	if(sDF$Type[row]==14)  {
 ## repairable condition must have repair time
-		if(sDF$Repairable[row]==TRUE && siblingDF$CRT[1]<=0)  {
+		if(sDF$Repairable[row]==1 && siblingDF$CRT[1]<=0)  {
 			stop(paste0("repairable condition at gate ", sDF$ID[row]), " must have repair time")
 		}
 ## Test whether Latent condition has been misplaced
