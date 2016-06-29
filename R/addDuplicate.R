@@ -18,7 +18,7 @@ addDuplicate<-function(DF, at, dup_id)  {
 ## Since AND gates are calculated in binary fashion, these too should not require a connection limit
 ## All specialty gates must be limited to binary feeds only
 
-	if(DF$Type[parent]>11 && length(which(DF$Parent==at))>1) {
+	if(DF$Type[parent]>11 && length(which(DF$CParent==at))>1) {
 		stop("connection slot not available")
 	}
 
@@ -31,7 +31,7 @@ addDuplicate<-function(DF, at, dup_id)  {
 
 	while(length(nodes2check) >0)  {
 
-		child_nodes<- which(DF$Parent==DF$ID[nodes2check[1]])
+		child_nodes<- which(DF$CParent==DF$ID[nodes2check[1]])
 		if(length(child_nodes)>0) {
 			rows2copy<-c(rows2copy, child_nodes)
 			nodes2check<-c(nodes2check, child_nodes)
@@ -51,7 +51,7 @@ addDuplicate<-function(DF, at, dup_id)  {
 	}
 
 	## prepare an offset for relative node determinations
-#	offset_base<-DF$Parent[rows2copy[1]]
+#	offset_base<-DF$CParent[rows2copy[1]]
 	id_offset<-thisID-dup_id
 
 	for(x in 1:length(rows2copy))  {
@@ -59,7 +59,7 @@ addDuplicate<-function(DF, at, dup_id)  {
 		if(x==1) {
 			parent_id<- at
 		}else{
-			parent_id<-DF$Parent[dup_row]+id_offset
+			parent_id<-DF$CParent[dup_row]+id_offset
 		}
 ## Using modifier on parent_row label, since it was unfortunately used before
 		this_parent_row<-which(DF$ID==parent_id)
