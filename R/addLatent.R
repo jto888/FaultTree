@@ -51,10 +51,10 @@ addLatent<-function(DF, at, mttf, mttr=NULL, pzero="repair", inspect=NULL, tag="
 
 
 	## if(tp==2)  {  ##  type condition removed
-	if(is.null(mttf))  {stop("dormant component must have mttf")}
+	if(is.null(mttf))  {stop("latent component must have mttf")}
 	if(is.null(mttr)) { mttr<- (-1)}
 
-	if(is.null(inspect))  {stop("dormant component must have inspection entry")}
+	if(is.null(inspect))  {stop("latent component must have inspection entry")}
 
 	if(is.null(pzero)) {pzero<- (-1)}
 	if(is.character(inspect))  {
