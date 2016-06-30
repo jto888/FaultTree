@@ -27,7 +27,7 @@ addActive<-function(DF, at, mttf=NULL, mttr=NULL, tag="", name="",name2="",descr
 	if(!DF$MOE[parent]==0) {
 		stop("connection cannot be made to duplicate nor source of duplication")
 	}
-	
+
 	if(!length(which(DF$Tag==tag)==0)) {
 		stop("tag is not unique")
 	}
@@ -36,9 +36,22 @@ addActive<-function(DF, at, mttf=NULL, mttr=NULL, tag="", name="",name2="",descr
 ## Since AND gates are calculated in binary fashion, these too should not require a connection limit
 ## All specialty gates must be limited to binary feeds only
 
-	if(DF$Type[parent]>11 && length(which(DF$Parent==at))>1) {
-		stop("connection slot not available")
+##	if(DF$Type[parent]>11 && length(which(DF$Parent==at))>1) {
+##		stop("connection slot not available")
+#3	}
+
+	condition=0
+	if(DF$Type[parent]>11 )  {
+		if( length(which(DF$CParent==at))==0)  {
+			condition=1
+			warning("Basic Event with no probability set as a condition")
+		}else{
+			if(length(which(DF$CParent==at))>1)  {
+				stop("connection slot not available")
+			}
+		}
 	}
+
 
 
 		if(is.null(mttf))  {stop("active component must have mttf")}
@@ -55,8 +68,8 @@ addActive<-function(DF, at, mttf=NULL, mttr=NULL, tag="", name="",name2="",descr
 		CRT=	mttr	,
 		MOE=	0	,
 		PHF_PZ=	-1	,
-		Condition=	FALSE	,
-		Repairable=	TRUE	,
+		Condition=	condition,
+		Repairable=	0,
 		Interval=	-1	,
 		Tag_Obj=	tag	,
 		Name=	name	,

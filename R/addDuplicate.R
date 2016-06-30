@@ -18,9 +18,21 @@ addDuplicate<-function(DF, at, dup_id)  {
 ## Since AND gates are calculated in binary fashion, these too should not require a connection limit
 ## All specialty gates must be limited to binary feeds only
 
-	if(DF$Type[parent]>11 && length(which(DF$CParent==at))>1) {
-		stop("connection slot not available")
+##	if(DF$Type[parent]>11 && length(which(DF$Parent==at))>1) {
+##		stop("connection slot not available")
+#3	}
+
+	condition=0
+	if(DF$Type[parent]>11 )  {
+		if( length(which(DF$CParent==at))==0)  {
+			condition=1
+		}else{
+			if(length(which(DF$CParent==at))>1)  {
+				stop("connection slot not available")
+			}
+		}
 	}
+
 
 
 	dup_row<-which(DF$ID==dup_id)
@@ -58,8 +70,10 @@ addDuplicate<-function(DF, at, dup_id)  {
 		dup_row<-rows2copy[x]
 		if(x==1) {
 			parent_id<- at
+			cond_val<-condition
 		}else{
 			parent_id<-DF$CParent[dup_row]+id_offset
+			cond_val<-DF$Condition[dup_row]
 		}
 ## Using modifier on parent_row label, since it was unfortunately used before
 		this_parent_row<-which(DF$ID==parent_id)
@@ -84,7 +98,7 @@ addDuplicate<-function(DF, at, dup_id)  {
 			CRT=	DF$CRT[dup_row]	,
 			MOE=	moe	,
 			PHF_PZ=	DF$PHF_PZ[dup_row]	,
-			Condition=	DF$Condition[dup_row]	,
+			Condition=	cond_val,
 			Repairable=	DF$Repairable[dup_row]	,
 			Interval=	DF$Interval[dup_row]	,
 			Tag_Obj=	DF$Tag_Obj[dup_row]	,

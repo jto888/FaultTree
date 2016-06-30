@@ -31,9 +31,21 @@ addProbability<-function(DF, at, prob, tag="", name="", name2="", description=""
 ## Since AND gates are calculated in binary fashion, these too should not require a connection limit
 ## All specialty gates must be limited to binary feeds only
 
-	if(DF$Type[parent]>11 && length(which(DF$Parent==at))>1) {
-		stop("connection slot not available")
+##	if(DF$Type[parent]>11 && length(which(DF$Parent==at))>1) {
+##		stop("connection slot not available")
+#3	}
+
+	condition=0
+	if(DF$Type[parent]>11 )  {
+		if( length(which(DF$CParent==at))==0)  {
+			condition=1
+		}else{
+			if(length(which(DF$CParent==at))>1)  {
+				stop("connection slot not available")
+			}
+		}
 	}
+
 
 
 	if(prob<0 || prob>1)  {stop("probability entry must be between zero and one")}
@@ -49,8 +61,8 @@ addProbability<-function(DF, at, prob, tag="", name="", name2="", description=""
 		CRT=	-1	,
 		MOE=	0	,
 		PHF_PZ=	-1	,
-		Condition=	FALSE	,
-		Repairable=	FALSE	,
+		Condition=	condition,
+		Repairable=	0,
 		Interval=	-1	,
 		Tag_Obj=	tag	,
 		Name=	name	,

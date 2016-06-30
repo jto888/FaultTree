@@ -26,14 +26,19 @@ ftree.make<-function(type, name="top event", repairable_cond=FALSE, human_pbf=-1
 		stop("gate type not recognized")
 	)
 
+## default is non-repairable, so
+	repairable=0		
+	if(repairable_cond==TRUE)  {
+		repairable=1	
+		if(tp!=14) {	
+			repairable=0
+			warning("repairable_cond entry ignored at top gate")
+		}	
+	}		
+			
 
-	if(repairable_cond==TRUE && tp!=14) {
-		repairable_cond=FALSE
-		warning(paste0("repairable_cond entry ignored at top gate"))
-	}
 
 	if(tp == 13) {
-		repairable_cond=FALSE
 		if(human_pbf < 0 || human_pbf >1) {
 			stop(paste0("alarm gate at top gate requires human failure probability value"))
 		}
@@ -54,8 +59,8 @@ ftree.make<-function(type, name="top event", repairable_cond=FALSE, human_pbf=-1
 		CRT=	-1	,
 		MOE=	0	,
 		PHF_PZ=	human_pbf	,
-		Condition=	FALSE	,
-		Repairable=	repairable_cond	,
+		Condition=	0,
+		Repairable=	repairable,
 		Interval=	-1	,
 		Tag_Obj=	""	,
 		Name=	name	,
