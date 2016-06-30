@@ -32,7 +32,7 @@ ftree.make<-function(type, name="top event", repairable_cond=FALSE, human_pbf=-1
 		repairable=1	
 		if(tp!=14) {	
 			repairable=0
-			warning(paste0("repairable_cond entry ignored at gate ",as.character(thisID)))
+			warning("repairable_cond entry ignored at top gate")
 		}	
 	}		
 			
