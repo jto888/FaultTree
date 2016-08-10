@@ -14,7 +14,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-addLatent<-function(DF, at, mttf, mttr=NULL, pzero="repair", inspect=NULL, tag="", name="",name2="", description="")  {
+addLatent<-function(DF, at, mttf, mttr=NULL, pzero="repair", inspect=NULL, display_under=NULL, tag="", name="",name2="", description="")  {
 	if(!ftree.test(DF)) stop("first argument must be a fault tree")
 
 	tp<-2
@@ -27,14 +27,24 @@ addLatent<-function(DF, at, mttf, mttr=NULL, pzero="repair", inspect=NULL, tag="
 		stop("connection cannot be made to duplicate nor source of duplication")
 	}
 
+	if(any(DF$Type==5)) {
+		stop("repairable system event event called for in non-repairable model")
+	}
+
+		if(tag!="")  {
+		if (length(which(DF$Tag == tag) != 0)) {
+		stop("tag is not unique")
+		}
+	}
 
 ## There is no need to limit connections to OR gates for calculation reasons
-## Since AND gates are calculated in binary fashion, these too should not require a connection limit
+## Since AND gates are calculated in binary fashion, these too should not
+## require a connection limit, but practicality suggests 3 is a good limit.
 ## All specialty gates must be limited to binary feeds only
 
-##	if(DF$Type[parent]>11 && length(which(DF$Parent==at))>1) {
-##		stop("connection slot not available")
-#3	}
+	if(DF$Type[parent]==11 && length(which(DF$Parent==at))>2) {
+		warning("More than 3 connections to AND gate.")
+	}
 
 	condition=0
 	if(DF$Type[parent]>11 )  {
@@ -81,9 +91,20 @@ addLatent<-function(DF, at, mttf, mttr=NULL, pzero="repair", inspect=NULL, tag="
 		}else{ stop("pzero entry must be zero to one")}
 	}
 
+	gp<-at
+	if(length(display_under)!=0)  {
+		if(DF$Type[parent]!=10) {stop("Component stacking only permitted under OR gate")}
+		if(DF$CParent[display_under]!=at) {stop("Must stack at component under same parent")}
+		if(length(which(DF$GParent==display_under))>0 )  {
+			stop("display under connection not available")
+		}else{
+			gp<-display_under
+		}
+	}
+
 	Dfrow<-data.frame(
 		ID=	thisID	,
-		GParent=	at	,
+		GParent=	gp	,
 		CParent=	at	,
 		Level=	DF$Level[parent]+1	,
 		Type=	tp	,

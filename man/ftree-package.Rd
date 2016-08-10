@@ -24,6 +24,8 @@ Jacob T. Ormerod
 Maintainer: Jacob T. Ormerod <jake@openreliability.org>
 }
 \references{
+  Ericson, Clifton A. II (2011) Fault Tree Analysis Primer  CreateSpace Inc.
+  
   Nicholls, David [Editor] (2005) System Reliability Toolkit  Reliability information Analysis 
   Center
   

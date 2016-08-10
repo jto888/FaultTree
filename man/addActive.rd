@@ -6,8 +6,8 @@
 \description{Modifies an existing fault tree with the addition of an active component event.}
 
 \usage{
-addActive(DF, at, mttf=NULL, mttr=NULL, tag="", name="",name2="",
- description="")
+addActive(DF, at, mttf=NULL, mttr=NULL, display_under=NULL, tag="", 
+ name="",name2="",description="")
 }
 
 \arguments{
@@ -15,6 +15,7 @@ addActive(DF, at, mttf=NULL, mttr=NULL, tag="", name="",name2="",
 \item{at}{ The ID of the parent node for this addition.}
 \item{mttf}{The mean time to failure.  It is the user's responsibility to maintain constant units of time.}
 \item{mttr}{The mean time to repair (restore).  It is the user's responsibility to maintain constant units of time.}
+\item{display_under}{Optionally, the ID of a sibling event under an OR gate for vertical alignment of the component node in the graphic display.}
 \item{tag}{ A very short identifying string (typically 5 characters or less) uniquely identifying a basic event for minimal cutset evaluation}
 \item{name}{ A short identifying string  (typically less than 24 characters)}
 \item{name2}{ A second line, if needed for the identifying string label}
