@@ -35,6 +35,9 @@ for(row in dim(sDF)[1]:1)  {
 		Type=sDF$Type[child_rows[1]],
 		PHF=sDF$PHF[child_rows[1]]
 		)
+## Fail rate for exposed type does not pass upward in calculations
+		if(siblingDF$Type[1]==5) {siblingDF$CFR[1]<- (-1) }
+
 	if(length(child_rows)>1)  {
 
 		for(child in 2:length(child_rows))  {
@@ -46,9 +49,10 @@ for(row in dim(sDF)[1]:1)  {
 			Type=sDF$Type[child_rows[child]],
 			PHF=sDF$PHF[child_rows[child]]
 			)
+## Fail rate for exposed type does not pass upward in calculations
+			if(DFrow$Type[1]==5) {DFrow$CFR[1]<- (-1) }
 
-
-		siblingDF<-rbind(siblingDF,DFrow)
+			siblingDF<-rbind(siblingDF,DFrow)
 		}
 	}else{
 		if(sDF$Type[row]>10) {
@@ -88,7 +92,24 @@ for(row in dim(sDF)[1]:1)  {
 		if(siblingDF$PBF[1]<=0)  {
 			stop(paste0("first feed must have prob of failure at gate ", sDF$ID[row]))
 		}
+
+## with this alternative code repairable does not need to be in json
+## cfr print does not have to be suppressed on conditional
+## eliminate fail rate (cfr) values (set to -1) for the conditional feed to advanced gates
+		sDF$CFR[which(sDF$ID==siblingDF$ID[1])]<- (-1)
+## eliminate repair time (crt) values (set to -1) for the conditional feed EXCEPT repairable condition
+		if (sDF$Repairable[row] == 0) {
+			sDF$CRT[which(sDF$ID==siblingDF$ID[1])]<- (-1)
+		}
+
 	}
+
+## Using this code repairable flag must be sent via json
+## condition flag is used to suppress fail rate display
+## Set the repairable flag on the feeding condition if applicable
+##		if (sDF$Repairable[row] == 1) {
+##			sDF$Repairable[which(sDF$ID==siblingDF$ID[1])]<-1
+##		}
 
 	## INHIBIT gate calculation
 	if(sDF$Type[row]==12)  {

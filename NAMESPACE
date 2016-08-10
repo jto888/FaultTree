@@ -1,6 +1,7 @@
 export(addActive,
 addDemand,
 addDuplicate,
+addExposed,
 addLatent,
 addLogic,
 addProbability,

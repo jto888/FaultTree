@@ -72,6 +72,7 @@ tree2[,1:7]
 
 
 ftree2html(tree2, write_file=TRUE)
+
 browseURL('tree2.html')
 
 ## example 3  **************** Minimal Cut Set Generation   ***************
