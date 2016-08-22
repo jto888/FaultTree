@@ -11,3 +11,4 @@ ftree.make,
 ftree.test,
 ftree2html,
 hierarchyDF2json)
+importFrom(magrittr,"%>%")
