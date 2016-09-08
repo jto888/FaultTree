@@ -69,14 +69,19 @@ addDuplicate<-function(DF, at, dup_id)  {
 	for(x in 1:length(rows2copy))  {
 		dup_row<-rows2copy[x]
 		if(x==1) {
-			parent_id<- at
+			cparent_id<- at
+## It would take considerable testing to determine that this duplicate
+## as a single entry should be displayed under a previous duplicate
+## because the duplicated entry was also displayed under this same sibling
+			gparent_id<- at
 			cond_val<-condition
 		}else{
-			parent_id<-DF$CParent[dup_row]+id_offset
+			cparent_id<-DF$CParent[dup_row]+id_offset
+			gparent_id<-DF$GParent[dup_row]+id_offset
 			cond_val<-DF$Condition[dup_row]
 		}
 ## Using modifier on parent_row label, since it was unfortunately used before
-		this_parent_row<-which(DF$ID==parent_id)
+##		this_parent_row<-which(DF$ID==cparent_id)
 
 
 	## just in case we are duplicating a previously duplicated item
@@ -89,8 +94,8 @@ addDuplicate<-function(DF, at, dup_id)  {
 
 		Dfrow<-data.frame(
 			ID=	DF$ID[dup_row]+id_offset	,
-			GParent=	parent_id	,
-			CParent=	parent_id	,
+			GParent=	gparent_id	,
+			CParent=	cparent_id	,
 			Level=	DF$Level[parent]+1	,
 			Type=	DF$Type[dup_row]	,
 			CFR=	DF$CFR[dup_row]	,

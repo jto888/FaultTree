@@ -187,14 +187,30 @@ ftree.cutsets<-function(DF)  {
 
 ## ready for next source item
 				}
-
+## Can't figure out why this only impacted last matrix
+##				row.names(cs_lists[[tmat]])<-as.character(1:dim(cs_lists[[tmat]])[1])
 			}
 		}
 		}
 	}
+	
+## row names are all 'id_vec' at this point, so here is fix
 
 
 
+	for(list_item in 1:length(cs_lists)) {
+		if(!is.null(cs_lists[[list_item]]))  {
+			len<-dim(cs_lists[[list_item]])[1]
+			rchrs<-as.character(1:len)
+			matrnms<-NULL
+			for(nm in 1:len)  {
+				thisnm<-paste0("[",rchrs[nm],",]")
+				matrnms<-c(matrnms, thisnm)
+			}
+
+			row.names(cs_lists[[list_item]])<-matrnms
+		}
+	}
 
 cs_lists
 }

@@ -1,8 +1,8 @@
 Package: FaultTree
 Type: Package
 Title: Fault Trees for Risk and Reliability Analysis
-Version: 0.0.10
-Date: 2016-8-10
+Version: 0.0.11
+Date: 2016-8-14
 Author: Jacob T. Ormerod
 Maintainer: Jacob T. Ormerod <jake@openreliability.org>
 Description: A package for constructing,calculating and displaying fault trees.
