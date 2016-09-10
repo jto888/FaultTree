@@ -16,50 +16,17 @@
 
 addActive<-function(DF, at, mttf=NULL, mttr=NULL, display_under=NULL, tag="", name="",name2="",description="")  {
 
-	if(!ftree.test(DF)) stop("first argument must be a fault tree")
-
 	tp<-1
-	parent<-which(DF$ID== at)
-	if(length(parent)==0) {stop("connection reference not valid")}
-	thisID<-max(DF$ID)+1
-	if(DF$Type[parent]<10) {stop("non-gate connection requested")}
 
-	if(!DF$MOE[parent]==0) {
-		stop("connection cannot be made to duplicate nor source of duplication")
-	}
+	info<-test.basic(DF, at,  display_under, tag)
+	thisID<-info[1]
+	parent<-info[2]
+	gp<-info[3]
+	condition<-info[4]
 
 	if(any(DF$Type==5)) {
 		stop("repairable system event event called for in non-repairable model")
 	}
-
-		if(tag!="")  {
-		if (length(which(DF$Tag == tag) != 0)) {
-		stop("tag is not unique")
-		}
-	}
-
-
-## There is no need to limit connections to OR gates for calculation reasons
-## Since AND gates are calculated in binary fashion, these too should not
-## require a connection limit, practicality suggests 3 is a good limit.
-## All specialty gates must be limited to binary feeds only
-
-	if(DF$Type[parent]==11 && length(which(DF$Parent==at))>2) {
-		warning("More than 3 connections to AND gate.")
-	}
-
-	condition=0
-	if(DF$Type[parent]>11 )  {
-		if( length(which(DF$CParent==at))==0)  {
-			condition=1
-		}else{
-			if(length(which(DF$CParent==at))>1)  {
-				stop("connection slot not available")
-			}
-		}
-	}
-
-
 
 	if(is.null(mttf))  {stop("active component must have mttf")}
 	if(is.null(mttr))  {stop("active component must have mttr")}
@@ -88,7 +55,7 @@ addActive<-function(DF, at, mttf=NULL, mttr=NULL, display_under=NULL, tag="", na
 		MOE=	0	,
 		PHF_PZ=	-1	,
 		Condition=	condition,
-		Repairable=	0,
+		Cond_Code=	0,
 		Interval=	-1	,
 		Tag_Obj=	tag	,
 		Name=	name	,

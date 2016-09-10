@@ -34,7 +34,7 @@ library(FaultTree)
 **Example Scripts**  
 ### Example 1  
 ```r
-tree1 <- ftree.make(type="cond",repairable_cond=TRUE, name="Site power loss")
+tree1 <- ftree.make(type="cond",reversable_cond=TRUE, name="Site power loss")
 tree1 <- addLogic(tree1, at=1, type="or", name="neither emergency", name2="generator operable")
 tree1 <- addLogic(tree1, at=2, type="and", name="Independent failure", name2="of generators")
 tree1 <- addLatent(tree1, at=3, mttf=5,mttr=12/8760,inspect=1/26, name="e-gen set fails")

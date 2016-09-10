@@ -15,7 +15,11 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-ftree.make<-function(type, name="top event", repairable_cond=FALSE, human_pbf=-1, start_id=1, name2="",description="")  {
+ftree.make<-function(type, reversible_cond=FALSE, cond_first=TRUE, 
+		human_pbf=-1, start_id=1, name="top event", name2="",description="")  {
+
+	thisID<-start_id
+
 	tp<-switch(type,
 		or = 10,
 		and = 11,
@@ -23,19 +27,31 @@ ftree.make<-function(type, name="top event", repairable_cond=FALSE, human_pbf=-1
 		alarm=13,
 		cond=14,
 		conditional =14,
+		priority=14,
 		stop("gate type not recognized")
 	)
 
-## default is non-repairable, so
-	repairable=0		
-	if(repairable_cond==TRUE)  {
-		repairable=1	
-		if(tp!=14) {	
-			repairable=0
-			warning("repairable_cond entry ignored at top gate")
-		}	
-	}		
-			
+## default is irreversible, so
+	reversible=0
+	if(reversible_cond==TRUE)  {
+		reversible=1
+		if(tp!=14) {
+			reversible=0
+			warning("reversible_cond entry ignored at top gate")
+		}
+	}
+
+## resolve whether condition is first or second child
+	cond_second=0
+	if(cond_first == FALSE)  {
+		cond_second=1
+		if(tp<12) {
+			cond_second=0
+			warning(paste0("cond_first entry ignored at gate ",as.character(thisID)))
+			}
+		}
+
+	cond_code<-reversible+10*cond_second
 
 
 	if(tp == 13) {
@@ -48,8 +64,9 @@ ftree.make<-function(type, name="top event", repairable_cond=FALSE, human_pbf=-1
 			human_pbf=-1
 		}
 	}
+
 	DF<-data.frame(
-		ID=	start_id	,
+		ID=	thisID	,
 		GParent=	-1	,
 		CParent=	-1	,
 		Level=	1	,
@@ -60,7 +77,7 @@ ftree.make<-function(type, name="top event", repairable_cond=FALSE, human_pbf=-1
 		MOE=	0	,
 		PHF_PZ=	human_pbf	,
 		Condition=	0,
-		Repairable=	repairable,
+		Cond_Code=	cond_code	,
 		Interval=	-1	,
 		Tag_Obj=	""	,
 		Name=	name	,
@@ -84,7 +101,7 @@ FT_FIELDS<-c("ID",
 	"MOE",
 	"PHF_PZ",
 	"Condition",
-	"Repairable",
+	"Cond_Code",
 	"Interval",
 	"Tag_Obj",
 	"Name",

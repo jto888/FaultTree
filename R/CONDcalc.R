@@ -1,11 +1,11 @@
-CONDcalc<-function(df, repairable)  {
+CONDcalc<-function(df, reversible)  {
 ## already have validated that df has two rows
 ## must have validated the siblingDF for first feed probability before this call
 ## sequential event must have demand
 ## must validate that repariable condition has CRT>0
 	CFRout<-df$PBF[1]*df$CFR[2]
-## special case of non-repairable condition
-	if(repairable==0) {
+## special case of irreversible condition
+	if(reversible==0) {
 		PBFout= -1
 		CRTout= -1
 	}else{

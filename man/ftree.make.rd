@@ -7,17 +7,19 @@
 }
 
 \usage{
-ftree.make(type, name="top event", repairable_cond=FALSE, human_pbf=-1,
- start_id=1, name2="", description="") 
+ftree.make(type, reversible_cond=FALSE, cond_first=TRUE, 
+		human_pbf=-1, start_id=1, name="top event", name2="",description="")
 
 }
 
 \arguments{
 \item{type}{ The logic type for the top gate. Currently only "or" and "and" are implemented.}
-\item{name}{ An identifying string for the logic gate}
+\item{reversible_cond}{A boolean value used only by the conditional gate type indicating whether repair of the input condition is viable to the model.}
+\item{cond_first}{A boolean signifying whether the first child to an INHIBIT, ALARM, or PRIORITY logic gate should be taken as the condition.
+ Alternatively, if FALSE, the second child will be taken as a condition.  This is primarily a graphic display issue.}
 \item{human_pbf}{A probability of failure for a human to respond as needed to an alarm. This value is only used by the alarm gate.}
-\item{repairable_cond}{A boolean value used only by the conditional gate type indicating whether repair of the input condition is viable to the model.}
 \item{start_id}{ An integer value for the starting unique ID, useful for transfer objects. }
+\item{name}{ An identifying string for the logic gate}
 \item{name2}{ A second line, if needed for the identifying string label}
 \item{description}{ An optional string providing more detail for the resultant event.}
 }

@@ -15,49 +15,19 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 addDemand<-function(DF, at, mttf, tag="", name="", name2="", description="")  {
-	if(!ftree.test(DF)) stop("first argument must be a fault tree")
 
- 	tp=3
-	parent<-which(DF$ID== at)
-	if(length(parent)==0) {stop("connection reference not valid")}
-	thisID<-max(DF$ID)+1
-	if(DF$Type[parent]<10) {stop("non-gate connection requested")}
+	tp=3
+	display_under<-NULL
 
-	if(!DF$MOE[parent]==0) {
-		stop("connection cannot be made to duplicate nor source of duplication")
-	}
+	info<-test.basic(DF, at,  display_under, tag)
+	thisID<-info[1]
+	parent<-info[2]
+	gp<-info[3]
+	condition<-info[4]
 
-## There is no need to limit connections to OR gates for calculation reasons
-## Since AND gates are calculated in binary fashion, these too should not
-## require a connection limit, but practicality suggests 3 is a good limit.
-## All specialty gates must be limited to binary feeds only
-
-	if(DF$Type[parent]==11 && length(which(DF$Parent==at))>2) {
-		warning("More than 3 connections to AND gate.")
-	}
-	
 	if(any(DF$Type==5)) {
 		stop("repairable system event event called for in non-repairable model")
 	}
-
-		if(tag!="")  {
-		if (length(which(DF$Tag == tag) != 0)) {
-		stop("tag is not unique")
-		}
-	}
-
-	condition=0
-	if(DF$Type[parent]>11 )  {
-		if( length(which(DF$CParent==at))==0)  {
-			stop("Basic Event with no probability set as a condition")
-		}else{
-			if(length(which(DF$CParent==at))>1)  {
-				stop("connection slot not available")
-			}
-		}
-	}
-
-
 
 	if(!mttf>0)  {stop("demand interval must be greater than zero")}
 
@@ -73,7 +43,7 @@ addDemand<-function(DF, at, mttf, tag="", name="", name2="", description="")  {
 		MOE=	0	,
 		PHF_PZ=	-1	,
 		Condition=	condition,
-		Repairable=	0,
+		Cond_Code=	0,
 		Interval=	-1	,
 		Tag_Obj=	tag	,
 		Name=	name	,

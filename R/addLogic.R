@@ -1,5 +1,5 @@
 # addLogic.R
-# copyright 2015, openreliability.org
+# copyright 2015-2016, openreliability.org
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -14,7 +14,9 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-addLogic<-function(DF, type, at, name="", human_pbf=-1, repairable_cond=FALSE, name2="", description="")  {
+addLogic<-function(DF, type, at, reversible_cond=FALSE, cond_first=TRUE, human_pbf=-1, 
+		name="", name2="", description="")  {
+
 	if(!ftree.test(DF)) stop("first argument must be a fault tree")
 
 	tp<-switch(type,
@@ -24,6 +26,7 @@ addLogic<-function(DF, type, at, name="", human_pbf=-1, repairable_cond=FALSE, n
 		alarm=13,
 		cond=14,
 		conditional =14,
+		priority=14,
 		stop("gate type not recognized")
 	)
 	parent<-which(DF$ID== at)
@@ -31,36 +34,49 @@ addLogic<-function(DF, type, at, name="", human_pbf=-1, repairable_cond=FALSE, n
 	thisID<-max(DF$ID)+1
 	if(DF$Type[parent]<10) {stop("non-gate connection requested")}
 
-
 	if(!DF$MOE[parent]==0) {
 		stop("connection cannot be made to duplicate nor source of duplication")
 	}
 
-##	if(DF$Type[parent]>11 && length(which(DF$Parent==at))>1) {
-##		stop("connection slot not available")
-#3	}
-
 	condition=0
 	if(DF$Type[parent]>11 )  {
+		if(length(which(DF$CParent==at))>1)  {
+		stop("connection slot not available")
+		}
 		if( length(which(DF$CParent==at))==0)  {
-			condition=1
+			if(DF$Cond_Code[parent]<10)  {
+				condition=1
+			}
 		}else{
-			if(length(which(DF$CParent==at))>1)  {
-				stop("connection slot not available")
+##  length(which(DF$CParent==at))==1
+			if(DF$Cond_Code[parent]>9)  {
+				condition=1
 			}
 		}
 	}
 
+
 ## default is non-repairable, so
-	repairable=0
-	if(repairable_cond==TRUE)  {
-		repairable=1
+	reversible=0
+	if(reversible_cond==TRUE)  {
+		reversible=1
 		if(tp!=14) {
-			repairable=0
-			warning(paste0("repairable_cond entry ignored at gate ",as.character(thisID)))
+			reversible=0
+			warning(paste0("reversible_cond entry ignored at gate ",as.character(thisID)))
 		}
 	}
 
+	## resolve whether condition is first or second child
+		cond_second=0
+		if(cond_first == FALSE)  {
+			cond_second=1
+			if(tp<12) {
+				cond_second=0
+				warning(paste0("cond_first entry ignored at gate ",as.character(thisID)))
+				}
+		}
+
+		cond_code<-reversible+10*cond_second
 
 	if(tp == 13) {
 		if(human_pbf < 0 || human_pbf >1) {
@@ -72,7 +88,6 @@ addLogic<-function(DF, type, at, name="", human_pbf=-1, repairable_cond=FALSE, n
 			warning(paste0("human failure probability for  non-alarm gate at ID ",as.character(thisID), " has been ignored"))
 		}
 	}
-
 
 	Dfrow<-data.frame(
 		ID=	thisID	,
@@ -86,7 +101,7 @@ addLogic<-function(DF, type, at, name="", human_pbf=-1, repairable_cond=FALSE, n
 		MOE=	0	,
 		PHF_PZ=	human_pbf	,
 		Condition=	condition,
-		Repairable=	repairable,
+		Cond_Code=	cond_code,
 		Interval=	-1	,
 		Tag_Obj=	""	,
 		Name=	name	,

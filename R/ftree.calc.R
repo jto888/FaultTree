@@ -93,23 +93,16 @@ for(row in dim(sDF)[1]:1)  {
 			stop(paste0("first feed must have prob of failure at gate ", sDF$ID[row]))
 		}
 
-## with this alternative code repairable does not need to be in json
+## with this code repairable does not need to be in json
 ## cfr print does not have to be suppressed on conditional
 ## eliminate fail rate (cfr) values (set to -1) for the conditional feed to advanced gates
 		sDF$CFR[which(sDF$ID==siblingDF$ID[1])]<- (-1)
 ## eliminate repair time (crt) values (set to -1) for the conditional feed EXCEPT repairable condition
-		if (sDF$Repairable[row] == 0) {
+		if (sDF$Cond_Code[row]%%10 == 0) {
 			sDF$CRT[which(sDF$ID==siblingDF$ID[1])]<- (-1)
 		}
 
 	}
-
-## Using this code repairable flag must be sent via json
-## condition flag is used to suppress fail rate display
-## Set the repairable flag on the feeding condition if applicable
-##		if (sDF$Repairable[row] == 1) {
-##			sDF$Repairable[which(sDF$ID==siblingDF$ID[1])]<-1
-##		}
 
 	## INHIBIT gate calculation
 	if(sDF$Type[row]==12)  {
@@ -130,16 +123,16 @@ for(row in dim(sDF)[1]:1)  {
 
 	## COND gate calculation
 	if(sDF$Type[row]==14)  {
-## repairable condition must have repair time
-		if(sDF$Repairable[row]==1 && siblingDF$CRT[1]<=0)  {
-			stop(paste0("repairable condition at gate ", sDF$ID[row]), " must have repair time")
+## reversible condition must have repair time
+		if(sDF$Cond_Code[row]%%10==1 && siblingDF$CRT[1]<=0)  {
+			stop(paste0("reversible condition at gate ", sDF$ID[row]), " must have repair time")
 		}
 ## Test whether Latent condition has been misplaced
 		if(siblingDF$Type[1]==1 && siblingDF$Type[2]==2) {
 			stop(paste0("Active set as condition for Latent component at gate ", sDF$ID[row]))
 		}
 
-	resultDF<-CONDcalc(siblingDF, sDF$Repairable[row])
+	resultDF<-CONDcalc(siblingDF, sDF$Cond_Code[row]%%10)
 	}
 
 
