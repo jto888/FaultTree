@@ -17,7 +17,7 @@ Eventual release to CRAN is expected to include the widget generation.
 
 Minimal cut sets are now determined by the top-down MOCUS algorithm. This is a candidate for future C++ conversion using RcppArmadillo.
 
-Those new to R and/or fault tree analysis are referred to github/jto888/FaultTree.user_tutorial for comprehensive installation and use instructions.
+Those new to R and/or fault tree analysis are referred to http://www.openreliability.org/faulttree-users-tutorial/ for comprehensive installation and use instructions.
 
 ### Experienced R User Installation 
 ```r
