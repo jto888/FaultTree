@@ -21,7 +21,9 @@ ftree2html<-function(DF,dir="", write_file=FALSE){
 
 	}
 
-DF[,1:7]
+outDF<-ftree2table(DF)
+outDF 
+
 }
 
 ############################ HTML strings #####################################

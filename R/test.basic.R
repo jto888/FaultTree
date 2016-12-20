@@ -14,10 +14,28 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## this function will remain internal to the FaultTree package
+## these functions will remain internal to the FaultTree package
 ## it performs a uniform set of tests for all basic component events
 ## and sets some informational variables
 ## the information is returned as a vector to the  calling function
+
+ftree.test<-function(DF) {
+	if(class(DF)!="data.frame") {
+		return(FALSE)
+	}else{
+	if(length(names(DF))!=19)  {
+		return(FALSE)
+		}else{
+			ftree_test<-NULL
+			for(nm in 1:19) {ftree_test<-c(ftree_test,names(DF)[nm]==FT_FIELDS[nm])}
+			if(!all(ftree_test)) {
+				return(FALSE)
+			}else{
+				return(TRUE)
+			}
+		}
+	}
+}
 
 test.basic<-function(DF, at,  display_under, tag)  {
 
@@ -43,6 +61,8 @@ test.basic<-function(DF, at,  display_under, tag)  {
 ## Since AND gates are calculated in binary fashion, these too should not
 ## require a connection limit, practicality suggests 3 is a good limit.
 ## All specialty gates must be limited to binary feeds only
+
+
 
 	if(DF$Type[parent]==11 && length(which(DF$Parent==at))>2) {
 		warning("More than 3 connections to AND gate.")
