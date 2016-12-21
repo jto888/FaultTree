@@ -9,6 +9,8 @@ ftree.calc,
 ftree.cutsets,
 ftree_cutsets,
 ftree.make,
+ftree.test,
+ftree_test,
 ftree2html,
 ftree2table,
 hierarchyDF2json)

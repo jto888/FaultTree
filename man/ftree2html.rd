@@ -1,7 +1,7 @@
 \name{ftree2html}
 \alias{ftree2html}
 
-\title{ Fault Tree Display }
+\title{ Fault Tree Rendered in HTML }
 
 \description{Prepares a web page from an ftree dataframe for a visualization of the data.
 }
