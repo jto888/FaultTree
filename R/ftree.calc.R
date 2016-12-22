@@ -132,7 +132,7 @@ for(row in dim(sDF)[1]:1)  {
 			stop(paste0("Active set as condition for Latent component at gate ", sDF$ID[row]))
 		}
 
-	resultDF<-CONDcalc(siblingDF, sDF$Cond_Code[row]%%10)
+	resultDF<-PRIORITYcalc(siblingDF, sDF$Cond_Code[row]%%10)
 	}
 
 

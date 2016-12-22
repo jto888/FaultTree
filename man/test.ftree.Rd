@@ -1,13 +1,13 @@
-\name{ftree_test}
-\alias{ftree_test}
+\name{test.ftree}
+\alias{test.ftree}
 
 \title{ Fault Tree Object Test }
 
-\description{etree.test compares dataframe column names with those of an ftree object.
+\description{test.ftree compares dataframe column names with those of an ftree object.
 }
 
 \usage{
-ftree_test(DF)
+test.ftree(DF)
 }
 
 \arguments{
@@ -27,7 +27,7 @@ Returns True for object match, else False.
 
 \examples{
 mytree <- ftree.make(type="or", name="site power loss")
-ftree_test(mytree)
+test.ftree(mytree)
 }
 
 \keyword{ logic, risk, failure }

@@ -1,8 +1,8 @@
-CONDcalc<-function(df, reversible)  {
+PRIORITYcalc<-function(df, reversible)  {
 ## already have validated that df has two rows
 ## must have validated the siblingDF for first feed probability before this call
 ## sequential event must have demand
-## must validate that repariable condition has CRT>0
+## must validate that reversible condition has CRT>0
 	CFRout<-df$PBF[1]*df$CFR[2]
 ## special case of irreversible condition
 	if(reversible==0) {

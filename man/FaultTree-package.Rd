@@ -1,5 +1,5 @@
-\name{ftree-package}
-\alias{ftree}
+\name{FaultTree-package}
+\alias{FaultTree}
 \docType{package}
 \title{
 Fault Trees for Risk and Reliability Analysis
@@ -10,7 +10,7 @@ A package for constructing,calculating and displaying fault trees.
 }
 
 \section{Introduction}{
-	\pkg{ftree} provides functions for building tree structures as dataframe objects.
+	\pkg{FaultTree} provides functions for building tree structures as dataframe objects.
 	The fault tree incorporates logic nodes (primarily AND and OR) which process input 
 	and may direct output "upwards" through the tree structure.  Data is entered through
 	component entries.  Component event entries may be active (failures immediately 
@@ -19,7 +19,7 @@ A package for constructing,calculating and displaying fault trees.
 }
 
 \author{
-Jacob T. Ormerod
+David J. Silkworth
 
 Maintainer: Jacob T. Ormerod <jake@openreliability.org>
 }

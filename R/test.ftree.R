@@ -1,4 +1,4 @@
-ftree_test<-function(DF) {
+test.ftree<-function(DF) {
 	if(class(DF)!="data.frame") {
 		return(FALSE)
 	}else{
@@ -6,7 +6,7 @@ ftree_test<-function(DF) {
 		return(FALSE)
 		}else{
 			ftreetest<-NULL
-			for(nm in 1:19) {ftreetest<-c(ftree_test,names(DF)[nm]==FT_FIELDS[nm])}
+			for(nm in 1:19) {ftreetest<-c(ftreetest,names(DF)[nm]==FT_FIELDS[nm])}
 			if(!all(ftreetest)) {
 				return(FALSE)
 			}else{

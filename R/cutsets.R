@@ -1,4 +1,4 @@
-ftree_cutsets<-function(DF)  {
+cutsets<-function(DF)  {
 	max_len<-length(which(DF$Type>10))
 
 	cs_lists<-list(NULL)

@@ -3,10 +3,10 @@ Type: Package
 Title: Fault Trees for Risk and Reliability Analysis
 Version: 0.0.13
 License: GPL (>= 2)
-Date: 2016-12-20
+Date: 2016-12-21
 Author: David J. Silkworth
 Maintainer: Jacob T. Ormerod <jake@openreliability.org>
-Description: A package for constructing,calculating and displaying fault trees.k
+Description: Construction, calculation and display of fault trees
 URL: http://www.openreliability.org/fault-tree-analysis-on-r/
 Suggests: magrittr
 LazyLoad: yes

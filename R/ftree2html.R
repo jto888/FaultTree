@@ -3,10 +3,6 @@ ftree2html<-function(DF,dir="", write_file=FALSE){
 
 	html_string<-paste0(
 		HTMLhead,
-		##ftree2json(DF,c(1,2,4:7,15,17,18))	,
-		##hierarchyDF2json(DF,id.col=1,parent.col=3,data.col=c(1,2,4:7,15,17,18)),
-##		hierarchyDF2json(DF,data.col=c(1,5:16)),
-## eliminating repairable data attribute will result in:
 		hierarchyDF2json(DF,data.col=c(1,5:11,13:16)),
 		HTMLd3script
 	)
@@ -95,8 +91,7 @@ nodeEnter.append("text")
 return d.name2;});
 var orGate="m 75,65 c  -1.4, -10, .6, -22 -15, -30 -15.6, 8, -13.4, 20, -15, 30, 0, 0 3, -8 15, -8 10, 0 15, 8 15, 8 z";
 var andGate="m 45,50 0,15 30,0 0,-15  a15,15 .2 0,0 -15,-15 a15,15 .2 0,0 -15,15";
-var condGate="m 45,50 0,15 30,0 0,-15  a15,15 .2 0,0 -15,-15 a15,15 .2 0,0 -15,15 m 0,10 30,0";
-//var condGate="m 45,50 0,15 30,0 0,-15  a15,15 .2 0,0 -15,-15 a15,15 .2 0,0 -15,15 m 0,15 15,-30 15,30";
+var priorityGate="m 45,50 0,15 30,0 0,-15  a15,15 .2 0,0 -15,-15 a15,15 .2 0,0 -15,15 m 0,10 30,0";
 var inhibitGate="m 60,35 -15,6.340 0,17.3205 15,6.340  15,-6.340 0,-17.3205 z";
 var alarmGate="m 75,65 c  -1.4, -10, .6, -22 -15, -30 -15.6, 8, -13.4, 20, -15, 30, 0, 0 3, -8 15, -8 10, 0 15, 8 15, 8 z m -30,0 v5 c0, 0 3, -8 15, -8 10, 0 15, 8 15, 8 v-5";
 var component="m 75, 50 a15,15 .2 0,0 -15,-15 a15,15 .2 0,0 -15,15 a15,15 .2 0,0 15,15 a15,15 .2 0,0 15,-15";
@@ -111,7 +106,7 @@ case 12 : return(inhibitGate);
 break;
 case 13 : return(alarmGate);
 break;
-case 14 : return(condGate);
+case 14 : return(priorityGate);
 break;
 default : return(component);
 }})

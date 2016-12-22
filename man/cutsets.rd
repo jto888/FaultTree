@@ -1,5 +1,5 @@
-\name{ftree_cutsets}
-\alias{ftree_cutsets}
+\name{cutsets}
+\alias{cutsets}
 
 \title{ Fault Tree Minimal Cut Set Determination}
 
@@ -7,7 +7,7 @@
 }
 
 \usage{
-ftree_cutsets(DF) 
+cutsets(DF) 
 }
 
 \arguments{
@@ -49,7 +49,7 @@ mytree <- addProbability(mytree, at=5, prob=.01, name="switch C failure")
 mytree <- addLogic(mytree, at=1, type= "and", name="B and C failed")
 mytree <- addDuplicate(mytree, at=8, dup_id=4)
 mytree <- addDuplicate(mytree, at=8, dup_id=7)
-mycutsets<-ftree_cutsets(mytree)
+mycutsets<-cutsets(mytree)
 
 
 }
