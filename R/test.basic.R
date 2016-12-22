@@ -39,7 +39,7 @@ ftree.test<-function(DF) {
 
 test.basic<-function(DF, at,  display_under, tag)  {
 
-	if(!ftree.test(DF)) stop("first argument must be a fault tree")
+	if(!test.ftree(DF)) stop("first argument must be a fault tree")
 
 	parent<-which(DF$ID== at)
 	if(length(parent)==0) {stop("connection reference not valid")}
