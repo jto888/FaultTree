@@ -118,7 +118,7 @@ pwr <- addLogic(pwr, at=1, type="and", name="No Output", name2="G2, G3, G4")
 pwr <- addDuplicate( pwr, at=80, dup_id=10)
 pwr <- addDuplicate( pwr, at=80, dup_id=20)
 pwr <- addDuplicate( pwr, at=80, dup_id=45) 
-cutsets(pwr)
+pwr_cs<-cutsets(pwr)
 
 # Visualization
 ftree2html(pwr, write_file=TRUE)
