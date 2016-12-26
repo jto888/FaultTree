@@ -17,7 +17,7 @@
 addLogic<-function(DF, type, at, reversible_cond=FALSE, cond_first=TRUE, human_pbf=-1, 
 		name="", name2="", description="")  {
 
-	if(!ftree.test(DF)) stop("first argument must be a fault tree")
+	if(!test.ftree(DF)) stop("first argument must be a fault tree")
 
 	tp<-switch(type,
 		or = 10,
@@ -39,7 +39,7 @@ addLogic<-function(DF, type, at, reversible_cond=FALSE, cond_first=TRUE, human_p
 	}
 
 	condition=0
-	if(DF$Type[parent]>11 )  {
+	if(DF$Type[parent]>11&& DF$Type[parent]!=15 )  {
 		if(length(which(DF$CParent==at))>1)  {
 		stop("connection slot not available")
 		}
@@ -70,7 +70,7 @@ addLogic<-function(DF, type, at, reversible_cond=FALSE, cond_first=TRUE, human_p
 		cond_second=0
 		if(cond_first == FALSE)  {
 			cond_second=1
-			if(tp<12) {
+			if(tp<12 || tp>14) {
 				cond_second=0
 				warning(paste0("cond_first entry ignored at gate ",as.character(thisID)))
 				}
