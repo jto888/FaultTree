@@ -1,5 +1,5 @@
 ftree2html<-function(DF,dir="", write_file=FALSE){
-	if(!ftree.test(DF)) stop("first argument must be a fault tree")
+	if(!test.ftree(DF)) stop("first argument must be a fault tree")
 
 	html_string<-paste0(
 		HTMLhead,

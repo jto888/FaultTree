@@ -1,5 +1,5 @@
 addDuplicate<-function(DF, at, dup_id)  {
-	if(!ftree.test(DF)) stop("first argument must be a fault tree")
+	if(!test.ftree(DF)) stop("first argument must be a fault tree")
 
 ## parent qualification test only required once
 	parent<-which(DF$ID== at)
@@ -11,6 +11,10 @@ addDuplicate<-function(DF, at, dup_id)  {
 
 	if(!DF$MOE[parent]==0) {
 		stop("connection cannot be made to duplicate nor source of duplication")
+	}
+
+	if(DF$Type[parent]==15) {
+	stop("duplicate not allowed as Combination Gate feed")
 	}
 
 

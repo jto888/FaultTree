@@ -15,7 +15,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ftree.calc<-function(DF)  {
-	if(!ftree.test(DF)) stop("first argument must be a fault tree")
+	if(!test.ftree(DF)) stop("first argument must be a fault tree")
 
 		NDX<-order(DF$Level)
 		sDF<-DF[NDX,]

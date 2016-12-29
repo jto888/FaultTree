@@ -43,9 +43,16 @@ test.basic<-function(DF, at,  display_under, tag)  {
 ## There is no need to limit connections to OR gates for calculation reasons
 ## Since AND gates are calculated in binary fashion, these too should not
 ## require a connection limit, practicality suggests 3 is a good limit.
-## All specialty gates must be limited to binary feeds only
+## All conditional combination gates must be limited to binary feeds only
+## The Combination speicalty gate (Type 15) is limited to a single feed.
 
-
+	if(DF$Type[parent]==15) {
+		if(length(which(DF$CParent==at))>0)  {
+		stop("connection slot not available")
+		}
+## Test for content of attached object(must have both fail rate and probability)
+## Can only be performed in ftree.calc
+	}
 
 	if(DF$Type[parent]==11 && length(which(DF$Parent==at))>2) {
 		warning("More than 3 connections to AND gate.")

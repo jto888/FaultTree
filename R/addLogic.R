@@ -27,8 +27,10 @@ addLogic<-function(DF, type, at, reversible_cond=FALSE, cond_first=TRUE, human_p
 		cond=14,
 		conditional =14,
 		priority=14,
+		comb=15,
 		stop("gate type not recognized")
 	)
+
 	parent<-which(DF$ID== at)
 	if(length(parent)==0) {stop("connection reference not valid")}
 	thisID<-max(DF$ID)+1
@@ -36,6 +38,15 @@ addLogic<-function(DF, type, at, reversible_cond=FALSE, cond_first=TRUE, human_p
 
 	if(!DF$MOE[parent]==0) {
 		stop("connection cannot be made to duplicate nor source of duplication")
+	}
+	
+	if(DF$Type[parent]==15) {
+		if(length(which(DF$CParent==at))>0) {
+			stop("connection slot not available")
+		}
+		if(tp!=10) {
+			stop("only OR or basic event can connect to comb gate")
+		}
 	}
 
 	condition=0
@@ -56,7 +67,7 @@ addLogic<-function(DF, type, at, reversible_cond=FALSE, cond_first=TRUE, human_p
 	}
 
 
-## default is non-repairable, so
+## default is non-reversible, so
 	reversible=0
 	if(reversible_cond==TRUE)  {
 		reversible=1
