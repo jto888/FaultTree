@@ -133,15 +133,40 @@ if(max_len>1)  {
 			cs_lists[[mat]]<-unique(cs_lists[[mat]])
 		}
 	}
+	
+## single row matrices are vectors at this point
+## otherwise matrix row names are all 'id_vec' at this point, so here is fix
+
+	for(list_item in 1:length(cs_lists)) {
+		if(!is.null(cs_lists[[list_item]]))  {
+		
+if(class(cs_lists[[list_item]])=="numeric")  {	
+	cs_lists[[list_item]]<-t(as.matrix(cs_lists[[list_item]]))
+}else{	
+
+			len<-dim(cs_lists[[list_item]])[1]
+			rchrs<-as.character(1:len)
+			matrnms<-NULL
+			for(nm in 1:len)  {
+				thisnm<-paste0("[",rchrs[nm],",]")
+				matrnms<-c(matrnms, thisnm)
+			}
+
+			row.names(cs_lists[[list_item]])<-matrnms
+}
+		}
+	}
+## cs_lists contains all matrices now
+	
 ## This is where the single matrix of first order cutsets failed		
 if(max_len>1)  {
 
 
 ## this is the generalized brute force algorithm  with 4 nested loops
 	for(smat in 1:(max_len-1))  {
-		if(!is.null(cs_lists[[smat]]))  {
+		if(!is.null(cs_lists[[smat]]) && length(cs_lists[[smat]])>0)  {
 		for( tmat in (smat+1):max_len)  {
-			if(!is.null(cs_lists[[tmat]]))  {
+			if(!is.null(cs_lists[[tmat]]) && length(cs_lists[[tmat]])>0)  {
 				if(is.vector(cs_lists[[smat]]))  {
 					smat_rows<-1
 				}else{
@@ -178,12 +203,13 @@ if(max_len>1)  {
 
 ## the tmat can now be reduced for future iteration through source(s)
 						if(length(elim_rows)>0)  {
-							if(length(elim_rows)==length(cs_lists[[tmat]][1,]))  {
-									 cs_lists[[tmat]]<-c(0)
-							}else{
-										elim_rows<- (-1)*elim_rows
-										cs_lists[[tmat]]<-cs_lists[[tmat]][elim_rows,]
-							}
+## test here was probably intended to address cs_lists[[tmat]][,1] but now as matrix not needed
+							##if(length(elim_rows)==length(cs_lists[[tmat]][1,]))  {
+							##		 cs_lists[[tmat]]<-c(0)
+							##}else{
+								elim_rows<- (-1)*elim_rows
+								cs_lists[[tmat]]<-cs_lists[[tmat]][elim_rows,]
+							##}
 						}
 					}
 
@@ -197,28 +223,7 @@ if(max_len>1)  {
 	}
 	
 }
-## single row matrices are vectors at this point
-## otherwise matrix row names are all 'id_vec' at this point, so here is fix
 
-	for(list_item in 1:length(cs_lists)) {
-		if(!is.null(cs_lists[[list_item]]))  {
-		
-if(class(cs_lists[[list_item]])=="numeric")  {	
-	cs_lists[[list_item]]<-t(as.matrix(cs_lists[[list_item]]))
-}else{	
-
-			len<-dim(cs_lists[[list_item]])[1]
-			rchrs<-as.character(1:len)
-			matrnms<-NULL
-			for(nm in 1:len)  {
-				thisnm<-paste0("[",rchrs[nm],",]")
-				matrnms<-c(matrnms, thisnm)
-			}
-
-			row.names(cs_lists[[list_item]])<-matrnms
-}
-		}
-	}
 
 cs_lists
 }
