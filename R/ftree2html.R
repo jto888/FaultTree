@@ -4,7 +4,9 @@ ftree2html<-function(DF,dir="", write_file=FALSE){
 	html_string<-paste0(
 		HTMLhead,
 		hierarchyDF2json(DF,data.col=c(1,5:11,13:16)),
-		HTMLd3script
+		';',
+		HTMLd3script,
+		'</script>'
 	)
 
 
@@ -39,7 +41,6 @@ var root =
 '
 
 HTMLd3script<-'
-;
 var duration = 750,rectW = 124,rectH = 90,TrectH = 24;
 var tree = d3.layout.tree()
 .nodeSize([rectW*1.15, rectH*1.2])
@@ -277,6 +278,4 @@ return "M" + sourceX + "," + sourceY
 + "V" + (sourceY+targetY)/2
 + "H" + targetX
 + "V" + targetY;}
-</script>
-
 '

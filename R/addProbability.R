@@ -25,6 +25,13 @@ addProbability<-function(DF, at, prob, display_under=NULL, tag="", name="", name
 	condition<-info[4]
 
 	if(prob<0 || prob>1)  {stop("probability entry must be between zero and one")}
+	
+## Avoid conflicts with default tag names	
+	if(length(tag)>2){
+		if(substr(tag,1,2)="E_" || substr(tag,1,2)="G_" ) {
+		stop("tag prefixes E_ and G_ are reserved for MEF defaults")
+		}
+	}	
 
 	Dfrow<-data.frame(
 		ID=	thisID	,
