@@ -28,7 +28,7 @@ addProbability<-function(DF, at, prob, display_under=NULL, tag="", name="", name
 	
 ## Avoid conflicts with default tag names	
 	if(length(tag)>2){
-		if(substr(tag,1,2)="E_" || substr(tag,1,2)="G_" ) {
+		if(substr(tag,1,2)=="E_" || substr(tag,1,2)=="G_" ) {
 		stop("tag prefixes E_ and G_ are reserved for MEF defaults")
 		}
 	}	
