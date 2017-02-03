@@ -114,8 +114,10 @@ addDuplicate<-function(DF, at, dup_id)  {
 			Name=	DF$Name[dup_row]	,
 			Name2=	DF$Name2[dup_row]	,
 			Description=	DF$Description[dup_row]	,
-			Unused1=	""	,
-			Unused2=	""
+			EType=	DF$EType[dup_row]	,
+			UType=	DF$UType[dup_row]	,
+			UP1=	DF$UP1[dup_row]  ,
+			UP2=	DF$UP2[dup_row]	
 		)
 
 		DF<-rbind(DF, Dfrow)
