@@ -28,6 +28,7 @@ addLogic<-function(DF, type, at, reversible_cond=FALSE, cond_first=TRUE, human_p
 		conditional =14,
 		priority=14,
 		comb=15,
+		vote=15,
 		stop("gate type not recognized")
 	)
 
@@ -45,7 +46,7 @@ addLogic<-function(DF, type, at, reversible_cond=FALSE, cond_first=TRUE, human_p
 			stop("connection slot not available")
 		}
 		if(tp!=10) {
-			stop("only OR or basic event can connect to comb gate")
+			stop("only OR or basic event can connect to priority gate")
 		}
 	}
 
@@ -118,8 +119,10 @@ addLogic<-function(DF, type, at, reversible_cond=FALSE, cond_first=TRUE, human_p
 		Name=	name	,
 		Name2=	name2	,
 		Description=	description	,
-		Unused1=	""	,
-		Unused2=	""
+		EType=	0	,
+		UType=	0	,
+		UP1=	-1	,
+		UP2=	-1	
 	)
 
 

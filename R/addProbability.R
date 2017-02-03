@@ -1,5 +1,5 @@
 # addProbability.R
-# copyright 2015, openreliability.org
+# copyright 2015-2017, openreliability.org
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -25,6 +25,13 @@ addProbability<-function(DF, at, prob, display_under=NULL, tag="", name="", name
 	condition<-info[4]
 
 	if(prob<0 || prob>1)  {stop("probability entry must be between zero and one")}
+	
+## Avoid conflicts with default tag names	
+	if(length(tag)>2){
+		if(substr(tag,1,2)=="E_" || substr(tag,1,2)=="G_" ) {
+		stop("tag prefixes E_ and G_ are reserved for MEF defaults")
+		}
+	}	
 
 	Dfrow<-data.frame(
 		ID=	thisID	,
@@ -44,8 +51,10 @@ addProbability<-function(DF, at, prob, display_under=NULL, tag="", name="", name
 		Name=	name	,
 		Name2=	name2	,
 		Description=	description	,
-		Unused1=	""	,
-		Unused2=	""
+		EType=	0	,
+		UType=	0	,
+		UP1=	-1	,
+		UP2=	-1	
 	)
 
 

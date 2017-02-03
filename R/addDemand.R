@@ -49,8 +49,10 @@ addDemand<-function(DF, at, mttf, tag="", name="", name2="", description="")  {
 		Name=	name	,
 		Name2=	name2	,
 		Description=	description	,
-		Unused1=	""	,
-		Unused2=	""
+		EType=	0	,
+		UType=	0	,
+		UP1=	-1	,
+		UP2=	-1	
 	)
 
 

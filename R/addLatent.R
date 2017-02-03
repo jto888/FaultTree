@@ -87,8 +87,10 @@ addLatent<-function(DF, at, mttf, mttr=NULL, pzero="repair", inspect=NULL, displ
 		Name=	name	,
 		Name2=	name2	,
 		Description=	description	,
-		Unused1=	""	,
-		Unused2=	""
+		EType=	0	,
+		UType=	0	,
+		UP1=	-1	,
+		UP2=	-1	
 	)
 
 
