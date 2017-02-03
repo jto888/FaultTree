@@ -1,9 +1,9 @@
 Package: FaultTree
 Type: Package
 Title: Fault Trees for Risk and Reliability Analysis
-Version: 0.0.14
+Version: 0.1.4
 License: GPL (>= 2)
-Date: 2017-1-21
+Date: 2017-2-1
 Author: David J. Silkworth
 Maintainer: Jacob T. Ormerod <jake@openreliability.org>
 Description: Construction, calculation and display of fault trees

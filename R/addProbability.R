@@ -1,5 +1,5 @@
 # addProbability.R
-# copyright 2015, openreliability.org
+# copyright 2015-2017, openreliability.org
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -51,8 +51,10 @@ addProbability<-function(DF, at, prob, display_under=NULL, tag="", name="", name
 		Name=	name	,
 		Name2=	name2	,
 		Description=	description	,
-		Unused1=	""	,
-		Unused2=	""
+		EType=	0	,
+		UType=	0	,
+		UP1=	-1	,
+		UP2=	-1	
 	)
 
 

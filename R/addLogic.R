@@ -119,8 +119,10 @@ addLogic<-function(DF, type, at, reversible_cond=FALSE, cond_first=TRUE, human_p
 		Name=	name	,
 		Name2=	name2	,
 		Description=	description	,
-		Unused1=	""	,
-		Unused2=	""
+		EType=	0	,
+		UType=	0	,
+		UP1=	-1	,
+		UP2=	-1	
 	)
 
 

@@ -1,5 +1,5 @@
 # ftree.make.R
-# copyright 2015-2016, openreliability.org
+# copyright 2015-2017, openreliability.org
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -83,8 +83,10 @@ ftree.make<-function(type, reversible_cond=FALSE, cond_first=TRUE,
 		Name=	name	,
 		Name2=	name2	,
 		Description=	description	,
-		Unused1=	""	,
-		Unused2=	""	,
+		EType=	0	,
+		UType=	0	,
+		UP1=	-1	,
+		UP2=	-1	,		
 		stringsAsFactors = FALSE
 	)
 DF
@@ -107,7 +109,9 @@ FT_FIELDS<-c("ID",
 	"Name",
 	"Name2",
 	"Description",
-	"Unused1",
-	"Unused2"
+	"EType",
+	"UType",
+	"UP1",
+	"UP2"	
 	)
 
