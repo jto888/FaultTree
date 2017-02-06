@@ -11,6 +11,5 @@ ftree.make,
 ftree2html,
 ftree2table,
 hierarchyDF2json,
-sort.by.cols,
 test.ftree)
 
