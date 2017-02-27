@@ -33,7 +33,7 @@ for(row in dim(sDF)[1]:1)  {
 		PBF=sDF$PBF[child_rows[1]],
 		CRT=sDF$CRT[child_rows[1]],
 		Type=sDF$Type[child_rows[1]],
-		PHF=sDF$PHF[child_rows[1]]
+		P1=sDF$P1[child_rows[1]]
 		)
 ## Fail rate for exposed type does not pass upward in calculations
 		if(siblingDF$Type[1]==5) {siblingDF$CFR[1]<- (-1) }
@@ -47,7 +47,7 @@ for(row in dim(sDF)[1]:1)  {
 			PBF=sDF$PBF[child_rows[child]],
 			CRT=sDF$CRT[child_rows[child]],
 			Type=sDF$Type[child_rows[child]],
-			PHF=sDF$PHF[child_rows[child]]
+			P1=sDF$P1[child_rows[child]]
 			)
 ## Fail rate for exposed type does not pass upward in calculations
 			if(DFrow$Type[1]==5) {DFrow$CFR[1]<- (-1) }
@@ -118,7 +118,7 @@ for(row in dim(sDF)[1]:1)  {
 
 	## ALARM gate calculation
 	if(sDF$Type[row]==13)  {
-	resultDF<-ALARMcalc(siblingDF, sDF$PHF[row])
+	resultDF<-ALARMcalc(siblingDF, sDF$P1[row])
 	}
 
 	## COND gate calculation
