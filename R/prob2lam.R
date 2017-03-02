@@ -21,5 +21,7 @@ prob2lam<-function(prob) {
 if(!exists("mission_time")) {
 stop("mission_time not set")
 }
-lam<-(-1)*log(1-prob)/mission_time
+exposure<-"mission_time"
+Tao <- eval((parse(text = exposure)))
+lam<-(-1)*log(1-prob)/Tao
 }
