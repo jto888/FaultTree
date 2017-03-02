@@ -7,7 +7,7 @@
  is defined by fail rate and exposure time.}
 
 \usage{
-addExposed(DF, at, mttf, exposure=NULL, dist="exponential", p2=NULL,
+addExposed(DF, at, mttf, exposure=NULL, dist="exponential", param=NULL,
 		display_under=NULL, tag="", name="",name2="", description="")
 }
 
@@ -15,9 +15,9 @@ addExposed(DF, at, mttf, exposure=NULL, dist="exponential", p2=NULL,
 \item{DF}{ A fault tree dataframe such as returned from ftree.make or related add... functions.}
 \item{at}{ The ID of the parent node for this addition.}
 \item{mttf}{The mean time to failure.  It is the user's responsibility to maintain constant units of time.}
-\item{exposure}{The mission time over which a system is exposed to failure.}
+\item{exposure}{The mission time over which a system is exposed to failure. If a mission_time object exists in the global environment this will be used, while default of NULL is maintained for this arguement.}
 \item{dist}{The probabilty distribution to be used for defining probability of failure from mttf, and a possible extra parameter. Default is "exponential", expected implementation of "weibull" to follow.}
-\item{p2}{A placeholder for a second parameter for 2-parameter failure distribution, such as "weibull". Not yet implemented.}
+\item{param}{A placeholder for additional parameter for other distributions. Not yet implemented.}
 \item{display_under}{Optionally, the ID of a sibling event under an OR gate for vertical alignment of the component node in the graphic display.}
 \item{tag}{ A very short identifying string (typically 5 characters or less) uniquely identifying a basic event for minimal cutset evaluation}
 \item{name}{ A short identifying string  (typically less than 24 characters)}

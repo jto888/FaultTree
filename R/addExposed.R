@@ -1,7 +1,41 @@
- addExposed<-	function (DF, at, mttf, exposure=NULL, dist="exponential", p2=NULL,
-		display_under=NULL, tag="", name="",name2="", description="")  {
+# addExposed.R
+# copyright 2015-2017, openreliability.org
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-	tp <-5
+ addExposed<-function (DF, at, mttf, exposure=NULL, dist="exponential", param=NULL,
+		display_under=NULL, tag="", name="",name2="", description="")  {
+		
+	if (is.null(exposure)) {
+		if(exists("mission_time")) {
+			Tao<-mission_time
+		}else{
+			stop("mission_time not avaliable, exposed component must have exposure entry")
+		}
+	}else{
+		if (is.character(exposure)) {
+			if (exists("exposure")) {
+			Tao <- eval((parse(text = exposure)))
+			}else {
+				stop("exposure object does not exist")
+			}
+		}else {
+			Tao = exposure
+		}
+	}
+	
+  	tp <-5
 
 	info<-test.basic(DF, at,  display_under, tag)
 	thisID<-info[1]
@@ -17,24 +51,16 @@
 	stop("exposed component must have mttf")
 	}
 
-	if (is.null(exposure)) {
-		stop("exposed component must have exposure entry")
-	}
-
-	if (is.character(exposure)) {
-		if (exists("exposure")) {
-		Tao <- eval((parse(text = exposure)))
-		}else {
-			stop("exposure object does not exist")
-		}
-	}else {
-		Tao = exposure
-	}
-
-	if(dist=="exponential")  {
+## The EType needs to be numerically assigned. ########
+	etype<-switch(dist,
+		exponential = 1,
+#		weibull = 2,
+#		glm = 3,
+#		inspected =4,
+		stop("exposed type not recognized")
+	)
+	if(etype == 1)  {
 		pf<-1 - exp(-(1/mttf) * Tao)
-	}else {
-		stop("only exponential implemented at this time")
 	}
 
 ## Avoid conflicts with default tag names	
@@ -65,15 +91,15 @@
 		PBF = pf,
 		CRT = -1,
 		MOE = 0,
-		PHF_PZ = -1,
 		Condition = condition,
 		Cond_Code=	0	,
-		Interval = Tao,
+		EType=	etype	,		
+		P1 = -1,
+		P2 = Tao,
 		Tag_Obj = tag,
 		Name = name,
 		Name2 = name2,
 		Description = description,
-		EType=	0	,
 		UType=	0	,
 		UP1=	-1	,
 		UP2=	-1	
