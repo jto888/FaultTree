@@ -1,7 +1,7 @@
 \name{prob2lam}
 \alias{prob2lam}
 
-\title{ JSON formatting for tabular hierarchy data }
+\title{ reverse calculation of exponential lambda from probability }
 
 \description{A simplistic helper function for converting fixed probability to a fail rate using known exposure time.
 }
