@@ -6,7 +6,7 @@ License: GPL (>= 2)
 Date: 2017-3-1
 Author: David J. Silkworth
 Maintainer: Jacob T. Ormerod <jake@openreliability.org>
-Description: Construction, calculation and display of fault trees
+Description: Construction, calculation and display of fault trees.
 URL: http://www.openreliability.org/fault-tree-analysis-on-r/
 Suggests: magrittr
 LazyLoad: yes
