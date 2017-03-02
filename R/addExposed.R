@@ -19,11 +19,12 @@
 		
 	if (is.null(exposure)) {
 		if(exists("mission_time")) {
-			Tao<-mission_time
+			exposure<-"mission_time"		
 		}else{
 			stop("mission_time not avaliable, exposed component must have exposure entry")
 		}
-	}else{
+	}
+	
 		if (is.character(exposure)) {
 			if (exists("exposure")) {
 			Tao <- eval((parse(text = exposure)))
@@ -33,7 +34,7 @@
 		}else {
 			Tao = exposure
 		}
-	}
+
 	
   	tp <-5
 
