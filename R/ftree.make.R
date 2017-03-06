@@ -19,6 +19,10 @@ ftree.make<-function(type, reversible_cond=FALSE, cond_first=TRUE,
 		human_pbf=-1, start_id=1, name="top event", name2="",description="")  {
 
 	thisID<-start_id
+	
+	if(type="atleast") {
+		stop("atleast must be added through FaultTree.SCRAM::addAtLeast")
+	}
 
 	tp<-switch(type,
 		or = 10,
@@ -30,8 +34,10 @@ ftree.make<-function(type, reversible_cond=FALSE, cond_first=TRUE,
 		priority=14,
 		comb=15,
 		vote=15,
+		## atleast=16, # not allowed by ftree.make
 		stop("gate type not recognized")
 	)
+
 
 ## default is irreversible, so
 	reversible=0

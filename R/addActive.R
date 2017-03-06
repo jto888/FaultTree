@@ -18,6 +18,12 @@ addActive<-function(DF, at, mttf=NULL, mttr=NULL, display_under=NULL, tag="", na
 
 	tp<-1
 
+## Model test
+	if(any(DF$Type==5) || any(DF$Type==16)) {	
+		stop("RAM system event event called for in PRA model")
+	}	
+	
+	
 	info<-test.basic(DF, at,  display_under, tag)
 	thisID<-info[1]
 	parent<-info[2]

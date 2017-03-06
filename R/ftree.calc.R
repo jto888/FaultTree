@@ -16,6 +16,14 @@
 
 ftree.calc<-function(DF)  {
 	if(!test.ftree(DF)) stop("first argument must be a fault tree")
+	
+	 if(any(DF$Type==16)) {
+		stop("atleast gate requires SCRAM calculation"
+	 }
+	 if(any(DF$Type==15)) {
+		stop("VOTE gate not yet implemented")
+		)
+	 }
 
 		NDX<-order(DF$Level)
 		sDF<-DF[NDX,]

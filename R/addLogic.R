@@ -18,7 +18,11 @@ addLogic<-function(DF, type, at, reversible_cond=FALSE, cond_first=TRUE, human_p
 		name="", name2="", description="")  {
 
 	if(!test.ftree(DF)) stop("first argument must be a fault tree")
-
+	
+	if(type="atleast") {
+		stop("atleast must be added through FaultTree.SCRAM::addAtLeast")
+	}
+	
 	tp<-switch(type,
 		or = 10,
 		and = 11,
@@ -29,9 +33,18 @@ addLogic<-function(DF, type, at, reversible_cond=FALSE, cond_first=TRUE, human_p
 		priority=14,
 		comb=15,
 		vote=15,
+		## atleast=16, # not allowed by addLogic
 		stop("gate type not recognized")
 	)
 
+## model test
+	if(type>12 && type<16) {		
+## This proposed addition will be RAM model		
+	if(any(DF$Type==5) || any(DF$Type==16)) {	
+		stop("RAM system event event called for in PRA model")
+	}	
+	
+	
 	parent<-which(DF$ID== at)
 	if(length(parent)==0) {stop("connection reference not valid")}
 	thisID<-max(DF$ID)+1
