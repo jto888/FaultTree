@@ -7,8 +7,8 @@
 }
 
 \usage{
-ftree.make(type, reversible_cond=FALSE, cond_first=TRUE, 
-		human_pbf=-1, start_id=1, name="top event", name2="",description="")
+ftree.make(type, reversible_cond=FALSE, cond_first=TRUE, human_pbf=NULL,
+		 start_id=1, vote_par=NULL, name="top event", name2="",description="")
 
 }
 
@@ -19,6 +19,7 @@ ftree.make(type, reversible_cond=FALSE, cond_first=TRUE,
  Alternatively, if FALSE, the second child will be taken as a condition.  This is primarily a graphic display issue.}
 \item{human_pbf}{A probability of failure for a human to respond as needed to an alarm. This value is only used by the alarm gate.}
 \item{start_id}{ An integer value for the starting unique ID, useful for transfer objects. }
+\item{vote_par}{ A vector of vote parameters as c(k,n) for k of n voting.}
 \item{name}{ An identifying string for the logic gate}
 \item{name2}{ A second line, if needed for the identifying string label}
 \item{description}{ An optional string providing more detail for the resultant event.}
