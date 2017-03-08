@@ -16,9 +16,13 @@
 
 
 ftree.make<-function(type, reversible_cond=FALSE, cond_first=TRUE, 
-		human_pbf=-1, start_id=1, name="top event", name2="",description="")  {
+		human_pbf=NULL, start_id=1, vote_par=NULL, name="top event", name2="",description="")  {
 
 	thisID<-start_id
+	
+	if(type=="atleast") {
+		stop("atleast must be added through FaultTree.SCRAM::addAtLeast")
+	}
 
 	tp<-switch(type,
 		or = 10,
@@ -30,8 +34,10 @@ ftree.make<-function(type, reversible_cond=FALSE, cond_first=TRUE,
 		priority=14,
 		comb=15,
 		vote=15,
+		## atleast=16, # not allowed by ftree.make
 		stop("gate type not recognized")
 	)
+
 
 ## default is irreversible, so
 	reversible=0
@@ -55,16 +61,31 @@ ftree.make<-function(type, reversible_cond=FALSE, cond_first=TRUE,
 
 	cond_code<-reversible+10*cond_second
 
-
+	p1=-1
+	p2=-1
 	if(tp == 13) {
 		if(human_pbf < 0 || human_pbf >1) {
-			stop(paste0("alarm gate at top gate requires human failure probability value"))
+			stop(paste0("alarm gate at ID ", as.character(thisID), " requires human failure probability value"))
 		}
+		p1<-human_pbf
 	}else{
-		if(human_pbf!=-1) {
-			warning(paste0("human failure probability for  non-alarm gate at top gate has been ignored"))
-			human_pbf=-1
+		if(!is.null(human_pbf)) {
+			warning(paste0("human failure probability for  non-alarm gate at ID ",as.character(thisID), " has been ignored"))
 		}
+	}
+
+
+	if(tp==15) {
+		if(length(vote_par)==2) {
+			if(vote_par[1]<vote_par[2]) {
+				p1<-vote_par[1]
+				p2<-vote_par[2]
+			}else{
+				stop("validation error with vote parameters")
+			}
+		}else{
+			stop("must provide k of n vote parameters c(k,n)")
+		}	
 	}
 
 	DF<-data.frame(
@@ -80,8 +101,8 @@ ftree.make<-function(type, reversible_cond=FALSE, cond_first=TRUE,
 		Condition=	0,
 		Cond_Code=	cond_code	,
 		EType=	0	,
-		P1=	human_pbf	,
-		P2=	-1	,
+		P1=	p1	,
+		P2=	p2	,
 		Tag_Obj=	""	,
 		Name=	name	,
 		Name2=	name2	,

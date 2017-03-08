@@ -6,8 +6,8 @@
 \description{Modifies an existing fault tree with the addition of a logic gate.}
 
 \usage{
-addLogic(DF, type, at, reversible_cond=FALSE, cond_first=TRUE, human_pbf=-1,
-		name="", name2="", description="")
+addLogic(DF, type, at, reversible_cond=FALSE, cond_first=TRUE, human_pbf=NULL,
+		vote_par=NULL, name="", name2="", description="")
 }
 
 \arguments{
@@ -18,6 +18,7 @@ addLogic(DF, type, at, reversible_cond=FALSE, cond_first=TRUE, human_pbf=-1,
 \item{cond_first}{A boolean signifying whether the first child to an INHIBIT, ALARM, or PRIORITY logic gate should be taken as the condition.
  Alternatively, if FALSE, the second child will be taken as a condition.  This is primarily a graphic display issue.}
 \item{human_pbf}{A probability of failure for a human to respond as needed to an alarm. This value is only used by the alarm gate.}
+\item{vote_par}{ A vector of vote parameters as c(k,n) for k of n voting.}
 \item{name}{A short identifying string (typically less than 24 characters)}
 \item{name2}{ A second line, if needed for the identifying string label}
 \item{description}{ An optional string providing more detail for the resultant event.}

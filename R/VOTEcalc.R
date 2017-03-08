@@ -1,4 +1,4 @@
-COMBcalc<-function(df, comb)  {
+VOTEcalc<-function(df, comb)  {
 ## input is a single element
 ## input must have probability value to avoid div by zero error already checked but just to be sure. . .
 	if(!df$PBF[1]>0) {

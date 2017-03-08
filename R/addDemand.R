@@ -17,6 +17,12 @@
 addDemand<-function(DF, at, mttf, tag="", name="", name2="", description="")  {
 
 	tp=3
+	
+## Model test
+	if(any(DF$Type==5) || any(DF$Type==16)) {	
+		stop("RAM system event event called for in PRA model")
+	}	
+
 	display_under<-NULL
 
 	info<-test.basic(DF, at,  display_under, tag)

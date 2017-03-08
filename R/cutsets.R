@@ -1,4 +1,15 @@
 cutsets<-function(DF)  {
+
+	 if(any(DF$Type==16)) {
+		stop("atleast gate requires SCRAM calculation")
+	 }
+	 if(any(DF$Type==15)) {
+		stop("vote gate not recognized by cutsets function")
+	 }	 
+	 if(DF$Type>11) {
+		warning("inhibit, alarm, and priority gates will be treated as and")
+	}
+
 	max_len<-length(which(DF$Type>10))+1
 	cs_lists<-list(NULL)
 	

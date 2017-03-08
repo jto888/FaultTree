@@ -44,8 +44,10 @@
 	gp<-info[3]
 	condition<-info[4]
 
-	if(any(DF$Type<4)|| any(DF$Type>12)) {
-		stop("non-repairable system event called for in repairable model")
+## Model test
+##	if(any(DF$Type<4)|| any(DF$Type==13) || any(DF$Type==14) || any(DF$Type==15) ){
+	if(any(DF$Type<4)|| (any(DF$Type>12)&&any(DF$Type<16))) {
+		stop("PRA system event called for in RAM model")
 	}
 
 	if (is.null(mttf)) {

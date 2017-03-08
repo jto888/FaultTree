@@ -16,6 +16,11 @@
 
 ftree.calc<-function(DF)  {
 	if(!test.ftree(DF)) stop("first argument must be a fault tree")
+	
+	 if(any(DF$Type==16)) {
+		stop("atleast gate requires SCRAM calculation")
+	 }
+
 
 		NDX<-order(DF$Level)
 		sDF<-DF[NDX,]
@@ -39,6 +44,9 @@ for(row in dim(sDF)[1]:1)  {
 		if(siblingDF$Type[1]==5) {siblingDF$CFR[1]<- (-1) }
 
 	if(length(child_rows)>1)  {
+		if(sDF$Type[row]==15) {
+			stop("more than one feed to vote")
+		}
 
 		for(child in 2:length(child_rows))  {
 ## thisChild is now at child_rows[child] in the sDF
@@ -55,13 +63,17 @@ for(row in dim(sDF)[1]:1)  {
 			siblingDF<-rbind(siblingDF,DFrow)
 		}
 	}else{
-		if(sDF$Type[row]>10) {
+		if(sDF$Type[row]>10 && sDF$Type[row]!=15) {
 ## less than 2 feeds to other than OR calc
 		stop(paste0("insufficient feeds at gate ", sDF$ID[row]))
 		}
 	}
 
-
+	## VOTE gate calculation
+	if(sDF$Type[row]==15)  {
+	resultDF<-VOTEcalc(siblingDF, c(sDF$P1[row],sDF$P2[row]))
+	}	
+	
 	## OR gate calculation
 	if(sDF$Type[row]==10)  {
 	resultDF<-ORcalc(siblingDF)
@@ -72,7 +84,7 @@ for(row in dim(sDF)[1]:1)  {
 	resultDF<-ANDcalc(siblingDF)
 	}
 
-	if(sDF$Type[row]>11)  {
+	if(sDF$Type[row]>11 && sDF$Type[row]!=15)  {
 ## Code is required in addXXX to assign the first entry as Condition==1)
 
 ## test the Condition setting for the first child
@@ -109,7 +121,7 @@ for(row in dim(sDF)[1]:1)  {
 	resultDF<-INHIBITcalc(siblingDF)
 	}
 
-	if(sDF$Type[row]>12)  {
+	if(sDF$Type[row]>12 && sDF$Type[row]<15)  {
 ## second feed must have demand for remaining combination gates
 		if(siblingDF$CFR[1]<=0)  {
 			stop(paste0("second feed must have demand at gate ", sDF$ID[row]))
