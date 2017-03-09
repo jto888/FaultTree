@@ -59,7 +59,7 @@ test.basic<-function(DF, at,  display_under, tag)  {
 	}
 
 	condition=0
-	if(DF$Type[parent]>11 && DF$Type[parent]!=15 )  {
+	if(DF$Type[parent]>11 && DF$Type[parent]<15 )  {
 		if(length(which(DF$CParent==at))>1)  {
 		stop("connection slot not available")
 		}
