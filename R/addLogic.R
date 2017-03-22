@@ -65,7 +65,7 @@ addLogic<-function(DF, type, at, reversible_cond=FALSE, cond_first=TRUE, human_p
 	}
 
 	condition=0
-	if(DF$Type[parent]>11&& DF$Type[parent]!=15 )  {
+	if(DF$Type[parent]>11&& DF$Type[parent]<15 )  {
 		if(length(which(DF$CParent==at))>1)  {
 		stop("connection slot not available")
 		}

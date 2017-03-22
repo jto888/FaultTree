@@ -23,7 +23,7 @@ addDuplicate<-function(DF, at, dup_id)  {
 ## All specialty gates must be limited to binary feeds only
 
 	condition=0
-	if(DF$Type[parent]>11 )  {
+	if(DF$Type[parent]>11&& DF$Type[parent]<15 )  {
 		if(length(which(DF$CParent==at))>1)  {
 		stop("connection slot not available")
 		}
