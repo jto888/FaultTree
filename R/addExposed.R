@@ -45,8 +45,8 @@
 	condition<-info[4]
 
 ## Model test
-##	if(any(DF$Type<4)|| any(DF$Type==13) || any(DF$Type==14) || any(DF$Type==15) ){
-	if(any(DF$Type<4)|| (any(DF$Type>12)&&any(DF$Type<16))) {
+	if(any(DF$Type<4)|| any(DF$Type==13) || any(DF$Type==14) || any(DF$Type==15) ){
+##	if(any(DF$Type<4)|| (any(DF$Type>12)&&any(DF$Type<16))) {
 		stop("PRA system event called for in RAM model")
 	}
 
