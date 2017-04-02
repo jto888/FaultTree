@@ -3,7 +3,7 @@
 
 \title{ Fault Tree Calculation }
 
-\description{ftree.calc performs gate calculations from bottom to top of fault tree.
+\description{ftree.calc performs gate-by-gate calculations from bottom to top of fault tree.
 }
 
 \usage{

@@ -96,6 +96,7 @@ var priorityGate="m 45,50 0,15 30,0 0,-15  a15,15 .2 0,0 -15,-15 a15,15 .2 0,0 -
 var inhibitGate="m 60,35 -15,6.340 0,17.3205 15,6.340  15,-6.340 0,-17.3205 z";
 var alarmGate="m 75,65 c  -1.4, -10, .6, -22 -15, -30 -15.6, 8, -13.4, 20, -15, 30, 0, 0 3, -8 15, -8 10, 0 15, 8 15, 8 z m -30,0 v5 c0, 0 3, -8 15, -8 10, 0 15, 8 15, 8 v-5";
 var voteGate="m 75,65 c  -1.4,-10,.6,-22-15,-30  -15.6,8,-13.4,20,-15,30 m 0,0 0,10 30,0 0,-10 m-28,-7.5 27,0"; 
+var house="m 45,50 0,15 30,0 0,-15 -15,-15  -15,15";
 var component="m 75, 50 a15,15 .2 0,0 -15,-15 a15,15 .2 0,0 -15,15 a15,15 .2 0,0 15,15 a15,15 .2 0,0 15,-15";
 nodeEnter.append("path")
 .attr("d",
@@ -113,6 +114,8 @@ break;
 case 15 : return(voteGate);
 break;
 case 16 : return(voteGate);
+break;
+case 6 : return(house);
 break;
 default : return(component);
 }})
