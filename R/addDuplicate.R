@@ -1,4 +1,4 @@
-addDuplicate<-function(DF, at, dup_id)  {
+addDuplicate<-function(DF, at, dup_id, display_under=NULL)  {
 	if(!test.ftree(DF)) stop("first argument must be a fault tree")
 
 ## parent qualification test only required once
@@ -61,8 +61,6 @@ addDuplicate<-function(DF, at, dup_id)  {
 
 	## close the while loop
 	}
-
-
 		## close the MOB case
 	}
 
@@ -74,11 +72,26 @@ addDuplicate<-function(DF, at, dup_id)  {
 		dup_row<-rows2copy[x]
 		if(x==1) {
 			cparent_id<- at
+			cond_val<-condition
+			gparent_id<- at
 ## It would take considerable testing to determine that this duplicate
 ## as a single entry should be displayed under a previous duplicate
 ## because the duplicated entry was also displayed under this same sibling
-			gparent_id<- at
-			cond_val<-condition
+###########################################################################
+## Let's try anyhow, if this is MOE only
+			if(length(rows2copy)==1)  {
+				if(length(display_under)!=0)  {
+					if(DF$Type[parent]!=10) {stop("Component stacking only permitted under OR gate")}
+					if(DF$CParent[display_under]!=at) {stop("Must stack at component under same parent")}
+					if(length(which(DF$GParent==display_under))>0 )  {
+						stop("display under connection not available")
+					}else{
+						gparent_id<-display_under
+					}
+				}			
+			}
+##########################################################################			
+			
 		}else{
 			cparent_id<-DF$CParent[dup_row]+id_offset
 			gparent_id<-DF$GParent[dup_row]+id_offset

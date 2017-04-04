@@ -6,13 +6,15 @@
 \description{Modifies an existing fault tree with the addition of the repeated nodes.}
 
 \usage{
-addDuplicate(DF, at, dup_id)
+addDuplicate(DF, at, dup_id, display_under=NULL) 
 }
 
 \arguments{
 \item{DF}{ A fault tree dataframe such as returned from ftree.make or related add... functions.}
 \item{at}{ The ID of the parent node for this addition.}
 \item{dup_id}{The ID of a component event or root node of a branch to be repeated in a fault tree.}
+\item{display_under}{Optionally, the ID of a sibling event under an OR gate for vertical alignment of
+ only component nodes (MOE, not MOB) in the graphic display.}
 }
 
 \value{
