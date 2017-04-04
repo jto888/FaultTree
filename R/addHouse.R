@@ -14,11 +14,11 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-addHouse<-function(DF, at, prob=1, tag="", name="", name2="", description="")  {
+addHouse<-function(DF, at, prob=1, name="", name2="", description="")  {
 
  	tp=6
 
-	info<-test.basic(DF, at,  display_under=NULL, tag)
+	info<-test.basic(DF, at,  display_under=NULL, tag="")
 	thisID<-info[1]
 	parent<-info[2]
 	gp<-info[3]
@@ -41,13 +41,7 @@ addHouse<-function(DF, at, prob=1, tag="", name="", name2="", description="")  {
 		stop("House must connect to AND or INHIBIT")
 		}
 	}
-	
-## Avoid conflicts with default tag names	
-	if(length(tag)>2){
-		if(substr(tag,1,2)=="E_" || substr(tag,1,2)=="G_" ) {
-		stop("tag prefixes E_ and G_ are reserved for MEF defaults")
-		}
-	}	
+
 
 	Dfrow<-data.frame(
 		ID=	thisID	,
@@ -64,7 +58,7 @@ addHouse<-function(DF, at, prob=1, tag="", name="", name2="", description="")  {
 		EType=	0	,		
 		P1=	-1	,		
 		P2=	-1	,
-		Tag_Obj=	tag	,
+		Tag_Obj=	""	,
 		Name=	name	,
 		Name2=	name2	,
 		Description=	description	,

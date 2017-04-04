@@ -1,4 +1,4 @@
-## test.basic
+ ## test.basic
 # copyright 2016, openreliability.org
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -36,6 +36,10 @@ test.basic<-function(DF, at,  display_under, tag)  {
 	if(tag!="")  {
 		if (length(which(DF$Tag == tag) != 0)) {
 		stop("tag is not unique")
+		}
+		prefix<-substr(tag,1,2)
+		if(prefix=="E_" || prefix=="G_" || prefix=="H_") {
+		stop("Prefixes 'E_', 'G_', and 'H_' are reserved for auto-generated tags.")
 		}
 	}
 

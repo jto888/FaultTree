@@ -8,14 +8,13 @@ House elements signify some underlying condition and can only have probability o
 They have traditionally been added to fault trees for clarity of presentation only.}
 
 \usage{
-addHouse(DF, at, prob=1, tag="", name="", name2="", description="") 
+addHouse(DF, at, prob=1, name="", name2="", description="") 
 }
 
 \arguments{
 \item{DF}{ A fault tree dataframe such as returned from ftree.make or related add... functions.}
 \item{at}{ The ID of the parent node for this addition.}
 \item{prob}{A probability value of 1 or 0}
-\item{tag}{ A very short identifying string (typically 5 characters or less) uniquely identifying a basic event for minimal cutset evaluation}
 \item{name}{ A short identifying string  (typically less than 24 characters)}
 \item{name2}{ A second line, if needed for the identifying string label}
 \item{description}{ An optional string providing more detail for this condition.}
