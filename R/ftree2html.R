@@ -29,6 +29,9 @@ outDF
 HTMLhead<-'<!DOCTYPE html>
 <meta charset="utf-8">
 <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<style>
+html, body {height: 100%;}
+</style>
 <div id="body"></div>
 <style>
 .node {cursor: pointer;}
@@ -45,7 +48,7 @@ var duration = 750,rectW = 124,rectH = 90,TrectH = 24;
 var tree = d3.layout.tree()
 .nodeSize([rectW*1.15, rectH*1.2])
 .separation(function(a, b) { return (a.parent == b.parent ? 1 : 1.2); });
-var svg = d3.select("#body").append("svg").attr("width", 1000).attr("height", 1000)
+var svg = d3.select("#body").append("svg").attr("width", "100%").attr("height", "100%")
 .call(zm = d3.behavior.zoom().scaleExtent([.5,3]).on("zoom", redraw)).append("g")
 .attr("transform", "translate(" + 350 + "," + 20 + ")");
 zm.translate([350, 20]);

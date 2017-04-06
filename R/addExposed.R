@@ -16,26 +16,29 @@
 
  addExposed<-function (DF, at, mttf, exposure=NULL, dist="exponential", param=NULL,
 		display_under=NULL, tag="", name="",name2="", description="")  {
-		
+
 	if (is.null(exposure)) {
 		if(exists("mission_time")) {
-			exposure<-"mission_time"		
+			exposure<-"mission_time"
 		}else{
 			stop("mission_time not avaliable, exposed component must have exposure entry")
 		}
+## This was originally added to handle an environment variable named 'exposure'
+## It is confusing to have other than 'mission_time' handled in this way
+## expect to depreciate this code, do not include in documentation.
 	}
-	
 		if (is.character(exposure)) {
 			if (exists("exposure")) {
 			Tao <- eval((parse(text = exposure)))
 			}else {
 				stop("exposure object does not exist")
 			}
-		}else {
+## End of code depreciation
+		}else{
 			Tao = exposure
 		}
 
-	
+
   	tp <-5
 
 	info<-test.basic(DF, at,  display_under, tag)
@@ -58,18 +61,16 @@
 	etype<-switch(dist,
 		exponential = 1,
 #		weibull = 2,
-#		glm = 3,
-#		inspected =4,
 		stop("exposed type not recognized")
 	)
 	if(etype == 1)  {
 		pf<-1 - exp(-(1/mttf) * Tao)
 	}
 
-## Avoid conflicts with default tag names	
+## Avoid conflicts with default tag names
 	if(length(tag)>2){
-		if(substr(tag,1,2)=="E_" || substr(tag,1,2)=="G_" ) {
-		stop("tag prefixes E_ and G_ are reserved for MEF defaults")
+		if(substr(tag,1,2)=="E_" || substr(tag,1,2)=="G_" || substr(tag,1,2)=="H_") {
+		stop("tag prefixes E_, G_ and H_ are reserved for MEF defaults")
 		}
 	}
 
@@ -96,7 +97,7 @@
 		MOE = 0,
 		Condition = condition,
 		Cond_Code=	0	,
-		EType=	etype	,		
+		EType=	etype	,
 		P1 = -1,
 		P2 = Tao,
 		Tag_Obj = tag,
@@ -105,7 +106,7 @@
 		Description = description,
 		UType=	0	,
 		UP1=	-1	,
-		UP2=	-1	
+		UP2=	-1
 	)
 
 	DF <- rbind(DF, Dfrow)
