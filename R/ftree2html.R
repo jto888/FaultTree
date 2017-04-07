@@ -29,8 +29,19 @@ outDF
 HTMLhead<-'<!DOCTYPE html>
 <meta charset="utf-8">
 <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
 <style>
-html, body {height: 100%;}
+html{
+  height: 100%;
+}
+body {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  margin: 5px;
+}
 </style>
 <div id="body"></div>
 <style>
@@ -44,14 +55,15 @@ var root =
 '
 
 HTMLd3script<-'
-var duration = 750,rectW = 124,rectH = 90,TrectH = 24;
+var duration = 200,rectW = 124,rectH = 90,TrectH = 24;
+var width_initial = $(window).width()/2-60;
 var tree = d3.layout.tree()
 .nodeSize([rectW*1.15, rectH*1.2])
 .separation(function(a, b) { return (a.parent == b.parent ? 1 : 1.2); });
 var svg = d3.select("#body").append("svg").attr("width", "100%").attr("height", "100%")
-.call(zm = d3.behavior.zoom().scaleExtent([.5,3]).on("zoom", redraw)).append("g")
-.attr("transform", "translate(" + 350 + "," + 20 + ")");
-zm.translate([350, 20]);
+.call(zm = d3.behavior.zoom().scaleExtent([0.05,5]).on("zoom", redraw)).append("g")
+.attr("transform", "translate(" + width_initial + "," + 50 + ")");
+zm.translate([width_initial, 20]);
 root.x0 = 0;
 root.y0 = height / 2;
 function collapse(d) {
@@ -60,7 +72,7 @@ d._children = d.children;
 d._children.forEach(collapse);
 d.children = null;}}
 update(root);
-d3.select("#body").style("height", "800px");
+d3.select("#body").style("height", "100%");
 function update(source) {
 var nodes = tree.nodes(root)
 links = tree.links(nodes);
