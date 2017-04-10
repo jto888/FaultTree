@@ -70,7 +70,7 @@
 
 	if(etype==2)  {
 		tzero<-0
-		if(length(param)>1) [
+		if(length(param)>1) {
 			tzero<-param[2]
 		}
 		shape<-param[1]
