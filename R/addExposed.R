@@ -60,12 +60,29 @@
 ## The EType needs to be numerically assigned. ########
 	etype<-switch(dist,
 		exponential = 1,
-#		weibull = 2,
+		weibull = 2,
 		stop("exposed type not recognized")
-	)
+	) 
 	if(etype == 1)  {
-		pf<-1 - exp(-(1/mttf) * Tao)
+		pf<-signif(1 - exp(-(1/mttf) * Tao),5)
 	}
+
+
+	if(etype==2)  {
+		tzero<-0
+		if(length(param)>1) [
+			tzero<-param[2]
+		}
+		shape<-param[1]
+		scale<-(mttf-tzero)/gamma(1+1/shape)
+		pf<-signif(1-exp(-((t-tzero)/scale)^shape).5)
+		if(pf<0) pf<-0
+	}
+
+
+
+
+
 
 ## Avoid conflicts with default tag names
 	if(length(tag)>2){
