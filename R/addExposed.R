@@ -75,7 +75,7 @@
 		}
 		shape<-param[1]
 		scale<-(mttf-tzero)/gamma(1+1/shape)
-		pf<-signif(1-exp(-((t-tzero)/scale)^shape).5)
+		pf<-signif(1-exp(-((t-tzero)/scale)^shape),5)
 		if(pf<0) pf<-0
 	}
 
