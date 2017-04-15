@@ -12,5 +12,7 @@ ftree.make,
 ftree2html,
 ftree2table,
 hierarchyDF2json,
+parameter_conversion,
+pc,
 prob2lam,
 test.ftree)
