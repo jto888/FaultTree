@@ -7,7 +7,7 @@
 }
 
 \usage{
-parameter_conversion(conv, param) 
+parameter_conversion(conv, param)
 }
 
 \arguments{
@@ -26,26 +26,29 @@ Conversion functions and their expected arguments are listed as follows:
     1   "prob2lam"      prob
     2   "prob2wmean"    prob        wshape      time_shift
     3   "wscale2mean"   wscale      wshape      time_shift
-    4   "wmean2scale    wmean       wshape      time_shift
+    4   "wmean2scale"   wmean       wshape      time_shift
+    5   "Lsigma2EF"     Lsigma      conf_limit
+    6   "EF2Lsigma"     ErrFunc     conf_limit
+    7   "meanln2Lmu"    meanln      Lsigma
 
 }
 
 \references{
   Fussell, J., Vesely, W.E. (1972) A New Method for Obtaining Cut Sets for Fault Trees  Transactions ANS, No. 15
-  
+
   Ericson, Clifton A. II (2011) Fault Tree Analysis Primer  CreateSpace Inc.
-  
-  Nicholls, David [Editor] (2005) System Reliability Toolkit  Reliability information Analysis 
+
+  Nicholls, David [Editor] (2005) System Reliability Toolkit  Reliability information Analysis
   Center
-  
+
   O'Connor, Patrick D.T. (1991) Practical Reliability Engineering  John Wiley & Sons
-   
+
   Vesely, W.E., Goldberg, F.F., Roberts, N.H., Haasl, D.F. (1981)  Fault Tree Handbook
-  U.S.  Nuclear Regulatory Commission 
-  
+  U.S.  Nuclear Regulatory Commission
+
   Vesely, W.E., Stamatelato, M., Dugan, J., Fragola, J., Minarick, J., Railsback, J. (2002)
   Fault Tree Handbook with Aerospace Applications   NASA
-  
+
   Doelp, L.C., Lee, G.K., Linney, R.E., Ormsby R.W. (1984) Quantitative fault tree analysis: Gate-by-gate method Plant/Operations Progress
    Volume 3, Issue 4 American Institute of Chemical Engineers
 }

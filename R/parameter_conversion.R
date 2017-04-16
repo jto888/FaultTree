@@ -27,9 +27,14 @@ parameter_conversion<-function(conv, param)  {
 		wscale2wmean=3,
 		wmean2scale=4,
 		wmean2wscale=4,
-#		=5,
-#		=6,
-#		=7,
+		Lsigma2EF=5,
+		sigma2EF=5,
+		EF2Lsigma=6,
+		EF2sigma=6,
+		ef2sigma=6,
+		meanln2Lmu=7,
+		meanln2mu=7,
+		mean2mu=7,
 #		=8,
 #		=9,
 		stop("conversion calculation not recognized")
@@ -37,20 +42,31 @@ parameter_conversion<-function(conv, param)  {
 	}else{
 		fun<-conv
 	}
-
+## Exponential distribution as used to define an Exposed basic-event
 	if(fun==1) {
 		do.call("prob2lam",list(param[1]))
 	}
+## Weibull distribution as used to define an Exposed basic-event
 	if(fun==2) {
 		do.call("prob2wmean",list(param[1], param[2], param[3]))
 	}
 	if(fun==3) {
 		do.call("wscale2mean",list(param[1], param[2], param[3]))
 	}
-	if(fun==3) {
+	if(fun==4) {
 		do.call("wmean2scale",list(param[1], param[2], param[3]))
 	}
-
+## Lognormal distribution as used to define a stochastic deviate
+## on some mean parameter of a basic-event
+	if(fun==5) {
+		do.call("Lsigma2EF",list(param[1], param[2]))
+	}
+	if(fun==6) {
+		do.call("EF2Lsigma",list(param[1], param[2]))
+	}
+	if(fun==7) {
+		do.call("meanln2Lmu",list(param[1], param[2]))
+	}
 
 
 }
@@ -105,4 +121,18 @@ if(wmean-tzero)<0 {
 }
 
 
+Lsigma2EF<-function(Lsigma, CL) {
+	EF<-exp(Lsigma*qnorm(CL))
+	EF
+}
+
+EF2Lsigma<-function(EF, CL)  {
+	Lsigma<-log(EF)/qnorm(CL)
+	Lsigma
+}
+
+meanln2Lmu<-function(meanln, Lsigma)  {
+	Lmu<-log(meanln)+Lsigma^2
+	Lmu
+}
 
