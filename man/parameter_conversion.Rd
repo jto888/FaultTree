@@ -24,12 +24,12 @@ Conversion functions and their expected arguments are listed as follows:
 
     conv                param[1]    param[2]    param[3]
     1   "prob2lam"      prob
-    2   "prob2wmean"    prob        wshape      time_shift
+    2   "prob2meanw"    prob        wshape      time_shift
     3   "wscale2mean"   wscale      wshape      time_shift
-    4   "wmean2scale"   wmean       wshape      time_shift
-    5   "Lsigma2EF"     Lsigma      conf_limit
-    6   "EF2Lsigma"     ErrFunc     conf_limit
-    7   "meanln2Lmu"    meanln      Lsigma
+    4   "meanw2scale"   wmean       wshape      time_shift
+    5   "sigma2ef"      sigma       conf_limit
+    6   "ef2sigma"      ErrFunc     conf_limit
+    7   "meanln2mu"     meanln      sigma
 
 }
 
