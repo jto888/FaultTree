@@ -17,11 +17,12 @@
 addActive<-function(DF, at, mttf=NULL, mttr=NULL, display_under=NULL, tag="", name="",name2="",description="")  {
 
 	tp<-1
+	etp<-3
 
 ## Model test
-	if(any(DF$Type==5) || any(DF$Type==16)) {	
-		stop("RAM system event event called for in PRA model")
-	}	
+##	if(any(DF$Type==5) || any(DF$Type==16)) {	
+##		stop("RAM system event event called for in PRA model")
+##	}	
 	
 	
 	info<-test.basic(DF, at,  display_under, tag)
@@ -61,7 +62,7 @@ addActive<-function(DF, at, mttf=NULL, mttr=NULL, display_under=NULL, tag="", na
 		MOE=	0	,
 		Condition=	condition,
 		Cond_Code=	0,
-		EType=	0	,
+		EType=	etp	,
 		P1=	-1	,
 		P2=	-1	,
 		Tag_Obj=	tag	,
