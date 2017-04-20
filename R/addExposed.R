@@ -17,7 +17,8 @@
  addExposed<-function (DF, at, mttf, exposure=NULL, dist="exponential", param=NULL,
 		display_under=NULL, tag="", name="",name2="", description="")  {
 
-	if (is.null(exposure)) {
+# temporarily exposure MUST be defined by mission_time, because weibull uses P2 for time_shift
+#	if (is.null(exposure)) {
 		if(exists("mission_time")) {
 			exposure<-"mission_time"
 		}else{
@@ -26,12 +27,13 @@
 ## This was originally added to handle an environment variable named 'exposure'
 ## It is confusing to have other than 'mission_time' handled in this way
 ## expect to depreciate this code, do not include in documentation.
-	}
+#	}
 		if (is.character(exposure)) {
-			if (exists("exposure")) {
-			Tao <- eval((parse(text = exposure)))
-			}else {
-				stop("exposure object does not exist")
+		stop("exposure no longer accepted as global environment variable, use mission_time")
+#			if (exists("exposure")) {
+#			Tao <- eval((parse(text = exposure)))
+#			}else {
+#				stop("exposure object does not exist")
 			}
 ## End of code depreciation
 		}else{
