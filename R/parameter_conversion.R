@@ -108,7 +108,7 @@ wscale2mean<-function(wscale, wshape, tzero) {
 
 
 meanw2scale<-function(meanw,wshape,tzero) {
-if(meanw-tzero)<0 {
+if((meanw-tzero)<0) {
 	stop("weibull time_shift is greater than weibull mean")
 }
 	wscale<-(meanw-tzero)/gamma(1+1/wshape)
