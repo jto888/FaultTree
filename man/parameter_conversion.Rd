@@ -12,7 +12,7 @@ parameter_conversion(conv, param)
 
 \arguments{
 \item{conv}{A string holding the name of a cnversion function, or its assigned numerical equivalent.}
-\item[param}{A vector holding values appropriate for the requested conversion. See Details below.}
+\item{param}{A vector holding values appropriate for the requested conversion. See Details below.}
 }
 
 \value{
