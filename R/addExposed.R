@@ -75,8 +75,11 @@
 		}
 		shape<-param[1]
 		scale<-(mttf-tzero)/gamma(1+1/shape)
-		pf<-signif(1-exp(-((t-tzero)/scale)^shape),5)
+		pf<-signif(1-exp(-((Tao-tzero)/scale)^shape),5)
 		if(pf<0) pf<-0
+## note there are not enough fields for time_shift and exposure time for weibull
+## exposure time can only be mission_time until ftree revision takes place
+		Tao<-tzero
 	}
 
 

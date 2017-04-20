@@ -16,7 +16,7 @@
 
 addHouse<-function(DF, at, prob=1, name="", name2="", description="")  {
 
- 	tp=6
+ 	tp=9
 
 	info<-test.basic(DF, at,  display_under=NULL, tag="")
 	thisID<-info[1]
