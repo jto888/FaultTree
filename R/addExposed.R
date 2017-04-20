@@ -34,7 +34,7 @@
 #			Tao <- eval((parse(text = exposure)))
 #			}else {
 #				stop("exposure object does not exist")
-			}
+#			}
 ## End of code depreciation
 		}else{
 			Tao = exposure
