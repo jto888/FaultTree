@@ -89,7 +89,7 @@ stop("mission_time not set")
 }
 exposure<-"mission_time"
 Tao <- eval((parse(text = exposure)))
-if(Tao-tzero)<0) {
+if((Tao-tzero)<0) {
 ## if SCRAM can handle this then set wmean to zero and proceed with else
 	stop("weibull time_shift is greater than mission_time")
 #	wmean<-0
