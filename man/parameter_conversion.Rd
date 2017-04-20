@@ -16,7 +16,7 @@ parameter_conversion(conv, param)
 }
 
 \value{
-Returns a value according to the conversion requested.}
+Returns a value according to the conversion requested.
 }
 
 \details{
