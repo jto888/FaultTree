@@ -28,18 +28,18 @@
 ## It is confusing to have other than 'mission_time' handled in this way
 ## expect to depreciate this code, do not include in documentation.
 #	}
-		if(!is.null(exposure)) {
+# none of this worked because exposure was just set to a character vector "mission_time"
 #		if (is.character(exposure)) {
-		stop("exposure no longer accepted as global environment variable, use mission_time")
+#		stop("exposure no longer accepted as global environment variable, use mission_time")
 #			if (exists("exposure")) {
-#			Tao <- eval((parse(text = exposure)))
+			Tao <- eval((parse(text = exposure)))
 #			}else {
 #				stop("exposure object does not exist")
 #			}
 ## End of code depreciation
-		}else{
-			Tao = exposure
-		}
+#		}else{
+#			Tao = exposure
+#		}
 
 
   	tp <-5
