@@ -60,6 +60,8 @@
 	stop("exposed component must have mttf")
 	}
 
+	
+	Beta<-(-1) # just a holder for now
 ## The EType needs to be numerically assigned. ########
 	etype<-switch(dist,
 		exponential = 1,
@@ -82,6 +84,7 @@
 		if(pf<0) pf<-0
 ## note there are not enough fields for time_shift and exposure time for weibull
 ## exposure time can only be mission_time until ftree revision takes place
+		Beta<-shape
 		Tao<-tzero
 	}
 
@@ -121,7 +124,7 @@
 		Condition = condition,
 		Cond_Code=	0	,
 		EType=	etype	,
-		P1 = -1,
+		P1 = Beta,
 		P2 = Tao,
 		Tag_Obj = tag,
 		Name = name,
