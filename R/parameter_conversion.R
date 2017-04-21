@@ -39,31 +39,31 @@ parameter_conversion<-function(conv, param)  {
 	}
 ## Exponential distribution as used to define an Exposed basic-event
 	if(fun==1) {
-		do.call("prob2lam",list(param[1]))
+		outval<-do.call("prob2lam",list(param[1]))
 	}
 ## Weibull distribution as used to define an Exposed basic-event
 	if(fun==2) {
-		do.call("prob2meanw",list(param[1], param[2], param[3]))
+		outval<-do.call("prob2meanw",list(param[1], param[2], param[3]))
 	}
 	if(fun==3) {
-		do.call("wscale2mean",list(param[1], param[2], param[3]))
+		outval<-do.call("wscale2mean",list(param[1], param[2], param[3]))
 	}
 	if(fun==4) {
-		do.call("meanw2scale",list(param[1], param[2], param[3]))
+		outval<-do.call("meanw2scale",list(param[1], param[2], param[3]))
 	}
 ## Lognormal distribution as used to define a stochastic deviate
 ## on some mean parameter of a basic-event
 	if(fun==5) {
-		do.call("sigma2ef",list(param[1], param[2]))
+		outval<-do.call("sigma2ef",list(param[1], param[2]))
 	}
 	if(fun==6) {
-		do.call("ef2sigma",list(param[1], param[2]))
+		outval<-do.call("ef2sigma",list(param[1], param[2]))
 	}
 	if(fun==7) {
-		do.call("meanln2mu",list(param[1], param[2]))
+		outval<-do.call("meanln2mu",list(param[1], param[2]))
 	}
 
-
+outval
 }
 
 pc<-parameter_conversion
