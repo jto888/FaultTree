@@ -28,7 +28,8 @@
 ## It is confusing to have other than 'mission_time' handled in this way
 ## expect to depreciate this code, do not include in documentation.
 #	}
-		if (is.character(exposure)) {
+		if(!is.null(exposure)) {
+#		if (is.character(exposure)) {
 		stop("exposure no longer accepted as global environment variable, use mission_time")
 #			if (exists("exposure")) {
 #			Tao <- eval((parse(text = exposure)))
