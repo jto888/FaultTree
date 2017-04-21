@@ -83,7 +83,7 @@ pc<-parameter_conversion
 # }
 
 
-prob2wmean<-function(prob, wshape, tzero)  {
+prob2meanw<-function(prob, wshape, tzero)  {
 if(!exists("mission_time")) {
 stop("mission_time not set")
 }
