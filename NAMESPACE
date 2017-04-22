@@ -16,3 +16,5 @@ parameter_conversion,
 pc,
 prob2lam,
 test.ftree)
+
+importFrom("stats", "qnorm")
