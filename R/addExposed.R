@@ -62,6 +62,7 @@ if( !mt>0 ) {
 
 	if(etype == 1)  {
 		pf<-signif(1 - exp(-(1/mttf) * mt),5)
+		p2<-mt
 	}
 
 
