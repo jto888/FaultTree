@@ -55,8 +55,9 @@ the specific distribution of expected failure times are the shape and any time_s
 }
 
 \examples{
+mission_time<-0.5
 mytree <-ftree.make(type="or", name="6-month task", name2="incomplete")
-mytree <- addExposed(mytree,  at=1, mttf=3, exposure=0.5, name="pump fails",
+mytree <- addExposed(mytree,  at=1, mttf=3, name="pump fails",
    name2="before completion")
 }
 

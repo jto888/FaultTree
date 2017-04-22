@@ -1,5 +1,5 @@
-\name{parameter_conversion}
-\alias{parameter_conversion}
+\name{pc}
+\alias{pc}
 
 \title{ Parameter Conversion Helper Functions }
 
@@ -7,7 +7,7 @@
 }
 
 \usage{
-parameter_conversion(conv, param)
+pc(conv, param)
 }
 
 \arguments{
@@ -55,7 +55,7 @@ Conversion functions and their expected arguments are listed as follows:
 
 \examples{
 mission_time=20
-mttf<-1/parameter_conversion("prob2lam", .2)
+mttf<-1/pc(1, .2)
 }
 
 \keyword{ logic, risk, failure }
