@@ -14,33 +14,8 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- addExposed<-function (DF, at, mttf, exposure=NULL, dist="exponential", param=NULL,
-		display_under=NULL, tag="", name="",name2="", description="")  {
-
-# temporarily exposure MUST be defined by mission_time, because weibull uses P2 for time_shift
-#	if (is.null(exposure)) {
-		if(exists("mission_time")) {
-			exposure<-"mission_time"
-		}else{
-			stop("mission_time not avaliable, exposed component must have exposure entry")
-		}
-## This was originally added to handle an environment variable named 'exposure'
-## It is confusing to have other than 'mission_time' handled in this way
-## expect to depreciate this code, do not include in documentation.
-#	}
-# none of this worked because exposure was just set to a character vector "mission_time"
-#		if (is.character(exposure)) {
-#		stop("exposure no longer accepted as global environment variable, use mission_time")
-#			if (exists("exposure")) {
-			Tao <- eval((parse(text = exposure)))
-#			}else {
-#				stop("exposure object does not exist")
-#			}
-## End of code depreciation
-#		}else{
-#			Tao = exposure
-#		}
-
+ addExposed<-function (DF, at, mttf, dist="exponential", param=NULL,
+		display_under=NULL, tag="", exposure=NULL, name="",name2="", description="")  {
 
   	tp <-5
 
@@ -50,26 +25,43 @@
 	gp<-info[3]
 	condition<-info[4]
 
-## Model test
-	if(any(DF$Type<4)|| any(DF$Type==13) || any(DF$Type==14) || any(DF$Type==15) ){
-##	if(any(DF$Type<4)|| (any(DF$Type>12)&&any(DF$Type<16))) {
-		stop("PRA system event called for in RAM model")
+## Model test - use of Demand type  or gate types ALARM or VOTE negates PRA processing
+	if(any(DF$Type==3) || any(DF$Type==13) || any(DF$Type==15)){
+		warning("exposed system event called for in RAM model")
 	}
 
 	if (is.null(mttf)) {
 	stop("exposed component must have mttf")
 	}
 
-	
-	Beta<-(-1) # just a holder for now
+## p1 
+	p1=-1
+	p2=-1
 ## The EType needs to be numerically assigned. ########
 	etype<-switch(dist,
 		exponential = 1,
 		weibull = 2,
 		stop("exposed type not recognized")
 	) 
+	
+	
+## weibull exposure time can only be mission_time identified at P2 in top event.
+if(is.null(exposure) || etype==2)  {
+	mt<-DF$P2[which(DF$ID==min(DF$ID))]
+}else{
+## This is to be a seldom used over-ride of system mission time 
+## applicable only to exponentially exposed events
+	if(!is.null(exposure) ) {
+		mt<-exposure
+	}
+}
+if( !mt>0 ) {
+	stop("exposed event must have defined mission_time or exposure")
+}
+
+
 	if(etype == 1)  {
-		pf<-signif(1 - exp(-(1/mttf) * Tao),5)
+		pf<-signif(1 - exp(-(1/mttf) * mt),5)
 	}
 
 
@@ -79,21 +71,23 @@
 			tzero<-param[2]
 		}
 		shape<-param[1]
-		scale<-(mttf-tzero)/gamma(1+1/shape)
-		pf<-signif(1-exp(-((Tao-tzero)/scale)^shape),5)
-		if(pf<0) pf<-0
-## note there are not enough fields for time_shift and exposure time for weibull
-## exposure time can only be mission_time until ftree revision takes place
-		Beta<-shape
-		Tao<-tzero
+		if((mt-tzero)<0) {
+			pf<-0
+			warning("weibull time_shift is greater than mission_time, SCRAM will not process.")
+		}else{
+			if((mttf-tzero)<0) {stop("negative weibull scale not permitted")}
+			scale<-(mttf-tzero)/gamma(1+1/shape)
+			pf<-signif(1-exp(-((mt-tzero)/scale)^shape),5)
+		}
+ 
+		p1<-shape
+		p2<-tzero
 	}
 
 
 
-
-
-
 ## Avoid conflicts with default tag names
+	if(tag=="top") {stop("'top' is a reserved tag name")}
 	if(length(tag)>2){
 		if(substr(tag,1,2)=="E_" || substr(tag,1,2)=="G_" || substr(tag,1,2)=="H_") {
 		stop("tag prefixes E_, G_ and H_ are reserved for MEF defaults")
@@ -124,8 +118,8 @@
 		Condition = condition,
 		Cond_Code=	0	,
 		EType=	etype	,
-		P1 = Beta,
-		P2 = Tao,
+		P1 = p1,
+		P2 = p2,
 		Tag_Obj = tag,
 		Name = name,
 		Name2 = name2,

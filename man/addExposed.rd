@@ -7,19 +7,19 @@
  is defined by fail rate and exposure time.}
 
 \usage{
-addExposed(DF, at, mttf, exposure=NULL, dist="exponential", param=NULL,
-		display_under=NULL, tag="", name="",name2="", description="")
+addExposed(DF, at, mttf, dist="exponential", param=NULL, display_under=NULL,
+		tag="", exposure=NULL, name="",name2="", description="")
 }
 
 \arguments{
 \item{DF}{ A fault tree dataframe such as returned from ftree.make or related add... functions.}
 \item{at}{ The ID of the parent node for this addition.}
 \item{mttf}{The mean time to failure.  It is the user's responsibility to maintain constant units of time.}
-\item{exposure}{The mission time over which a system is exposed to failure. If a mission_time object exists in the global environment this will be used, while default of NULL is maintained for this arguement.}
 \item{dist}{The probabilty distribution to be used for defining probability of failure from mttf, and a possible extra parameter. Options for "exponential" and "weibull" have been implemented.}
-\item{param}{A placeholder for additional parameters for other distributions. For weibull the parameters are shape and time_shift in that order.}
+\item{param}{A vector containing shape and time_shift for weibull exposed events in that order.}
 \item{display_under}{Optionally, the ID of a sibling event under an OR gate for vertical alignment of the component node in the graphic display.}
 \item{tag}{ A very short identifying string (typically 5 characters or less) uniquely identifying a basic event for minimal cutset evaluation}
+\item{exposure}{This is to be a seldom-used override of system mission time applicable only to exponentially exposed events.}
 \item{name}{ A short identifying string  (typically less than 24 characters)}
 \item{name2}{ A second line, if needed for the identifying string label}
 \item{description}{ An optional string providing more detail for this probability.}
@@ -32,7 +32,7 @@ Returns the input fault tree dataframe appended with an entry row for the define
 \details{
 The lambda for exponential definition is taken as 1/mttf, which is the value stored in CFR for the tree node.
 Weibull distributions have a mean, which differs from the classical scale parameter by a factor determined as gamma(1+1/shape).
-The weibull scale is determined from the mean value stored in CFR for the tree node. Additional parameters to fully define
+The weibull scale is determined from the value stored in CFR (as 1/mttf) for the tree node. Additional parameters to fully define
 the specific distribution of expected failure times are the shape and any time_shift.
 }
 

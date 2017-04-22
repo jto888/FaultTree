@@ -122,12 +122,12 @@ sigma2ef<-function(Lsigma, CL) {
 }
 
 ef2sigma<-function(EF, CL)  {
-	Lsigma<-log(EF)/qnorm(CL)
-	Lsigma
+	sigma<-log(EF)/qnorm(CL)
+	sigma
 }
 
-meanln2mu<-function(meanln, Lsigma)  {
-	Lmu<-log(meanln)+Lsigma^2
-	Lmu
+meanln2mu<-function(meanln, sigma)  {
+	mu<-log(meanln)+sigma^2
+	mu
 }
 
