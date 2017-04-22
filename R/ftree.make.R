@@ -27,6 +27,9 @@ ftree.make<-function(type, reversible_cond=FALSE, cond_first=TRUE,
 	p2=-1
 	if(!is.null(system_mission_time)) {
 		p2<-system_mission_time
+		if(exists("mission_time")) {
+			warning("The system_mission_time argument has overridden global 'mission_time'")
+		}
 	}else{
 		if(exists("mission_time")) {
 			smt<-"mission_time"
