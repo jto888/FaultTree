@@ -30,7 +30,7 @@ ftree.make<-function(type, reversible_cond=FALSE, cond_first=TRUE,
 	}else{
 		if(exists("mission_time")) {
 			smt<-"mission_time"
-			p2<-<- eval((parse(text = smt)))
+			p2<-eval((parse(text = smt)))
 		}
 	}
 
