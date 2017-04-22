@@ -25,7 +25,7 @@ ftree.make<-function(type, reversible_cond=FALSE, cond_first=TRUE,
 ## p1 is used by ALARM gate to hold probability of human failure, 
 	p1=-1
 	p2=-1
-	if(!is.null(system_mission_time) {
+	if(!is.null(system_mission_time)) {
 		p2<-system_mission_time
 	}else{
 		if(exists("mission_time")) {
