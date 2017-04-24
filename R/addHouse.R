@@ -16,6 +16,7 @@
 
 addHouse<-function(DF, at, prob=1, name="", name2="", description="")  {
 
+	at <- tagconnect(DF, at)
  	tp=9
 
 	info<-test.basic(DF, at,  display_under=NULL, tag="")
@@ -63,8 +64,8 @@ addHouse<-function(DF, at, prob=1, name="", name2="", description="")  {
 		Name2=	name2	,
 		Description=	description	,
 		UType=	0	,
-		UP1=	-1	,
-		UP2=	-1	
+		UP1=	0	,
+		UP2=	0	
 	)
 
 

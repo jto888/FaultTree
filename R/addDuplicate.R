@@ -1,5 +1,19 @@
-addDuplicate<-function(DF, at, dup_id, display_under=NULL)  {
+addDuplicate<-function(DF, at, dup_id=NULL, dup_of=NULL, display_under=NULL)  {
 	if(!test.ftree(DF)) stop("first argument must be a fault tree")
+
+	at <- tagconnect(DF, at)
+		if(!is.null(display_under))  {
+		display_under<-tagconnect(DF,display_under)
+	}
+## introducing a slight language hint for tag based node identification
+	if(is.null(dup_id) && is.null(dup_of)) {
+	stop("must identify source node of duplication.")
+	}
+	if(!is.null(dup_id))  {
+		dup_id<-tagconnect(DF, dup_id)
+	}else{
+		dup_id<-tagconnect(DF, dup_of)
+	}
 
 ## parent qualification test only required once
 	parent<-which(DF$ID== at)

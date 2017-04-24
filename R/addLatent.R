@@ -16,8 +16,13 @@
 
 addLatent<-function(DF, at, mttf, mttr=NULL, pzero="repair", inspect=NULL, display_under=NULL, tag="", name="",name2="", description="")  {
 
+	at <- tagconnect(DF, at)
+		if(!is.null(display_under))  {
+		display_under<-tagconnect(DF,display_under)
+	}
 	tp<-2
-	etp<-4
+	etp<-0
+#	etp<-4 # will default to zero if mission_time is not defined. 
 
 	info<-test.basic(DF, at,  display_under, tag)
 	thisID<-info[1]
@@ -90,8 +95,8 @@ addLatent<-function(DF, at, mttf, mttr=NULL, pzero="repair", inspect=NULL, displ
 		Name2=	name2	,
 		Description=	description	,
 		UType=	0	,
-		UP1=	-1	,
-		UP2=	-1
+		UP1=	0	,
+		UP2=	0
 	)
 
 

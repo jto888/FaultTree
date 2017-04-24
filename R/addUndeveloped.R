@@ -15,27 +15,28 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 addUndeveloped<-function(DF, at, prob=0, tag="", description="")  {
-  
-##  at <- tagconnect(DF, at)
-  
+
+  at <- tagconnect(DF, at)
+
   tp <- 6
-  
+
   info<-test.basic(DF, at,  display_under=NULL, tag)
   thisID<-info[1]
   parent<-info[2]
   gp<-info[3]
   condition<-info[4]
-  
+
   if(prob<0 || prob>1)  {stop("probability entry must be between zero and one")}
-  
-  ## Avoid conflicts with default tag names	
-  if(length(tag)>2){
-    if(substr(tag,1,2)=="E_" || substr(tag,1,2)=="G_" ) {
-      stop("tag prefixes E_ and G_ are reserved for MEF defaults")
-    }
-  }	
-  
-  
+
+## Avoid conflicts with default tag names
+# This test is covered in test.basic above
+#  if(length(tag)>2){
+#    if(substr(tag,1,2)=="E_" || substr(tag,1,2)=="G_" ) {
+#      stop("tag prefixes E_ and G_ are reserved for MEF defaults")
+#    }
+#  }
+
+
   Dfrow<-data.frame(
     ID=	thisID	,
     GParent=	gp	,
@@ -48,20 +49,20 @@ addUndeveloped<-function(DF, at, prob=0, tag="", description="")  {
     MOE=	0	,
     Condition=	condition,
     Cond_Code=	0,
-    EType=	0	,		
-    P1=	-1	,		
+    EType=	0	,
+    P1=	-1	,
     P2=	-1	,
     Tag_Obj=	tag	,
     Name=	""	,
     Name2=	""	,
     Description=	description	,
     UType=	0	,
-    UP1=	-1	,
-    UP2=	-1		,
-    Collapse = FALSE
+    UP1=	0	,
+    UP2=	0
+ #   Collapse = FALSE
   )
-  
-  
+
+
   DF<-rbind(DF, Dfrow)
   DF
 }

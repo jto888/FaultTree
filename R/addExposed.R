@@ -17,6 +17,11 @@
  addExposed<-function (DF, at, mttf, dist="exponential", param=NULL,
 		display_under=NULL, tag="", exposure=NULL, name="",name2="", description="")  {
 
+	at <- tagconnect(DF, at)
+		if(!is.null(display_under))  {
+		display_under<-tagconnect(DF,display_under)
+	}
+
   	tp <-5
 
 	info<-test.basic(DF, at,  display_under, tag)
@@ -126,8 +131,8 @@ if( !mt>0 ) {
 		Name2 = name2,
 		Description = description,
 		UType=	0	,
-		UP1=	-1	,
-		UP2=	-1
+		UP1=	0	,
+		UP2=	0
 	)
 
 	DF <- rbind(DF, Dfrow)

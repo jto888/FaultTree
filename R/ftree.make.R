@@ -120,13 +120,13 @@ if(tp==16)  {stop("atleast gate requires FaultTree.SCRAM and connot be top event
 		EType=	0	,
 		P1=	p1	,
 		P2=	p2	,
-		Tag_Obj=	""	,
+		Tag_Obj=	"top"	,
 		Name=	name	,
 		Name2=	name2	,
 		Description=	description	,
 		UType=	0	,
-		UP1=	-1	,
-		UP2=	-1	,		
+		UP1=	0	,
+		UP2=	0	,		
 		stringsAsFactors = FALSE
 	)
 DF
