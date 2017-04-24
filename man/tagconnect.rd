@@ -1,12 +1,12 @@
 \name{tagconnect}
 \alias{tagconnect}
 
-\title{ Interpretation of Node ID by 'tag' Name }
+\title{ Interpretation of Node ID by tag Name }
 
 \description{Enables tree building improvement by allowing reference to nodes by tag.}
 
 \usage{
-tagconnect(DF, at) {
+tagconnect(DF, at)
 }
 
 \arguments{

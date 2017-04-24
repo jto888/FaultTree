@@ -159,7 +159,7 @@ addLogic<-function(DF, type, at, reversible_cond=FALSE, cond_first=TRUE, human_p
 		EType=	0	,
 		P1=	p1	,
 		P2=	p2	,
-		Tag_Obj=	""	,
+		Tag_Obj=	tag	,
 		Name=	name	,
 		Name2=	name2	,
 		Description=	description	,

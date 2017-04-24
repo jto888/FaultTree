@@ -17,9 +17,6 @@
 addDemand<-function(DF, at, mttf, tag="", name="", name2="", description="")  {
 
 	at <- tagconnect(DF, at)
-		if(!is.null(display_under))  {
-		display_under<-tagconnect(DF,display_under)
-	}
 
 	tp=3
 
