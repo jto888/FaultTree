@@ -7,6 +7,7 @@ addLatent,
 addLogic,
 addProbability,
 cutsets,
+addUndeveloped,
 ftree.calc,
 ftree.make,
 ftree2html,
@@ -15,6 +16,7 @@ hierarchyDF2json,
 parameter_conversion,
 pc,
 prob2lam,
+tagconnect,
 test.ftree)
 
 importFrom("stats", "qnorm")

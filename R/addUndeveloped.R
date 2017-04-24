@@ -14,7 +14,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-addUndeveloped<-function(DF, at, prob=0, tag="", description="")  {
+addUndeveloped<-function(DF, at, prob=0, tag="", name="", name2="", description="")  {
 
   at <- tagconnect(DF, at)
 
@@ -53,8 +53,8 @@ addUndeveloped<-function(DF, at, prob=0, tag="", description="")  {
     P1=	-1	,
     P2=	-1	,
     Tag_Obj=	tag	,
-    Name=	""	,
-    Name2=	""	,
+    Name=	name	,
+    Name2=	name2	,
     Description=	description	,
     UType=	0	,
     UP1=	0	,
