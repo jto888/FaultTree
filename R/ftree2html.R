@@ -3,7 +3,7 @@ ftree2html<-function(DF,dir="", write_file=FALSE){
 
 	html_string<-paste0(
 		HTMLhead,
-		hierarchyDF2json(DF,data.col=c(1,5:10,13:17)),
+		hierarchyDF2json(DF,data.col=c(1,5:10,12:17)),
 		';',
 		HTMLd3script,
 		'</script>'
@@ -55,6 +55,7 @@ var root =
 '
 
 HTMLd3script<-'
+var llim=1e-25;
 var duration = 200,rectW = 124,rectH = 90,TrectH = 24;
 var width_initial = $(window).width()/2-60;
 var tree = d3.layout.tree()
@@ -105,6 +106,32 @@ nodeEnter.append("text")
 .attr("text-anchor", "middle")
 .text(function (d) {
 return d.name2;});
+
+
+nodeEnter.append("text")
+.attr("x", rectW / 2 -144)
+.attr("y", TrectH  +14)
+.attr("text-anchor", "middle")
+.attr("fill", "navy")
+.text(function (d) {
+return (d.tag_obj=="top" && d.p2>0) ? "Mission Time" : "" ;});
+
+
+nodeEnter.append("text")
+.attr("x", rectW / 2 -144)
+.attr("y", TrectH  +26)
+.attr("text-anchor", "middle")
+.attr("fill", "navy")
+.text(function (d) {
+return (d.tag_obj=="top" && d.p2>0) ? d.p2 : "" ;});
+
+
+
+
+
+
+
+
 var orGate="m 75,65 c  -1.4, -10, .6, -22 -15, -30 -15.6, 8, -13.4, 20, -15, 30, 0, 0 3, -8 15, -8 10, 0 15, 8 15, 8 z";
 var andGate="m 45,50 0,15 30,0 0,-15  a15,15 .2 0,0 -15,-15 a15,15 .2 0,0 -15,15";
 var priorityGate="m 45,50 0,15 30,0 0,-15  a15,15 .2 0,0 -15,-15 a15,15 .2 0,0 -15,15 m 0,10 30,0";
@@ -112,6 +139,7 @@ var inhibitGate="m 60,35 -15,6.340 0,17.3205 15,6.340  15,-6.340 0,-17.3205 z";
 var alarmGate="m 75,65 c  -1.4, -10, .6, -22 -15, -30 -15.6, 8, -13.4, 20, -15, 30, 0, 0 3, -8 15, -8 10, 0 15, 8 15, 8 z m -30,0 v5 c0, 0 3, -8 15, -8 10, 0 15, 8 15, 8 v-5";
 var voteGate="m 75,65 c  -1.4,-10,.6,-22-15,-30  -15.6,8,-13.4,20,-15,30 m 0,0 0,10 30,0 0,-10 m-28,-7.5 27,0"; 
 var house="m 45,50 0,15 30,0 0,-15 -15,-15  -15,15";
+var undeveloped="m 60,35 m 0,0 l 30,15 l -30,15 l -30,-15 z";
 var component="m 75, 50 a15,15 .2 0,0 -15,-15 a15,15 .2 0,0 -15,15 a15,15 .2 0,0 15,15 a15,15 .2 0,0 15,-15";
 nodeEnter.append("path")
 .attr("d",
@@ -130,7 +158,11 @@ case 15 : return(voteGate);
 break;
 case 16 : return(voteGate);
 break;
-case 6 : return(house);
+case 9 : return(house);
+break;
+case 6 : return(undeveloped);
+break;
+case 3 : return(undeveloped);
 break;
 default : return(component);
 }})
@@ -170,9 +202,9 @@ nodeEnter.append("text")
 .text(function (d) {
 return d.condition > 0 ? "Cond" : "" ;});
 nodeEnter.append("text")
-.attr("x", rectW / 2 +44)
+.attr("x", rectW / 2 +4)
 .attr("y", TrectH  -26)
-.attr("text-anchor", "right")
+.attr("text-anchor", "left")
 .attr("fill",  function(d){return d.moe==0 ? "red": "magenta";})
 .text(function (d) {
 return d.tag_obj;});
@@ -195,27 +227,42 @@ nodeEnter.append("text")
 .attr("y", TrectH  + 36)
 .attr("text-anchor", "left")
 .attr("fill", "navy")
-.text(function (d) { return d.pbf>0 ? "Prob":"";});
+.text(function (d) { return d.pbf>llim ? "Prob":"";});
 nodeEnter.append("text")
 .attr("x", rectW/2+18)
 .attr("y", TrectH  + 48)
 .attr("text-anchor", "left")
 .attr("fill", "navy")
-.text(function (d) {return d.pbf>0 ? (d.pbf).toExponential(4):"" ;});
+.text(function (d) {return d.pbf>llim ? (d.pbf).toExponential(4):"" ;});
 nodeEnter.append("text")
 .attr("x", -4)
 .attr("y", TrectH  + 12)
 .attr("text-anchor", "left")
-//.attr("fill",  function(d){return d.condition==0 ? "lightgray": d.repairable==1 ? "dimgray": "white" ;})
-.attr("fill",  function(d){return d.condition==1 ? "dimgray":"lightgray" ;})
-.text(function (d) { return d.crt>0 ? "Repair Time":"";});
+
+//.attr("fill",  function(d){return d.condition==1 ? "dimgray":"lightgray" ;})
+.attr("fill",  function(d){return d.condition==1 ? "dimgray": d.etype>0 ? "dimgray" : "lightgray" ;})
+//.text(function (d) { return d.crt>0 ? "Repair Time":"";});
+.text(function (d) { return d.crt>0 ? "Repair Time": d.etype==1 ? "Exponential": d.etype==2 ? "Weibull":"";});
+
 nodeEnter.append("text")
 .attr("x", -4)
 .attr("y", TrectH  + 24)
 .attr("text-anchor", "left")
-//.attr("fill",  function(d){return d.condition==0 ? "lightgray": d.repairable==1 ? "dimgray": "white" ;})
-.attr("fill",  function(d){return d.condition==1 ? "dimgray":"lightgray" ;})
-.text(function (d) {return d.crt>0 ? (d.crt).toExponential(4):"" ;});
+
+//.attr("fill",  function(d){return d.condition==1 ? "dimgray":"lightgray" ;})
+.attr("fill",  function(d){return d.condition==1 ? "dimgray": d.etype>0 ? "dimgray" : "lightgray" ;})
+//.text(function (d) {return d.crt>0 ? (d.crt).toExponential(4):"" ;});
+.text(function (d) {return d.crt>0 ? (d.crt).toExponential(4):  d.etype==2 ? "B="+parseFloat(d.p1.toFixed(2)) : (d.etype==1 && d.p2>0) ? "exposure" :"" ;});
+
+nodeEnter.append("text")
+.attr("x", -4)
+.attr("y", TrectH  + 36)
+.attr("text-anchor", "left")
+// must have an else for fill condition
+.attr("fill",  function(d){return d.etype>0 ? "dimgray" : "white" ;})
+.text(function (d) {return d.etype==2 ? "TS="+d.p2 : (d.etype==1 && d.p2>0) ? d.p2 :"" ;});
+
+
 nodeEnter.append("text")
 .attr("x", -4)
 .attr("y", TrectH  + 48)
@@ -230,7 +277,7 @@ nodeEnter.append("text")
 .attr("fill", "maroon")
 .text(function (d) {
 	return d.type==2 ? "T="+parseFloat(d.p2.toFixed(4)) +" Po=" +parseFloat(d.p1.toFixed(5))
-	: d.type==5 ? "T="+parseFloat(d.p2.toFixed(4))
+//	: d.type==5 ? "T="+parseFloat(d.p2.toFixed(4))
 	:"";});
 var nodeUpdate = node.transition()
 .duration(duration)

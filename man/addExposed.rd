@@ -13,7 +13,7 @@ addExposed(DF, at, mttf, dist="exponential", param=NULL, display_under=NULL,
 
 \arguments{
 \item{DF}{ A fault tree dataframe such as returned from ftree.make or related add... functions.}
-\item{at}{ The ID of the parent node for this addition.}
+\item{at}{ The ID or tag name of the parent node for this addition.}
 \item{mttf}{The mean time to failure.  It is the user's responsibility to maintain constant units of time.}
 \item{dist}{The probabilty distribution to be used for defining probability of failure from mttf, and a possible extra parameter. Options for "exponential" and "weibull" have been implemented.}
 \item{param}{A vector containing shape and time_shift for weibull exposed events in that order.}

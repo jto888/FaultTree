@@ -52,7 +52,8 @@
 	
 ## weibull exposure time can only be mission_time identified at P2 in top event.
 if(is.null(exposure) || etype==2)  {
-	mt<-DF$P2[which(DF$ID==min(DF$ID))]
+	mt_top<-DF$P2[which(DF$ID==min(DF$ID))]
+	mt<-mt_top
 }else{
 ## This is to be a seldom used over-ride of system mission time 
 ## applicable only to exponentially exposed events
@@ -60,14 +61,19 @@ if(is.null(exposure) || etype==2)  {
 		mt<-exposure
 	}
 }
-if( !mt>0 ) {
+if( !mt>0) {
 	stop("exposed event must have defined mission_time or exposure")
 }
 
 
 	if(etype == 1)  {
+	
 		pf<-signif(1 - exp(-(1/mttf) * mt),5)
-		p2<-mt
+## assignment of p2 here controls graphics for Exponential exposure
+## only want to display mission_time override
+		if(mt!=mt_top) {
+			p2<-mt
+		}
 	}
 
 

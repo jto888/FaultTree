@@ -19,7 +19,16 @@ addUndeveloped<-function(DF, at, prob=0, tag="", name="", name2="", description=
   at <- tagconnect(DF, at)
 
   tp <- 6
+  
 
+## This limit is used to supress probability display only for undeveloped events
+##  with no or zero probability estimate. var llim=1e-25 has been hard coded in the html code.
+ if(.Machine$double.xmin < 1e-26){
+	  if(prob==0) prob=1e-26
+  }else{
+  warning("Undeveloped node with zero probability will be entirely suppressed from graphics")
+  }
+  
   info<-test.basic(DF, at,  display_under=NULL, tag)
   thisID<-info[1]
   parent<-info[2]
