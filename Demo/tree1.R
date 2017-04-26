@@ -1,3 +1,4 @@
+if(exists("mission_time")) rm(mission_time)
 tree1 <- ftree.make(type="priority",reversible_cond=TRUE, name="Site power loss")
 tree1 <- addLogic(tree1, at=1, type="or", name="neither emergency", name2="generator operable")
 tree1 <- addLogic(tree1, at=2, type="and", name="Independent failure", name2="of generators")

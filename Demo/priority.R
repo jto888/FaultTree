@@ -1,5 +1,5 @@
 require(magrittr)
-
+if(exists("mission_time")) rm(mission_time)
 surge3<-ftree.make(type="priority", name="Surge Tank", name2="Overpressure Failure")
 surge3<-surge3 %>%
 addLogic(., at=1, type="or",

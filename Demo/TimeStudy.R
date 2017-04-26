@@ -19,4 +19,5 @@ TimeStudy<-rbind(TimeStudy, study_row)
 }
 
 plot(TimeStudy, log="x", type="l") 
- 
+rm(mission_time)
+

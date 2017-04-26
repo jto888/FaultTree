@@ -1,3 +1,4 @@
+if(exists("mission_time")) rm(mission_time)
 cool<-ftree.make(type="or", name="Coolant Flow", name2="Insufficient")
 cool<-addLogic(cool, at= 1, type="and", name="Pumps Fail", name2="Independently")
 cool<-addLogic(cool, at=1, type="or", name="Common Cause", name2="Pumping Failure")

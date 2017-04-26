@@ -1,3 +1,4 @@
+if(exists("mission_time")) rm(mission_time)
 rv_test<-c(3,3,3,2,1,2,1)
 pi_test<-c(3,1,1/12,1/12,1/12,1/52,1/52)
 walkby<-c(3,1/12,1/52,1/52,1/52,1/52,1/52)

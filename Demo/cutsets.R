@@ -1,3 +1,4 @@
+if(exists("mission_time")) rm(mission_time)
 pwr<-ftree.make(type="or", name="insufficient", name2="Electrical Power")
 pwr<-addLogic(pwr, at=1, type="and", name="No Output", name2="G1, G2, G3")
 pwr<-addLogic(pwr, at=2, type="or", name="No Power", name2="From G1")
