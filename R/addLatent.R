@@ -16,7 +16,13 @@
 
 addLatent<-function(DF, at, mttf, mttr=NULL, pzero="repair", inspect=NULL, display_under=NULL, tag="", name="",name2="", description="")  {
 
+	at <- tagconnect(DF, at)
+		if(!is.null(display_under))  {
+		display_under<-tagconnect(DF,display_under)
+	}
 	tp<-2
+	etp<-0
+#	etp<-4 # will default to zero if mission_time is not defined. 
 
 	info<-test.basic(DF, at,  display_under, tag)
 	thisID<-info[1]
@@ -24,9 +30,9 @@ addLatent<-function(DF, at, mttf, mttr=NULL, pzero="repair", inspect=NULL, displ
 	gp<-info[3]
 	condition<-info[4]
 
-	if(any(DF$Type==5)) {
-		stop("repairable system event event called for in non-repairable model")
-	}
+##	if(any(DF$Type==5)) {
+##		stop("repairable system event event called for in non-repairable model")
+##	}
 
 	if(is.null(mttf))  {stop("latent component must have mttf")}
 	if(is.null(mttr)) { mttr<- (-1)}
@@ -81,7 +87,7 @@ addLatent<-function(DF, at, mttf, mttr=NULL, pzero="repair", inspect=NULL, displ
 		MOE=	0	,
 		Condition=	condition,
 		Cond_Code=	0,
-		EType=	0	,		
+		EType=	etp,
 		P1=	pzero	,
 		P2=	Tao	,
 		Tag_Obj=	tag	,
@@ -89,8 +95,8 @@ addLatent<-function(DF, at, mttf, mttr=NULL, pzero="repair", inspect=NULL, displ
 		Name2=	name2	,
 		Description=	description	,
 		UType=	0	,
-		UP1=	-1	,
-		UP2=	-1	
+		UP1=	0	,
+		UP2=	0
 	)
 
 

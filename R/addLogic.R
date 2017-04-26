@@ -14,15 +14,28 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-addLogic<-function(DF, type, at, reversible_cond=FALSE, cond_first=TRUE, human_pbf=NULL, 
-		vote_par=NULL, name="", name2="", description="")  {
+addLogic<-function(DF, type, at, reversible_cond=FALSE, cond_first=TRUE, human_pbf=NULL,
+		vote_par=NULL, tag="", name="", name2="", description="")  {
 
 	if(!test.ftree(DF)) stop("first argument must be a fault tree")
-	
+
+	at <- tagconnect(DF, at)
+
+	if(tag!="")  {
+		if (length(which(DF$Tag == tag) != 0)) {
+			stop("tag is not unique")
+		}
+		prefix<-substr(tag,1,2)
+		if(prefix=="E_" || prefix=="G_" || prefix=="H_") {
+			stop("Prefixes 'E_', 'G_', and 'H_' are reserved for auto-generated tags.")
+		}
+	}
+
+
 	if(type=="atleast") {
 		stop("atleast must be added through FaultTree.SCRAM::addAtLeast")
 	}
-	
+
 	tp<-switch(type,
 		or = 10,
 		and = 11,
@@ -38,14 +51,14 @@ addLogic<-function(DF, type, at, reversible_cond=FALSE, cond_first=TRUE, human_p
 	)
 
 ## model test
-	if(type>12 && type<16) {		
-## This proposed addition will be RAM model		
-		if(any(DF$Type==5) || any(DF$Type==16)) {	
+	if(type==13 || type==15) {
+## This proposed addition will be RAM model
+		if(any(DF$Type==5) || any(DF$Type==16)) {
 			stop("RAM system event event called for in PRA model")
-		}	
+		}
 	}
-	
-	
+
+
 	parent<-which(DF$ID== at)
 	if(length(parent)==0) {stop("connection reference not valid")}
 	thisID<-max(DF$ID)+1
@@ -54,7 +67,7 @@ addLogic<-function(DF, type, at, reversible_cond=FALSE, cond_first=TRUE, human_p
 	if(!DF$MOE[parent]==0) {
 		stop("connection cannot be made to duplicate nor source of duplication")
 	}
-	
+
 	if(DF$Type[parent]==15) {
 		if(length(which(DF$CParent==at))>0) {
 			stop("connection slot not available")
@@ -128,7 +141,7 @@ addLogic<-function(DF, type, at, reversible_cond=FALSE, cond_first=TRUE, human_p
 			}
 		}else{
 			stop("must provide k of n vote parameters c(k,n)")
-		}	
+		}
 	}
 
 	Dfrow<-data.frame(
@@ -146,13 +159,13 @@ addLogic<-function(DF, type, at, reversible_cond=FALSE, cond_first=TRUE, human_p
 		EType=	0	,
 		P1=	p1	,
 		P2=	p2	,
-		Tag_Obj=	""	,
+		Tag_Obj=	tag	,
 		Name=	name	,
 		Name2=	name2	,
 		Description=	description	,
 		UType=	0	,
-		UP1=	-1	,
-		UP2=	-1	
+		UP1=	0	,
+		UP2=	0
 	)
 
 

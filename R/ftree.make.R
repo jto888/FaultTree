@@ -16,12 +16,25 @@
 
 
 ftree.make<-function(type, reversible_cond=FALSE, cond_first=TRUE, 
-		human_pbf=NULL, start_id=1, vote_par=NULL, name="top event", name2="",description="")  {
+		human_pbf=NULL, start_id=1, system_mission_time=NULL,
+		name="top event", name2="",description="")  {
 
 	thisID<-start_id
-	
-	if(type=="atleast") {
-		stop("atleast must be added through FaultTree.SCRAM::addAtLeast")
+
+## note p2 will hold system_mission_time at top gate, if it is set at all.
+## p1 is used by ALARM gate to hold probability of human failure, 
+	p1=-1
+	p2=-1
+	if(!is.null(system_mission_time)) {
+		p2<-system_mission_time
+		if(exists("mission_time")) {
+			warning("The system_mission_time argument has overridden global 'mission_time'")
+		}
+	}else{
+		if(exists("mission_time")) {
+			smt<-"mission_time"
+			p2<-eval((parse(text = smt)))
+		}
 	}
 
 	tp<-switch(type,
@@ -34,10 +47,14 @@ ftree.make<-function(type, reversible_cond=FALSE, cond_first=TRUE,
 		priority=14,
 		comb=15,
 		vote=15,
-		## atleast=16, # not allowed by ftree.make
+		atleast=16,
 		stop("gate type not recognized")
 	)
-
+## vote gate requires access to P2, which holds mission_time value at top gate.
+## atleast gate is specific to SCRAM PRA, cannot be implemented in FaultTree alone.
+## disallow vote and atleast from top event, simply place as single child under OR
+if(tp==15)  {stop("vote gate not permitted as top event, place as single child under OR")}
+if(tp==16)  {stop("atleast gate requires FaultTree.SCRAM and connot be top event")}
 
 ## default is irreversible, so
 	reversible=0
@@ -61,8 +78,7 @@ ftree.make<-function(type, reversible_cond=FALSE, cond_first=TRUE,
 
 	cond_code<-reversible+10*cond_second
 
-	p1=-1
-	p2=-1
+
 	if(tp == 13) {
 		if(human_pbf < 0 || human_pbf >1) {
 			stop(paste0("alarm gate at ID ", as.character(thisID), " requires human failure probability value"))
@@ -74,19 +90,20 @@ ftree.make<-function(type, reversible_cond=FALSE, cond_first=TRUE,
 		}
 	}
 
-
-	if(tp==15) {
-		if(length(vote_par)==2) {
-			if(vote_par[1]<vote_par[2]) {
-				p1<-vote_par[1]
-				p2<-vote_par[2]
-			}else{
-				stop("validation error with vote parameters")
-			}
-		}else{
-			stop("must provide k of n vote parameters c(k,n)")
-		}	
-	}
+## vote gate requires access to P2, which holds mission_time value at top gate.
+## vote gate has been disallowed as top event.
+#	if(tp==15) {
+#		if(length(vote_par)==2) {
+#			if(vote_par[1]<vote_par[2]) {
+#				p1<-vote_par[1]
+#				p2<-vote_par[2]
+#			}else{
+#				stop("validation error with vote parameters")
+#			}
+#		}else{
+#			stop("must provide k of n vote parameters c(k,n)")
+#		}	
+#	}
 
 	DF<-data.frame(
 		ID=	thisID	,
@@ -103,13 +120,13 @@ ftree.make<-function(type, reversible_cond=FALSE, cond_first=TRUE,
 		EType=	0	,
 		P1=	p1	,
 		P2=	p2	,
-		Tag_Obj=	""	,
+		Tag_Obj=	"top"	,
 		Name=	name	,
 		Name2=	name2	,
 		Description=	description	,
 		UType=	0	,
-		UP1=	-1	,
-		UP2=	-1	,		
+		UP1=	0	,
+		UP2=	0	,		
 		stringsAsFactors = FALSE
 	)
 DF

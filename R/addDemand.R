@@ -16,12 +16,14 @@
 
 addDemand<-function(DF, at, mttf, tag="", name="", name2="", description="")  {
 
+	at <- tagconnect(DF, at)
+
 	tp=3
-	
+
 ## Model test
-	if(any(DF$Type==5) || any(DF$Type==16)) {	
-		stop("RAM system event event called for in PRA model")
-	}	
+	if(any(DF$Type==5) || any(DF$Type==16)) {
+		stop("Pure Demand event event not permitted in PRA model")
+	}
 
 	display_under<-NULL
 
@@ -31,9 +33,7 @@ addDemand<-function(DF, at, mttf, tag="", name="", name2="", description="")  {
 	gp<-info[3]
 	condition<-info[4]
 
-	if(any(DF$Type==5)) {
-		stop("repairable system event event called for in non-repairable model")
-	}
+
 
 	if(!mttf>0)  {stop("demand interval must be greater than zero")}
 
@@ -49,7 +49,7 @@ addDemand<-function(DF, at, mttf, tag="", name="", name2="", description="")  {
 		MOE=	0	,
 		Condition=	condition,
 		Cond_Code=	0,
-		EType=	0	,		
+		EType=	0	,
 		P1=	-1	,
 		P2=	-1	,
 		Tag_Obj=	tag	,
@@ -57,8 +57,8 @@ addDemand<-function(DF, at, mttf, tag="", name="", name2="", description="")  {
 		Name2=	name2	,
 		Description=	description	,
 		UType=	0	,
-		UP1=	-1	,
-		UP2=	-1	
+		UP1=	0	,
+		UP2=	0
 	)
 
 

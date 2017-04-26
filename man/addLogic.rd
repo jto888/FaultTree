@@ -7,18 +7,19 @@
 
 \usage{
 addLogic(DF, type, at, reversible_cond=FALSE, cond_first=TRUE, human_pbf=NULL,
-		vote_par=NULL, name="", name2="", description="")
+		vote_par=NULL, tag="", name="", name2="", description="") 
 }
 
 \arguments{
 \item{DF}{A fault tree dataframe such as returned from ftree.make or related add... functions.}
 \item{type}{A string signifying the type of logic to be applied. Implemented gate types "or","and","inhibit","conditional" (or "cond"), and "alarm" have been implemented.}
-\item{at}{The ID of the parent node for this addition.}
+\item{at}{The ID or tag name of the parent node for this addition.}
 \item{reversible_cond}{A boolean value used only by the conditional gate type indicating whether repair of the input condition is viable to the model.}
 \item{cond_first}{A boolean signifying whether the first child to an INHIBIT, ALARM, or PRIORITY logic gate should be taken as the condition.
  Alternatively, if FALSE, the second child will be taken as a condition.  This is primarily a graphic display issue.}
 \item{human_pbf}{A probability of failure for a human to respond as needed to an alarm. This value is only used by the alarm gate.}
 \item{vote_par}{ A vector of vote parameters as c(k,n) for k of n voting.}
+\item{tag}{ A very short identifying string (typically 5 characters or less) uniquely identifying a basic event for minimal cutset evaluation}
 \item{name}{A short identifying string (typically less than 24 characters)}
 \item{name2}{ A second line, if needed for the identifying string label}
 \item{description}{ An optional string providing more detail for the resultant event.}
