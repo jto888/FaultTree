@@ -14,15 +14,18 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-addLatent<-function(DF, at, mttf, mttr=NULL, pzero="repair", inspect=NULL, display_under=NULL, tag="", name="",name2="", description="")  {
+addLatent<-function(DF, at, mttf, mttr=NULL, inspect=NULL, display_under=NULL, tag="", name="",name2="", description="")  {
 
 	at <- tagconnect(DF, at)
 		if(!is.null(display_under))  {
 		display_under<-tagconnect(DF,display_under)
 	}
-	tp<-2
+	tp<-2 
 	etp<-0
-#	etp<-4 # will default to zero if mission_time is not defined. 
+	mt<-DF$P2[which(DF$ID==min(DF$ID))]
+	if(mt>0)  {
+		etp<-4
+	}
 
 	info<-test.basic(DF, at,  display_under, tag)
 	thisID<-info[1]
@@ -38,8 +41,9 @@ addLatent<-function(DF, at, mttf, mttr=NULL, pzero="repair", inspect=NULL, displ
 	if(is.null(mttr)) { mttr<- (-1)}
 
 	if(is.null(inspect))  {stop("latent component must have inspection entry")}
+	
 
-	if(is.null(pzero)) {pzero<- (-1)}
+
 	if(is.character(inspect))  {
 		if(exists("inspect")) {
 			Tao<-eval((parse(text=inspect)))
@@ -50,19 +54,16 @@ addLatent<-function(DF, at, mttf, mttr=NULL, pzero="repair", inspect=NULL, displ
 		Tao=inspect
 	}
 
-	## default Pzero handling
-	if(pzero=="repair")  {
-		if(!mttr>0)  {stop("mttr required for pzero calculation")}
+## pzero argument has been depreciated, pzero will be calculated based on mttr, if it is provided
+
+## default Pzero=0, it is only a calculated value if mttr is provided
+	pzero<-0
+	if(length(mttr)>0) {
 		pzero=mttr/(mttf+mttr)
 	}
-
-	## fractional downtime method
+		## fractional downtime method
 	pf<-1-1/((1/mttf)*Tao)*(1-exp(-(1/mttf)*Tao))
-	if(is.numeric(pzero))  {
-		if(pzero>=0 && pzero<1) {
-			pf<- 1-(1-pf)*(1-pzero)
-		}else{ stop("pzero entry must be zero to one")}
-	}
+	pf<- 1-(1-pf)*(1-pzero)
 
 	gp<-at
 	if(length(display_under)!=0)  {
