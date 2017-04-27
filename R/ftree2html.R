@@ -106,8 +106,6 @@ nodeEnter.append("text")
 .attr("text-anchor", "middle")
 .text(function (d) {
 return d.name2;});
-
-
 nodeEnter.append("text")
 .attr("x", rectW / 2 -144)
 .attr("y", TrectH  +14)
@@ -115,8 +113,6 @@ nodeEnter.append("text")
 .attr("fill", "navy")
 .text(function (d) {
 return (d.tag_obj=="top" && d.p2>0) ? "Mission Time" : "" ;});
-
-
 nodeEnter.append("text")
 .attr("x", rectW / 2 -144)
 .attr("y", TrectH  +26)
@@ -124,14 +120,6 @@ nodeEnter.append("text")
 .attr("fill", "navy")
 .text(function (d) {
 return (d.tag_obj=="top" && d.p2>0) ? d.p2 : "" ;});
-
-
-
-
-
-
-
-
 var orGate="m 75,65 c  -1.4, -10, .6, -22 -15, -30 -15.6, 8, -13.4, 20, -15, 30, 0, 0 3, -8 15, -8 10, 0 15, 8 15, 8 z";
 var andGate="m 45,50 0,15 30,0 0,-15  a15,15 .2 0,0 -15,-15 a15,15 .2 0,0 -15,15";
 var priorityGate="m 45,50 0,15 30,0 0,-15  a15,15 .2 0,0 -15,-15 a15,15 .2 0,0 -15,15 m 0,10 30,0";
@@ -238,22 +226,14 @@ nodeEnter.append("text")
 .attr("x", -4)
 .attr("y", TrectH  + 12)
 .attr("text-anchor", "left")
-
-//.attr("fill",  function(d){return d.condition==1 ? "dimgray":"lightgray" ;})
 .attr("fill",  function(d){return d.condition==1 ? "dimgray": d.etype>0 ? "dimgray" : "lightgray" ;})
-//.text(function (d) { return d.crt>0 ? "Repair Time":"";});
 .text(function (d) { return d.crt>0 ? "Repair Time": d.etype==1 ? "Exponential": d.etype==2 ? "Weibull":"";});
-
 nodeEnter.append("text")
 .attr("x", -4)
 .attr("y", TrectH  + 24)
 .attr("text-anchor", "left")
-
-//.attr("fill",  function(d){return d.condition==1 ? "dimgray":"lightgray" ;})
 .attr("fill",  function(d){return d.condition==1 ? "dimgray": d.etype>0 ? "dimgray" : "lightgray" ;})
-//.text(function (d) {return d.crt>0 ? (d.crt).toExponential(4):"" ;});
 .text(function (d) {return d.crt>0 ? (d.crt).toExponential(4):  d.etype==2 ? "B="+parseFloat(d.p1.toFixed(2)) : (d.etype==1 && d.p2>0) ? "exposure" :"" ;});
-
 nodeEnter.append("text")
 .attr("x", -4)
 .attr("y", TrectH  + 36)
@@ -261,8 +241,6 @@ nodeEnter.append("text")
 // must have an else for fill condition
 .attr("fill",  function(d){return d.etype>0 ? "dimgray" : "white" ;})
 .text(function (d) {return d.etype==2 ? "TS="+d.p2 : (d.etype==1 && d.p2>0) ? d.p2 :"" ;});
-
-
 nodeEnter.append("text")
 .attr("x", -4)
 .attr("y", TrectH  + 48)
@@ -270,14 +248,12 @@ nodeEnter.append("text")
 .attr("fill", "black")
 .text(function (d) { return d.type==13 ? "Phf="+parseFloat(d.p1.toFixed(2)) :"";});
 nodeEnter.append("text")
-//.attr("x", rectW/2)
 .attr("x", function(d) { return d.type==2 ? rectW/2 : rectW/2+10;})
 .attr("y", TrectH  + 60)
 .attr("text-anchor", function(d) { return d.type==2 ? "middle" : "left";})
 .attr("fill", "maroon")
 .text(function (d) {
 	return d.type==2 ? "T="+parseFloat(d.p2.toFixed(4)) +" Po=" +parseFloat(d.p1.toFixed(5))
-//	: d.type==5 ? "T="+parseFloat(d.p2.toFixed(4))
 	:"";});
 var nodeUpdate = node.transition()
 .duration(duration)
