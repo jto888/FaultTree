@@ -14,7 +14,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-addLatent<-function(DF, at, mttf, mttr=NULL, inspect=NULL, display_under=NULL, tag="", name="",name2="", description="")  {
+addLatent<-function(DF, at, mttf, mttr=NULL, pzero=NULL, inspect=NULL, display_under=NULL, tag="", name="",name2="", description="")  {
 
 	at <- tagconnect(DF, at)
 		if(!is.null(display_under))  {
@@ -39,9 +39,10 @@ addLatent<-function(DF, at, mttf, mttr=NULL, inspect=NULL, display_under=NULL, t
 
 	if(is.null(mttf))  {stop("latent component must have mttf")}
 	if(is.null(mttr)) { mttr<- (-1)}
+	if(!is.null(pzero) {} # silently ignore any input. Argument to be depreciated.
 
 	if(is.null(inspect))  {stop("latent component must have inspection entry")}
-	
+
 
 
 	if(is.character(inspect))  {
