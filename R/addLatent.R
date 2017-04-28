@@ -38,7 +38,8 @@ addLatent<-function(DF, at, mttf, mttr=NULL, pzero=NULL, inspect=NULL, display_u
 ##	}
 
 	if(is.null(mttf))  {stop("latent component must have mttf")}
-	if(is.null(mttr)) { mttr<- (-1)}
+## can't do this yet still need to reference the argument at pf calculation below.
+##	if(is.null(mttr)) { mttr<- (-1)}
 	if(!is.null(pzero)) {} # silently ignore any input. Argument to be depreciated.
 
 	if(is.null(inspect))  {stop("latent component must have inspection entry")}
@@ -65,6 +66,8 @@ addLatent<-function(DF, at, mttf, mttr=NULL, pzero=NULL, inspect=NULL, display_u
 		## fractional downtime method
 	pf<-1-1/((1/mttf)*Tao)*(1-exp(-(1/mttf)*Tao))
 	pf<- 1-(1-pf)*(1-pzero)
+## Now it is okay to set mttr to -1 for ftree entry
+	if(is.null(mttr)) { mttr<- (-1)}
 
 	gp<-at
 	if(length(display_under)!=0)  {
