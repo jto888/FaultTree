@@ -39,7 +39,7 @@ addLatent<-function(DF, at, mttf, mttr=NULL, pzero=NULL, inspect=NULL, display_u
 
 	if(is.null(mttf))  {stop("latent component must have mttf")}
 	if(is.null(mttr)) { mttr<- (-1)}
-	if(!is.null(pzero) {} # silently ignore any input. Argument to be depreciated.
+	if(!is.null(pzero)) {} # silently ignore any input. Argument to be depreciated.
 
 	if(is.null(inspect))  {stop("latent component must have inspection entry")}
 
