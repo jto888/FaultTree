@@ -49,10 +49,9 @@
 		stop("exposed type not recognized")
 	) 
 	
-	
+	mt_top<-DF$P2[which(DF$ID==min(DF$ID))]
 ## weibull exposure time can only be mission_time identified at P2 in top event.
 if(is.null(exposure) || etype==2)  {
-	mt_top<-DF$P2[which(DF$ID==min(DF$ID))]
 	mt<-mt_top
 }else{
 ## This is to be a seldom used over-ride of system mission time 
