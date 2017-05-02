@@ -29,7 +29,13 @@ tagconnect <- function(DF, at) {
     if (number_of_elements == 0) {
       stop(paste("no element with tag=",at,"found",sep = " "))
     } else if (number_of_elements > 1) {
-      stop(paste("more than one (",number_of_elements,") element with tag=",at,"was found",sep = " "))
+      #stop(paste("more than one (",number_of_elements,") element with tag=",at,"was found",sep = " "))
+  # It is still possible to deterimine the source id of any duplicated node by evaluating its MOE field
+		if(corresponding_element$MOE[1]<1) {
+			return(corresponding_element$ID)
+		}else{
+			return(corresponding_element$MOE[1])
+		}
     } else {
       # set the at argument to the ID of the unique element in the fault tree which has the tag
       # originally passed by user for the at argument
