@@ -101,23 +101,23 @@ addDuplicate<-function(DF, at, dup_id=NULL, dup_of=NULL, display_under=NULL)  {
 					if(DF$Type[parent]!=10) {stop("Component stacking only permitted under OR gate")}
 
 					## test for a character object in display under and interpret here
-		if (is.character(display_under) & length(display_under) == 1) {
-			# display_under argument is a string
-			# get children of parent
-			childrenIDs<-DF$ID[which(DF$CParent==DF$ID[parent])]
-## there is probably a more elegant R way to do this, but brute force works
-			for(child in length(childrenIDs))  {
-				if(DF$Tag_Obj[which(DF$ID==childrenIDs[child])]==display_under)  {
-					display_under<-childrenIDs[child]
-				}
-			}
-			if(!is.numeric(display_under)) {
-			stop("display under request not found")
-			}
-		}
+					if (is.character(display_under) & length(display_under) == 1) {
+						# display_under argument is a string
+						# get children of parent
+						childrenIDs<-DF$ID[which(DF$CParent==DF$ID[parent])]
+			## there is probably a more elegant R way to do this, but brute force works
+						for(child in length(childrenIDs))  {
+							if(DF$Tag_Obj[which(DF$ID==childrenIDs[child])]==display_under)  {
+								display_under<-childrenIDs[child]
+							}
+						}
+						if(!is.numeric(display_under)) {
+						stop("display under request not found")
+						}
+					}
 
 ## now resume rest of original display under code with display_under interpreted as an ID
-					if(DF$CParent[display_under]!=at) {stop("Must stack at component under same parent")}
+					if(DF$CParent[which(DF$ID==display_under)]!=at) {stop("Must stack at component under same parent")}
 					if(length(which(DF$GParent==display_under))>0 )  {
 						stop("display under connection not available")
 					}else{
