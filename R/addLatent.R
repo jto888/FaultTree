@@ -17,9 +17,12 @@
 addLatent<-function(DF, at, mttf, mttr=NULL, pzero=NULL, inspect=NULL, display_under=NULL, tag="", name="",name2="", description="")  {
 
 	at <- tagconnect(DF, at)
-		if(!is.null(display_under))  {
-		display_under<-tagconnect(DF,display_under)
-	}
+
+## display_under to be interpreted within test.basic
+##		if(!is.null(display_under))  {
+##		display_under<-tagconnect(DF,display_under)
+##	}
+
 	tp<-2 
 	etp<-0
 	mt<-DF$P2[which(DF$ID==min(DF$ID))]

@@ -2,9 +2,12 @@ addDuplicate<-function(DF, at, dup_id=NULL, dup_of=NULL, display_under=NULL)  {
 	if(!test.ftree(DF)) stop("first argument must be a fault tree")
 
 	at <- tagconnect(DF, at)
-		if(!is.null(display_under))  {
-		display_under<-tagconnect(DF,display_under)
-	}
+	
+## tagconnect does not address problems of display_under an MOE
+#		if(!is.null(display_under))  {
+#		display_under<-tagconnect(DF,display_under)
+#	}
+
 ## introducing a slight language hint for tag based node identification
 	if(is.null(dup_id) && is.null(dup_of)) {
 	stop("must identify source node of duplication.")
@@ -96,6 +99,19 @@ addDuplicate<-function(DF, at, dup_id=NULL, dup_of=NULL, display_under=NULL)  {
 			if(length(rows2copy)==1)  {
 				if(length(display_under)!=0)  {
 					if(DF$Type[parent]!=10) {stop("Component stacking only permitted under OR gate")}
+## test for a character object in display under and interpret here
+					  if (is.character(display_under) & length(display_under) == 1) {
+						# display_under argument is a string
+						# get children of parent
+						children<-which(DF$CParent==DF$ID[parent])
+						under_request<-which(DF$Tag_Obj[children]==display_under)
+						if(length(under_request)==1) {
+						display_under<-DF$ID[under_request]
+						}else{
+						stop("display under request not found")
+						}
+					}
+## now resume rest of original display under code with display_under interpreted as an ID
 					if(DF$CParent[display_under]!=at) {stop("Must stack at component under same parent")}
 					if(length(which(DF$GParent==display_under))>0 )  {
 						stop("display under connection not available")

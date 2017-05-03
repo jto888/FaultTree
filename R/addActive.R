@@ -17,9 +17,10 @@
 addActive<-function(DF, at, mttf=NULL, mttr=NULL, display_under=NULL, tag="", name="",name2="",description="")  {
 
 	at <- tagconnect(DF, at)
-		if(!is.null(display_under))  {
-		display_under<-tagconnect(DF,display_under)
-	}
+## display_under to be interpreted within test.basic
+##		if(!is.null(display_under))  {
+##		display_under<-tagconnect(DF,display_under)
+##	}
 
 	tp<-1
 
@@ -40,19 +41,21 @@ addActive<-function(DF, at, mttf=NULL, mttr=NULL, display_under=NULL, tag="", na
 #		stop("repairable system event event called for in non-repairable model")
 #	}
 
+## since this is the case mttf and mttr should not default to NULL
 	if(is.null(mttf))  {stop("active component must have mttf")}
 	if(is.null(mttr))  {stop("active component must have mttr")}
 
-	gp<-at
-	if(length(display_under)!=0)  {
-		if(DF$Type[parent]!=10) {stop("Component stacking only permitted under OR gate")}
-		if(DF$CParent[display_under]!=at) {stop("Must stack at component under same parent")}
-		if(length(which(DF$GParent==display_under))>0 )  {
-			stop("display under connection not available")
-		}else{
-			gp<-display_under
-		}
-	}
+## This duplicates code in test.basic. Only do this once!
+#	gp<-at
+#	if(length(display_under)!=0)  {
+#		if(DF$Type[parent]!=10) {stop("Component stacking only permitted under OR gate")}
+#		if(DF$CParent[display_under]!=at) {stop("Must stack at component under same parent")}
+#		if(length(which(DF$GParent==display_under))>0 )  {
+#			stop("display under connection not available")
+#		}else{
+#			gp<-display_under
+#		}
+#	}
 
 ## default settings for RAM model Active event only
 	etp<-0
