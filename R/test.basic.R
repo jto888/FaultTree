@@ -97,9 +97,9 @@ test.basic<-function(DF, at,  display_under, tag)  {
 			stop("display under request not found")
 			}
 		}
-
+browser()
 ## now resume rest of original display under code with display_under interpreted as an ID
-		if(DF$CParent[display_under]!=at) {stop("Must stack at component under same parent")}
+		if(DF$CParent[which(DF$ID==display_under)]!=at) {stop("Must stack at component under same parent")}
 		if(length(which(DF$GParent==display_under))>0 )  {
 			stop("display under connection not available")
 		}else{

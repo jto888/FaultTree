@@ -106,16 +106,17 @@ if( !mt>0) {
 		}
 	}
 
-	gp<-at
-	if(length(display_under)!=0)  {
-		if(DF$Type[parent]!=10) {stop("Component stacking only permitted under OR gate")}
-		if(DF$CParent[display_under]!=at) {stop("Must stack at component under same parent")}
-		if(length(which(DF$GParent==display_under))>0 )  {
-			stop("display under connection not available")
-		}else{
-			gp<-display_under
-		}
-	}
+## This duplicates code in test.basic. Only do this once!
+#	gp<-at
+#	if(length(display_under)!=0)  {
+#		if(DF$Type[parent]!=10) {stop("Component stacking only permitted under OR gate")}
+#		if(DF$CParent[display_under]!=at) {stop("Must stack at component under same parent")}
+#		if(length(which(DF$GParent==display_under))>0 )  {
+#			stop("display under connection not available")
+#		}else{
+#			gp<-display_under
+#		}
+#	}
 
 	Dfrow <- data.frame(
 		ID = thisID,
