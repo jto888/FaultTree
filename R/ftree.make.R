@@ -26,7 +26,7 @@ ftree.make<-function(type, reversible_cond=FALSE, cond_first=TRUE,
 			stop("cannot use both label and name convention in same tree")
 		}
 	}else{
-		if(name!="" || name2!="") {
+		if(name=="" && name2=="") {
 ## establish original default name for back portability
 			name="top event"
 		}
@@ -101,20 +101,6 @@ if(tp==16)  {stop("atleast gate requires FaultTree.SCRAM and connot be top event
 		}
 	}
 
-## vote gate requires access to P2, which holds mission_time value at top gate.
-## vote gate has been disallowed as top event.
-#	if(tp==15) {
-#		if(length(vote_par)==2) {
-#			if(vote_par[1]<vote_par[2]) {
-#				p1<-vote_par[1]
-#				p2<-vote_par[2]
-#			}else{
-#				stop("validation error with vote parameters")
-#			}
-#		}else{
-#			stop("must provide k of n vote parameters c(k,n)")
-#		}	
-#	}
 
 	DF<-data.frame(
 		ID=	thisID	,

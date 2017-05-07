@@ -34,7 +34,7 @@ test.basic<-function(DF, at,  display_under, tag)  {
 	}
 
 	if(tag!="")  {
-		if (length(which(DF$Tag_Obj == tag) != 0)) {
+		if (length(which(DF$Tag == tag) != 0)) {
 		stop("tag is not unique")
 		}
 		prefix<-substr(tag,1,2)
@@ -86,7 +86,7 @@ test.basic<-function(DF, at,  display_under, tag)  {
 		if (is.character(display_under) & length(display_under) == 1) {
 			# display_under argument is a string
 				siblingDF<-DF[which(DF$CParent==DF$ID[parent]),]
-				display_under<-siblingDF$ID[which(siblingDF$Tag_Obj==display_under)]
+				display_under<-siblingDF$ID[which(siblingDF$Tag==display_under)]
 			}
 		if(!is.numeric(display_under)) {
 		stop("display under request not found")

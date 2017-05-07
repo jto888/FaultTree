@@ -19,11 +19,11 @@ addActive<-function(DF, at, mttf, mttr, display_under=NULL, tag="", label="", na
 	at <- tagconnect(DF, at)
 
 	if(label!="")  {
-		if(any(DF$name!="") || any(DF$name2!="")) {
+		if(any(DF$Name!="") || any(DF$Name2!="")) {
 			stop("Cannot use label once name convention has been established.")
 		}
 	}
-	if(any(DF$label!="")) {
+	if(any(DF$Label!="")) {
 		if(name!="" || name2!="") {
 			stop("Cannot use name convention once label has been established.")
 		}

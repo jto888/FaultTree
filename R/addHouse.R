@@ -14,9 +14,21 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-addHouse<-function(DF, at, prob=1, name="", name2="", description="")  {
+addHouse<-function(DF, at, prob=1, label="", name="", name2="", description="")  {
 
 	at <- tagconnect(DF, at)
+
+	if(label!="")  {
+		if(any(DF$Name!="") || any(DF$Name2!="")) {
+			stop("Cannot use label once name convention has been established.")
+		}
+	}
+	if(any(DF$Label!="")) {
+		if(name!="" || name2!="") {
+			stop("Cannot use name convention once label has been established.")
+		}
+	}
+
  	tp=9
 
 	info<-test.basic(DF, at,  display_under=NULL, tag="")
@@ -47,8 +59,7 @@ addHouse<-function(DF, at, prob=1, name="", name2="", description="")  {
 	Dfrow<-data.frame(
 		ID=	thisID	,
 		GParent=	gp	,
-		CParent=	at	,
-		Level=	DF$Level[parent]+1	,
+		Tag=	""	,
 		Type=	tp	,
 		CFR=	-1	,
 		PBF=	prob	,
@@ -59,9 +70,12 @@ addHouse<-function(DF, at, prob=1, name="", name2="", description="")  {
 		EType=	0	,		
 		P1=	-1	,		
 		P2=	-1	,
-		Tag_Obj=	""	,
+		Collapse=	0	,
+		Label=	label	,
 		Name=	name	,
 		Name2=	name2	,
+		CParent=	at	,
+		Level=	DF$Level[parent]+1	,
 		Description=	description	,
 		UType=	0	,
 		UP1=	0	,
