@@ -17,8 +17,10 @@
 
 # Add functionality to refer to the tag attribute from the at attribute
 # for connecting the fault tree elements
+# Modified by David Silkworth to extend the identification of source element
+# in instances where reference is for duplication of application of uncertainty parameters. 
 
-tagconnect <- function(DF, at) {
+tagconnect <- function(DF, at, source=FALSE) {
   # If at argument is a string, it means that the user wants to connect to the tag of another tree
   # element. Search for this tag and, if it exists in the tree, overwrite at argument with the
   # corresponding ID of the element with this tag; otherwise, throw an error about non-existent tag!
@@ -29,12 +31,21 @@ tagconnect <- function(DF, at) {
     if (number_of_elements == 0) {
       stop(paste("no element with tag=",at,"found",sep = " "))
     } else if (number_of_elements > 1) {
-      stop(paste("more than one (",number_of_elements,") element with tag=",at,"was found",sep = " "))
-    } else {
-      # set the at argument to the ID of the unique element in the fault tree which has the tag
-      # originally passed by user for the at argument
-      return(corresponding_element$ID)
-    }
+		if(source) {
+			if(corresponding_element$MOE[1]<1) {
+				return(corresponding_element$ID[1])
+			}else{
+				return(corresponding_element$MOE[1])
+			}
+		}else{
+			stop(paste("more than one (",number_of_elements,") element with tag=",at,"was found",sep = " "))
+		} 
+		}else {
+# set the at argument to the ID of the unique element in the fault tree which has the tag
+# originally passed by user for the at argument
+			return(corresponding_element$ID)
+		}
+
   } else {
     # at argument is a number, return it directly (treat it as directly the data frame ID that the
     # user passed in)

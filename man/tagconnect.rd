@@ -6,12 +6,14 @@
 \description{Enables tree building improvement by allowing reference to nodes by tag.}
 
 \usage{
-tagconnect(DF, at)
+tagconnect(DF, at, source=FALSE)
 }
 
 \arguments{
 \item{DF}{ A fault tree dataframe such as returned from ftree.make or related add... functions.}
 \item{at}{ An ID value or tag name for reference to a node.}
+\item{source}{ A logical indicating whether to evaluate multiple occurences of the tag to identify the
+ source of duplication. Default of FALSE will cause the function to fail in case of multiple occurence of tag provided as 'at'.}
 }
 
 \value{

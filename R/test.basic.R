@@ -85,13 +85,12 @@ test.basic<-function(DF, at,  display_under, tag)  {
 ## test for a character object in display under and interpret here
 		if (is.character(display_under) & length(display_under) == 1) {
 			# display_under argument is a string
-				siblingDF<-DF[which(DF$CParent==DF$ID[parent])]
+				siblingDF<-DF[which(DF$CParent==DF$ID[parent]),]
 				display_under<-siblingDF$ID[which(siblingDF$Tag_Obj==display_under)]
-				}
-				if(!is.numeric(display_under)) {
-				stop("display under request not found")
-				}
 			}
+		if(!is.numeric(display_under)) {
+		stop("display under request not found")
+		}
 
 ## now resume rest of original display under code with display_under interpreted as an ID
 		if(DF$CParent[which(DF$ID==display_under)]!=at) {stop("Must stack at component under same parent")}

@@ -13,9 +13,10 @@ addDuplicate<-function(DF, at, dup_id=NULL, dup_of=NULL, display_under=NULL)  {
 	stop("must identify source node of duplication.")
 	}
 	if(!is.null(dup_id))  {
-		dup_id<-tagconnect(DF, dup_id)
+		dup_id<-tagconnect(DF, dup_id, source=TRUE)
 	}else{
-		dup_id<-tagconnect(DF, dup_of)
+# The entry must have been made using the dup_of argument
+		dup_id<-tagconnect(DF, dup_of, source=TRUE)
 	}
 
 ## parent qualification test only required once
@@ -102,13 +103,13 @@ addDuplicate<-function(DF, at, dup_id=NULL, dup_of=NULL, display_under=NULL)  {
 					## test for a character object in display under and interpret here
 					if (is.character(display_under) & length(display_under) == 1) {
 						# display_under argument is a string
-						siblingDF<-DF[which(DF$CParent==DF$ID[parent])]
+						siblingDF<-DF[which(DF$CParent==DF$ID[parent]),]
 						display_under<-siblingDF$ID[which(siblingDF$Tag_Obj==display_under)]
-						}
-						if(!is.numeric(display_under)) {
-						stop("display under request not found")
-						}
 					}
+					if(!is.numeric(display_under)) {
+					stop("display under request not found")
+					}
+
 
 ## now resume rest of original display under code with display_under interpreted as an ID
 					if(DF$CParent[which(DF$ID==display_under)]!=at) {stop("Must stack at component under same parent")}
