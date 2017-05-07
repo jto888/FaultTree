@@ -2,7 +2,7 @@ test.ftree<-function(DF) {
 	if(class(DF)!="data.frame") {
 		return(FALSE)
 	}else{
-	if(length(names(DF))!=21)  {
+	if(length(names(DF))!=23)  {
 		return(FALSE)
 		}else{
 			ftreetest<-NULL

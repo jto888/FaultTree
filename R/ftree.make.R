@@ -30,6 +30,7 @@ ftree.make<-function(type, reversible_cond=FALSE, cond_first=TRUE,
 ## establish original default name for back portability
 			name="top event"
 		}
+	}
 
 ## note p2 will hold system_mission_time at top gate, if it is set at all.
 ## p1 is used by ALARM gate to hold probability of human failure, 
