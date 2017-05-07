@@ -17,7 +17,7 @@ addDuplicate(DF, at, dup_id=NULL, dup_of=NULL, display_under=NULL,
 \item{dup_of}{Alternative argument for the ID or tag name of a component event or root node of a branch to be repeated in a fault tree. If dup_id is provided, dup_of is ignored.}
 \item{display_under}{Optionally, the ID of a sibling event under an OR gate for vertical alignment of
  only component nodes (MOE, not MOB) in the graphic display.}
-\item(collapse}{A logical to determine whether a branch should be collapsed on initial view.}
+\item{collapse}{A logical to determine whether a branch should be collapsed on initial view.}
 }
 
 \value{
