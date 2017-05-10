@@ -15,7 +15,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 applyCollapse<-function(DF, on)  {		
-	on<-tagconnect(on)	
+	on<-tagconnect(DF, on)	
 	if(DF$Type[which(DF$ID==on)]>9) {	
 		DF$Collapse[which(DF$ID==on)]<-1
 	}	
