@@ -80,11 +80,15 @@ var svg = d3.select("#body").append("svg").attr("width", "100%").attr("height", 
 zm.translate([width_initial, 20]);
 root.x0 = 0;
 root.y0 = height / 2;
-function collapse(d) {
-if (d.children) {
-d._children = d.children;
-d._children.forEach(collapse);
-d.children = null;}}
+var duration_backup = duration;
+duration = 0;
+//function collapse(d) {
+//if (d.children) {
+//d._children = d.children;
+//d._children.forEach(collapse);
+//d.children = null;}}
+autocollapse(root);
+duration = duration_backup;
 update(root);
 d3.select("#body").style("height", "100%");
 function update(source) {
@@ -125,14 +129,14 @@ nodeEnter.append("text")
 .attr("text-anchor", "middle")
 .attr("fill", "navy")
 .text(function (d) {
-return (d.tag_obj=="top" && d.p2>0) ? "Mission Time" : "" ;});
+return (d.tag=="top" && d.p2>0) ? "Mission Time" : "" ;});
 nodeEnter.append("text")
 .attr("x", rectW / 2 -144)
 .attr("y", TrectH  +26)
 .attr("text-anchor", "middle")
 .attr("fill", "navy")
 .text(function (d) {
-return (d.tag_obj=="top" && d.p2>0) ? d.p2 : "" ;});
+return (d.tag=="top" && d.p2>0) ? d.p2 : "" ;});
 var orGate="m 75,65 c  -1.4, -10, .6, -22 -15, -30 -15.6, 8, -13.4, 20, -15, 30, 0, 0 3, -8 15, -8 10, 0 15, 8 15, 8 z";
 var andGate="m 45,50 0,15 30,0 0,-15  a15,15 .2 0,0 -15,-15 a15,15 .2 0,0 -15,15";
 var priorityGate="m 45,50 0,15 30,0 0,-15  a15,15 .2 0,0 -15,-15 a15,15 .2 0,0 -15,15 m 0,10 30,0";
@@ -168,7 +172,7 @@ break;
 default : return(component);
 }})
 .attr({stroke:"black",
-"stroke-width":1.5,
+"stroke-width":1,
 "stroke-linejoin":"round",
 fill: "#fff"});
 nodeEnter.append("text")
@@ -208,7 +212,7 @@ nodeEnter.append("text")
 .attr("text-anchor", "left")
 .attr("fill",  function(d){return d.moe==0 ? "red": "magenta";})
 .text(function (d) {
-return d.tag_obj;});
+return d.tag;});
 nodeEnter.append("text")
 .attr("x", rectW/2+19)
 .attr("y", TrectH  + 12)
@@ -331,6 +335,13 @@ d.children = null;
 d.children = d._children;
 d._children = null;}
 update(d);}
+function autocollapse(d) {
+svg.selectAll("g.node").each(function(d) {
+if (d.collapse==1) {
+click(d);
+}
+})
+}
 function redraw() {
 svg.attr("transform",
 "translate(" + d3.event.translate + ")"
@@ -348,12 +359,14 @@ return "M" + sourceX + "," + sourceY
 
 ############################ tbi HTML string #####################################
 
-HTMLhead2<-'<!DOCTYPE html>
+HTMLd3script2<-'
+var llim=1e-25;
 var duration = 200,rectW = 124,rectH = 120,TrectH = 40;
 var width_initial = $(window).width()/2-60;
 var tree = d3.layout.tree()
 .nodeSize([rectW*1.15, rectH*1.2])
 .separation(function(a, b) { return (a.parent == b.parent ? 1 : 1.2); });
+// the widget must select el, not "#body" as in html
 var svg = d3.select("#body").append("svg").attr("width", "100%").attr("height", "100%")
 .call(zm = d3.behavior.zoom().scaleExtent([0.05,5]).on("zoom", redraw)).append("g")
 .attr("transform", "translate(" + width_initial + "," + 50 + ")");
@@ -390,8 +403,22 @@ nodeEnter.append("text")
 .attr("y", 11)
 .attr("text-anchor", "middle")
 .text(function (d) {
-return d.description;})
+return d.label;})
 .call(wrap, rectW);
+nodeEnter.append("text")
+.attr("x", rectW / 2 -144)
+.attr("y", TrectH  +14)
+.attr("text-anchor", "middle")
+.attr("fill", "navy")
+.text(function (d) {
+return (d.tag=="top" && d.p2>0) ? "Mission Time" : "" ;});
+nodeEnter.append("text")
+.attr("x", rectW / 2 -144)
+.attr("y", TrectH  +26)
+.attr("text-anchor", "middle")
+.attr("fill", "navy")
+.text(function (d) {
+return (d.tag=="top" && d.p2>0) ? d.p2 : "" ;});
 var orGate="m 60,40 l 0,15 m 15,30 c  -1.4, -10, .6, -22 -15, -30 -15.6, 8, -13.4, 20, -15, 30, 0, 0 3, -8 15, -8 10, 0 15, 8 15, 8 z";
 var andGate="m 60,40 l 0,15 m -15,15 0,15 30,0 0,-15  a15,15 .2 0,0 -15,-15 a15,15 .2 0,0 -15,15";
 var priorityGate="m 60,40 l 0,15 m -15,15 0,15 30,0 0,-15  a15,15 .2 0,0 -15,-15 a15,15 .2 0,0 -15,15 m 0,10 30,0";
@@ -399,7 +426,7 @@ var inhibitGate="m 60,40 l 0,15 m 0,0 -15,6.340 0,17.3205 15,6.340  15,-6.340 0,
 var alarmGate="m 60,40 l 0,15 m 15,30 c  -1.4, -10, .6, -22 -15, -30 -15.6, 8, -13.4, 20, -15, 30, 0, 0 3, -8 15, -8 10, 0 15, 8 15, 8 z m -30,0 v5 c0, 0 3, -8 15, -8 10, 0 15, 8 15, 8 v-5";
 var voteGate="m 60,40 l 0,15 m 15,30 c  -1.4,-10,.6,-22-15,-30  -15.6,8,-13.4,20,-15,30 m 0,0 0,10 30,0 0,-10 m-28,-7.5 27,0";
 var house="m 60,40 l 0,15 m -15,15 0,15 30,0 0,-15 -15,-15  -15,15";
-var undeveloped="m 60,40 l 0,15 m 0,0 l 30,15 l -30,15 l -30,-15 z";
+var undeveloped="m 60,40 l 0,15 m 0,0 l 24,15 l -24,15 l -24,-15 z";
 var component="m 60,40 l 0,15 m 15,15 a15,15 .2 0,0 -15,-15 a15,15 .2 0,0 -15,15 a15,15 .2 0,0 15,15 a15,15 .2 0,0 15,-15";
 nodeEnter.append("path")
 .attr("d",
@@ -418,11 +445,11 @@ case 15 : return(voteGate);
 break;
 case 16 : return(voteGate);
 break;
-case 17 : // passthrough gate, no gate to draw...
+case 9 : return(house);
 break;
-case 6 : return(house);
+case 6 : return(undeveloped);
 break;
-case 7 : return(undeveloped);
+case 3 : return(undeveloped);
 break;
 default : return(component);
 }})
@@ -435,13 +462,8 @@ nodeEnter.append("text")
 .attr("y", TrectH  + 30)
 .attr("text-anchor", "middle")
 .attr("fill",  function(d){return d.moe==0 ? "red": "magenta";})
-//.attr("font", "12px")
-//.attr("stroke", "white")
-//.attr("stroke-width", ".5px")
 .text(function (d) {
-if (d.type != 17) {
-return d.moe>0 ? d.moe : d.id;
-}});
+return d.moe>0 ? d.moe : d.id ;});
 nodeEnter.append("text")
 .attr("x", rectW / 2-2)
 .attr("y", TrectH  + 45)
@@ -457,59 +479,64 @@ nodeEnter.append("text")
 .text(function (d) {
 return d.moe > 0 ? "R" : d.moe<0 ? "S" : "" ;});
 nodeEnter.append("text")
-.attr("x", rectW / 2 -28)
+.attr("x", rectW / 2 -31)
 .attr("y", TrectH  -45)
 .attr("text-anchor", "right")
 .attr("fill", "navy")
 .text(function (d) {
 return d.condition > 0 ? "Cond" : "" ;});
 nodeEnter.append("text")
-.attr("x", rectW / 2 +44)
+.attr("x", rectW / 2 +3)
 .attr("y", TrectH  -45)
-.attr("text-anchor", "right")
+.attr("text-anchor", "left")
 .attr("fill",  function(d){return d.moe==0 ? "red": "magenta";})
 .text(function (d) {
-return d.tag_obj;});
+return d.tag;});
 nodeEnter.append("text")
-.attr("x", rectW/2+18)
+.attr("x", rectW/2+19)
 .attr("y", TrectH  + 12)
 .attr("text-anchor", "left")
 .attr("fill", "green")
 //.text(function (d) { return d.cfr>0&&d.condition==0 ? "Fail Rate":"";});
 .text(function (d) { return d.cfr>0 ? "Fail Rate":"";});
 nodeEnter.append("text")
-.attr("x", rectW/2+18)
+.attr("x", rectW/2+19)
 .attr("y", TrectH  + 24)
 .attr("text-anchor", "left")
 .attr("fill", "green")
 //.text(function (d) {return d.cfr>0&&d.condition==0 ? (d.cfr).toExponential(4):"";});
 .text(function (d) {return d.cfr>0 ? (d.cfr).toExponential(4):"";});
 nodeEnter.append("text")
-.attr("x", rectW/2+18)
+.attr("x", rectW/2+19)
 .attr("y", TrectH  + 36)
 .attr("text-anchor", "left")
 .attr("fill", "navy")
-.text(function (d) { return d.pbf>0 ? "Prob":"";});
+.text(function (d) { return d.pbf>llim ? "Prob":"";});
 nodeEnter.append("text")
-.attr("x", rectW/2+18)
+.attr("x", rectW/2+19)
 .attr("y", TrectH  + 48)
 .attr("text-anchor", "left")
 .attr("fill", "navy")
-.text(function (d) {return d.pbf>0 ? (d.pbf).toExponential(4):"" ;});
+.text(function (d) {return d.pbf>llim ? (d.pbf).toExponential(4):"" ;});
 nodeEnter.append("text")
 .attr("x", -4)
 .attr("y", TrectH  + 12)
 .attr("text-anchor", "left")
-//.attr("fill",  function(d){return d.condition==0 ? "lightgray": d.repairable==1 ? "dimgray": "white" ;})
 .attr("fill",  function(d){return d.condition==1 ? "dimgray":"lightgray" ;})
-.text(function (d) { return d.crt>0 ? "Repair Time":"";});
+.text(function (d) { return d.crt>0 ? "Repair Time": d.etype==1 ? "Exponential": d.etype==2 ? "Weibull":"";});
 nodeEnter.append("text")
 .attr("x", -4)
 .attr("y", TrectH  + 24)
 .attr("text-anchor", "left")
-//.attr("fill",  function(d){return d.condition==0 ? "lightgray": d.repairable==1 ? "dimgray": "white" ;})
 .attr("fill",  function(d){return d.condition==1 ? "dimgray":"lightgray" ;})
-.text(function (d) {return d.crt>0 ? (d.crt).toExponential(4):"" ;});
+.text(function (d) {return d.crt>0 ? (d.crt).toExponential(4):  d.etype==2 ? "B="+parseFloat(d.p1.toFixed(2)) : (d.etype==1 && d.p2>0) ? "exposure" :"" ;});
+nodeEnter.append("text")
+.attr("x", -4)
+.attr("y", TrectH  + 36)
+.attr("text-anchor", "left")
+// must have an else for fill condition
+.attr("fill",  function(d){return d.etype>0 ? "dimgray" : "white" ;})
+.text(function (d) {return d.etype==2 ? "TS="+d.p2 : (d.etype==1 && d.p2>0) ? d.p2 :"" ;});
 nodeEnter.append("text")
 .attr("x", -4)
 .attr("y", TrectH  + 48)
@@ -517,15 +544,13 @@ nodeEnter.append("text")
 .attr("fill", "black")
 .text(function (d) { return d.type==13 ? "Phf="+parseFloat(d.p1.toFixed(2)) :"";});
 nodeEnter.append("text")
-//.attr("x", rectW/2)
 .attr("x", function(d) { return d.type==2 ? rectW/2 : rectW/2+10;})
 .attr("y", TrectH  + 60)
 .attr("text-anchor", function(d) { return d.type==2 ? "middle" : "left";})
 .attr("fill", "maroon")
 .text(function (d) {
-	return d.type==2 ? "T="+parseFloat(d.p2.toFixed(4)) +" Po=" +parseFloat(d.p1.toFixed(5))
-	: d.type==5 ? "T="+parseFloat(d.p2.toFixed(4))
-	:"";});
+return d.type==2 ? "T="+parseFloat(d.p2.toFixed(4)) +" Po=" +parseFloat(d.p1.toFixed(5))
+:"";});
 var nodeUpdate = node.transition()
 .duration(duration)
 .attr("transform", function (d) {
@@ -591,7 +616,7 @@ d._children = null;}
 update(d);}
 function autocollapse(d) {
 svg.selectAll("g.node").each(function(d) {
-if (d.collapse=="TRUE") {
+if (d.collapse==1) {
 click(d);
 }
 })
@@ -611,9 +636,9 @@ return "M" + sourceX + "," + sourceY
 + "V" + targetY;}
 function wrap(text, width) {
 text.each(function () {
-var description = d3.select(this).text();
+var label = d3.select(this).text();
 while (true) {
-var words = description.split(/\\s+/).reverse(),
+var words = label.split(/\\s+/).reverse(),
 word,
 line = [],
 lineNumber = 0,
