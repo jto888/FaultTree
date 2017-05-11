@@ -152,7 +152,7 @@ addDuplicate<-function(DF, at, dup_id=NULL, dup_of=NULL, display_under=NULL, col
 			EType=	DF$EType[dup_row]	,			
 			P1=	DF$P1[dup_row]	,
 			P2=	DF$P2[dup_row]	,
-			Collapse=	collapse	,
+			Collapse=	0	,
 			Label=	DF$Label[dup_row]	,
 			Name=	DF$Name[dup_row]	,
 			Name2=	DF$Name2[dup_row]	,
