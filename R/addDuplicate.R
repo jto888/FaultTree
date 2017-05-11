@@ -120,6 +120,7 @@ addDuplicate<-function(DF, at, dup_id=NULL, dup_of=NULL, display_under=NULL, col
 ##########################################################################
 ## this is still the x=1 condition until else, so
 ## Collapse specification silently has no effect if called on a basic element (MOE)	
+
 			if(DF$Type[dup_row]>9) {
 				if(collapse==TRUE) {
 					collapse=1
@@ -162,7 +163,7 @@ addDuplicate<-function(DF, at, dup_id=NULL, dup_of=NULL, display_under=NULL, col
 			EType=	DF$EType[dup_row]	,			
 			P1=	DF$P1[dup_row]	,
 			P2=	DF$P2[dup_row]	,
-			Collapse=	0	,
+			Collapse=	collapse	,
 			Label=	DF$Label[dup_row]	,
 			Name=	DF$Name[dup_row]	,
 			Name2=	DF$Name2[dup_row]	,
