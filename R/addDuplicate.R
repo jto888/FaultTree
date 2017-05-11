@@ -177,7 +177,6 @@ addDuplicate<-function(DF, at, dup_id=NULL, dup_of=NULL, display_under=NULL, col
 	}
 	
 	## Collapse specification silently has no effect if called on a basic element (MOE)	
-	collapse=0
 	if(DF$Type[which(DF$ID==dup_id)]>9) {
 		if(collapse==TRUE) {
 			DF$Collapse[which(DF$ID==dup_id)]=1
