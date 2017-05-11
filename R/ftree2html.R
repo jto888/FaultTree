@@ -87,9 +87,9 @@ duration = 0;
 //d._children = d.children;
 //d._children.forEach(collapse);
 //d.children = null;}}
+update(root);
 autocollapse(root);
 duration = duration_backup;
-update(root);
 d3.select("#body").style("height", "100%");
 function update(source) {
 var nodes = tree.nodes(root)
