@@ -135,13 +135,7 @@ addDuplicate<-function(DF, at, dup_id=NULL, dup_of=NULL, display_under=NULL, col
 		moe<-DF$ID[dup_row]
 	}
 
-## Collapse specification silently has no effect if called on a basic element (MOE)	
-	collapse=0
-	if(DF$Type[dup_row]>9) {
-		if(collapse==TRUE) {
-			collapse=1
-		}
-	}
+
 
 
 		Dfrow<-data.frame(
@@ -180,6 +174,14 @@ addDuplicate<-function(DF, at, dup_id=NULL, dup_of=NULL, display_under=NULL, col
 
 
 	## close the for loop
+	}
+	
+	## Collapse specification silently has no effect if called on a basic element (MOE)	
+	collapse=0
+	if(DF$Type[which(DF$ID==dup_id)]>9) {
+		if(collapse==TRUE) {
+			DF$Collapse[which(DF$ID==dup_id)]=1
+		}
 	}
 
 return(DF)
