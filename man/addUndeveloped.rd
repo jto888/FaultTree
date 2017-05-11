@@ -6,7 +6,8 @@
 \description{Modifies an existing fault tree with the addition of an undeveloped probability.}
 
 \usage{
-addUndeveloped(DF, at, prob=0, tag="",  name="", name2="", description="")
+addUndeveloped(DF, at, prob=0, tag="", label="",
+	name="", name2="", description="")
 }
 
 \arguments{
@@ -14,6 +15,7 @@ addUndeveloped(DF, at, prob=0, tag="",  name="", name2="", description="")
 \item{at}{ The ID  or tag name of the parent node for this addition.}
 \item{prob}{A probability value >=0 && <1}
 \item{tag}{ A very short identifying string (typically 5 characters or less) uniquely identifying a basic event for minimal cutset evaluation}
+\item{label}{An identifying string for the logic gate. Use of label in ftree.make defines the convention for rest of tree construction.}
 \item{name}{ A short identifying string  (typically less than 24 characters)}
 \item{name2}{ A second line, if needed for the identifying string label}
 \item{description}{ An optional string providing more detail for this probability.}

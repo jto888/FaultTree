@@ -7,7 +7,7 @@
 
 \usage{
 addProbability(DF, at, prob, display_under=NULL, tag="",  
-	name="", name2="", description="")
+	label="", name="", name2="", description="")
 }
 
 \arguments{
@@ -16,6 +16,7 @@ addProbability(DF, at, prob, display_under=NULL, tag="",
 \item{prob}{A probability value >0 && <1}
 \item{display_under}{Optionally, the ID of a sibling event under an OR gate for vertical alignment of the component node in the graphic display.}
 \item{tag}{ A very short identifying string (typically 5 characters or less) uniquely identifying a basic event for minimal cutset evaluation}
+\item{label}{An identifying string for the logic gate. Use of label in ftree.make defines the convention for rest of tree construction.}
 \item{name}{ A short identifying string  (typically less than 24 characters)}
 \item{name2}{ A second line, if needed for the identifying string label}
 \item{description}{ An optional string providing more detail for this probability.}

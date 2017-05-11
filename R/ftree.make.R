@@ -17,9 +17,20 @@
 
 ftree.make<-function(type, reversible_cond=FALSE, cond_first=TRUE, 
 		human_pbf=NULL, start_id=1, system_mission_time=NULL,
-		name="top event", name2="",description="")  {
+		label="", name="", name2="",description="")  {
 
 	thisID<-start_id
+
+	if(label!="")  {
+		if(name!="" || name2!="") {
+			stop("cannot use both label and name convention in same tree")
+		}
+	}else{
+		if(name=="" && name2=="") {
+## establish original default name for back portability
+			name="top event"
+		}
+	}
 
 ## note p2 will hold system_mission_time at top gate, if it is set at all.
 ## p1 is used by ALARM gate to hold probability of human failure, 
@@ -90,26 +101,11 @@ if(tp==16)  {stop("atleast gate requires FaultTree.SCRAM and connot be top event
 		}
 	}
 
-## vote gate requires access to P2, which holds mission_time value at top gate.
-## vote gate has been disallowed as top event.
-#	if(tp==15) {
-#		if(length(vote_par)==2) {
-#			if(vote_par[1]<vote_par[2]) {
-#				p1<-vote_par[1]
-#				p2<-vote_par[2]
-#			}else{
-#				stop("validation error with vote parameters")
-#			}
-#		}else{
-#			stop("must provide k of n vote parameters c(k,n)")
-#		}	
-#	}
 
 	DF<-data.frame(
 		ID=	thisID	,
 		GParent=	-1	,
-		CParent=	-1	,
-		Level=	1	,
+		Tag=	"top"	,
 		Type=	tp	,
 		CFR=	-1	,
 		PBF=	-1	,
@@ -120,9 +116,12 @@ if(tp==16)  {stop("atleast gate requires FaultTree.SCRAM and connot be top event
 		EType=	0	,
 		P1=	p1	,
 		P2=	p2	,
-		Tag_Obj=	"top"	,
+		Collapse=	0	,
+		Label=	label	,
 		Name=	name	,
 		Name2=	name2	,
+		CParent=	-1	,
+		Level=	1	,
 		Description=	description	,
 		UType=	0	,
 		UP1=	0	,
@@ -134,8 +133,7 @@ DF
 
 FT_FIELDS<-c("ID",
 	"GParent",
-	"CParent",
-	"Level",
+	"Tag",
 	"Type",
 	"CFR",
 	"PBF",
@@ -146,12 +144,15 @@ FT_FIELDS<-c("ID",
 	"EType",
 	"P1",
 	"P2",
-	"Tag_Obj",
+	"Collapse",
+	"Label",
 	"Name",
 	"Name2",
+	"CParent",
+	"Level",
 	"Description",
 	"UType",
 	"UP1",
-	"UP2"	
+	"UP2"
 	)
 

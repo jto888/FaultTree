@@ -14,14 +14,22 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-addProbability<-function(DF, at, prob, display_under=NULL, tag="", name="", name2="", description="")  {
+addProbability<-function(DF, at, prob, display_under=NULL, tag="", 
+		label="", name="", name2="", description="")  {
 
 	at <- tagconnect(DF, at)
 
-## display_under to be interpreted within test.basic
-##		if(!is.null(display_under))  {
-##		display_under<-tagconnect(DF,display_under)
-##	}}
+	if(label!="")  {
+		if(any(DF$Name!="") || any(DF$Name2!="")) {
+			stop("Cannot use label once name convention has been established.")
+		}
+	}
+	if(any(DF$Label!="")) {
+		if(name!="" || name2!="") {
+			stop("Cannot use name convention once label has been established.")
+		}
+	}
+
 
  	tp=4
 
@@ -44,8 +52,7 @@ addProbability<-function(DF, at, prob, display_under=NULL, tag="", name="", name
 	Dfrow<-data.frame(
 		ID=	thisID	,
 		GParent=	gp	,
-		CParent=	at	,
-		Level=	DF$Level[parent]+1	,
+		Tag=	tag	,
 		Type=	tp	,
 		CFR=	-1	,
 		PBF=	prob	,
@@ -56,9 +63,12 @@ addProbability<-function(DF, at, prob, display_under=NULL, tag="", name="", name
 		EType=	0	,
 		P1=	-1	,
 		P2=	-1	,
-		Tag_Obj=	tag	,
+		Collapse=	0	,
+		Label=	label	,
 		Name=	name	,
 		Name2=	name2	,
+		CParent=	at	,
+		Level=	DF$Level[parent]+1	,
 		Description=	description	,
 		UType=	0	,
 		UP1=	0	,

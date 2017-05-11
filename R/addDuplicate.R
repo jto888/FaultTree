@@ -1,12 +1,9 @@
-addDuplicate<-function(DF, at, dup_id=NULL, dup_of=NULL, display_under=NULL)  {
+addDuplicate<-function(DF, at, dup_id=NULL, dup_of=NULL, display_under=NULL, collapse=FALSE)  {
+
 	if(!test.ftree(DF)) stop("first argument must be a fault tree")
 
 	at <- tagconnect(DF, at)
 	
-## tagconnect does not address problems of display_under an MOE
-#		if(!is.null(display_under))  {
-#		display_under<-tagconnect(DF,display_under)
-#	}
 
 ## introducing a slight language hint for tag based node identification
 	if(is.null(dup_id) && is.null(dup_of)) {
@@ -120,9 +117,20 @@ addDuplicate<-function(DF, at, dup_id=NULL, dup_of=NULL, display_under=NULL)  {
 					}
 				}			
 			}
-##########################################################################			
+##########################################################################
+## this is still the x=1 condition until else, so
+## Collapse specification silently has no effect if called on a basic element (MOE)	
+
+			if(DF$Type[dup_row]>9) {
+				if(collapse==TRUE) {
+					collapse=1
+				}else{
+				collapse=0
+				}
+			}
 			
 		}else{
+			collapse=0
 			cparent_id<-DF$CParent[dup_row]+id_offset
 			gparent_id<-DF$GParent[dup_row]+id_offset
 			cond_val<-DF$Condition[dup_row]
@@ -139,11 +147,12 @@ addDuplicate<-function(DF, at, dup_id=NULL, dup_of=NULL, display_under=NULL)  {
 	}
 
 
+
+
 		Dfrow<-data.frame(
 			ID=	DF$ID[dup_row]+id_offset	,
 			GParent=	gparent_id	,
-			CParent=	cparent_id	,
-			Level=	DF$Level[parent]+1	,
+			Tag=	DF$Tag[dup_row]	,
 			Type=	DF$Type[dup_row]	,
 			CFR=	DF$CFR[dup_row]	,
 			PBF=	DF$PBF[dup_row]	,
@@ -154,9 +163,12 @@ addDuplicate<-function(DF, at, dup_id=NULL, dup_of=NULL, display_under=NULL)  {
 			EType=	DF$EType[dup_row]	,			
 			P1=	DF$P1[dup_row]	,
 			P2=	DF$P2[dup_row]	,
-			Tag_Obj=	DF$Tag_Obj[dup_row]	,
+			Collapse=	collapse	,
+			Label=	DF$Label[dup_row]	,
 			Name=	DF$Name[dup_row]	,
 			Name2=	DF$Name2[dup_row]	,
+			CParent=	cparent_id	,
+			Level=	DF$Level[parent]+1	,
 			Description=	DF$Description[dup_row]	,
 			UType=	DF$UType[dup_row]	,
 			UP1=	DF$UP1[dup_row]  ,
@@ -174,6 +186,8 @@ addDuplicate<-function(DF, at, dup_id=NULL, dup_of=NULL, display_under=NULL)  {
 
 	## close the for loop
 	}
+	
+
 
 return(DF)
 }

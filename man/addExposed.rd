@@ -1,14 +1,14 @@
 \name{addExposed}
 \alias{addExposed}
 
-\title{ Add a Pure Probability }
+\title{ Add a Time Dependant, Non-Repairable, Event }
 
 \description{Adds a basic component event to a fault tree in which probability of failure 
- is defined by fail rate and exposure time.}
+ is defined by a probability distribution and exposure time.}
 
 \usage{
 addExposed(DF, at, mttf, dist="exponential", param=NULL, display_under=NULL,
-		tag="", exposure=NULL, name="",name2="", description="")
+		tag="", exposure=NULL, label="", name="",name2="", description="")
 }
 
 \arguments{
@@ -20,6 +20,7 @@ addExposed(DF, at, mttf, dist="exponential", param=NULL, display_under=NULL,
 \item{display_under}{Optionally, the ID of a sibling event under an OR gate for vertical alignment of the component node in the graphic display.}
 \item{tag}{ A very short identifying string (typically 5 characters or less) uniquely identifying a basic event for minimal cutset evaluation}
 \item{exposure}{This is to be a seldom-used override of system mission time applicable only to exponentially exposed events.}
+\item{label}{An identifying string for the logic gate. Use of label in ftree.make defines the convention for rest of tree construction.}
 \item{name}{ A short identifying string  (typically less than 24 characters)}
 \item{name2}{ A second line, if needed for the identifying string label}
 \item{description}{ An optional string providing more detail for this probability.}

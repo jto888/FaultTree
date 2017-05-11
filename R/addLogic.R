@@ -15,12 +15,23 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 addLogic<-function(DF, type, at, reversible_cond=FALSE, cond_first=TRUE, human_pbf=NULL,
-		vote_par=NULL, tag="", name="", name2="", description="")  {
+		vote_par=NULL, tag="", label="", name="", name2="", description="")  {
 
 	if(!test.ftree(DF)) stop("first argument must be a fault tree")
 
 	at <- tagconnect(DF, at)
 
+	if(label!="")  {
+		if(any(DF$Name!="") || any(DF$Name2!="")) {
+			stop("Cannot use label once name convention has been established.")
+		}
+	}
+	if(any(DF$Label!="")) {
+		if(name!="" || name2!="") {
+			stop("Cannot use name convention once label has been established.")
+		}
+	}
+	
 	if(tag!="")  {
 		if (length(which(DF$Tag == tag) != 0)) {
 			stop("tag is not unique")
@@ -147,8 +158,7 @@ addLogic<-function(DF, type, at, reversible_cond=FALSE, cond_first=TRUE, human_p
 	Dfrow<-data.frame(
 		ID=	thisID	,
 		GParent=	at	,
-		CParent=	at	,
-		Level=	DF$Level[parent]+1	,
+		Tag=	tag	,
 		Type=	tp	,
 		CFR=	-1	,
 		PBF=	-1	,
@@ -159,9 +169,12 @@ addLogic<-function(DF, type, at, reversible_cond=FALSE, cond_first=TRUE, human_p
 		EType=	0	,
 		P1=	p1	,
 		P2=	p2	,
-		Tag_Obj=	tag	,
+		Collapse=	0	,
+		Label=	label	,
 		Name=	name	,
 		Name2=	name2	,
+		CParent=	at	,
+		Level=	DF$Level[parent]+1	,
 		Description=	description	,
 		UType=	0	,
 		UP1=	0	,

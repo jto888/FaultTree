@@ -14,10 +14,21 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-addUndeveloped<-function(DF, at, prob=0, tag="", name="", name2="", description="")  {
+addUndeveloped<-function(DF, at, prob=0, tag="", label="", name="", name2="", description="")  {
 
   at <- tagconnect(DF, at)
 
+	if(label!="")  {
+		if(any(DF$Name!="") || any(DF$Name2!="")) {
+			stop("Cannot use label once name convention has been established.")
+		}
+	}
+	if(any(DF$Label!="")) {
+		if(name!="" || name2!="") {
+			stop("Cannot use name convention once label has been established.")
+		}
+	}
+	
   tp <- 6
   
 
@@ -37,20 +48,12 @@ addUndeveloped<-function(DF, at, prob=0, tag="", name="", name2="", description=
 
   if(prob<0 || prob>1)  {stop("probability entry must be between zero and one")}
 
-## Avoid conflicts with default tag names
-# This test is covered in test.basic above
-#  if(length(tag)>2){
-#    if(substr(tag,1,2)=="E_" || substr(tag,1,2)=="G_" ) {
-#      stop("tag prefixes E_ and G_ are reserved for MEF defaults")
-#    }
-#  }
 
 
   Dfrow<-data.frame(
     ID=	thisID	,
     GParent=	gp	,
-    CParent=	at	,
-    Level=	DF$Level[parent]+1	,
+    Tag=	tag	,
     Type=	tp	,
     CFR=	-1	,
     PBF=	prob	,
@@ -61,9 +64,12 @@ addUndeveloped<-function(DF, at, prob=0, tag="", name="", name2="", description=
     EType=	0	,
     P1=	-1	,
     P2=	-1	,
-    Tag_Obj=	tag	,
+	Collapse=	0	,
+	Label=	label	,
     Name=	name	,
     Name2=	name2	,
+    CParent=	at	,
+    Level=	DF$Level[parent]+1	,
     Description=	description	,
     UType=	0	,
     UP1=	0	,

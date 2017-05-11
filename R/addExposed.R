@@ -14,14 +14,21 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- addExposed<-function (DF, at, mttf, dist="exponential", param=NULL,
-		display_under=NULL, tag="", exposure=NULL, name="",name2="", description="")  {
+ addExposed<-function (DF, at, mttf, dist="exponential", param=NULL, display_under=NULL, 
+		tag="", exposure=NULL, label="", name="",name2="", description="")  {
 
 	at <- tagconnect(DF, at)
-## display_under to be interpreted within test.basic
-##		if(!is.null(display_under))  {
-##		display_under<-tagconnect(DF,display_under)
-##	}
+
+	if(label!="")  {
+		if(any(DF$Name!="") || any(DF$Name2!="")) {
+			stop("Cannot use label once name convention has been established.")
+		}
+	}
+	if(any(DF$Label!="")) {
+		if(name!="" || name2!="") {
+			stop("Cannot use name convention once label has been established.")
+		}
+	}
 
   	tp <-5
 
@@ -121,8 +128,7 @@ if( !mt>0) {
 	Dfrow <- data.frame(
 		ID = thisID,
 		GParent = gp,
-		CParent = at,
-		Level = DF$Level[parent] + 1,
+		Tag = tag,
 		Type = tp,
 		CFR = 1/mttf,
 		PBF = pf,
@@ -133,9 +139,12 @@ if( !mt>0) {
 		EType=	etype	,
 		P1 = p1,
 		P2 = p2,
-		Tag_Obj = tag,
+		Collapse=	0	,
+		Label=	label	,
 		Name = name,
 		Name2 = name2,
+		CParent = at,
+		Level = DF$Level[parent] + 1,
 		Description = description,
 		UType=	0	,
 		UP1=	0	,

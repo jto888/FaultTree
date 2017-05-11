@@ -14,48 +14,28 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-addActive<-function(DF, at, mttf=NULL, mttr=NULL, display_under=NULL, tag="", name="",name2="",description="")  {
+addActive<-function(DF, at, mttf, mttr, display_under=NULL, tag="", label="", name="",name2="",description="")  {
 
 	at <- tagconnect(DF, at)
-## display_under to be interpreted within test.basic
-##		if(!is.null(display_under))  {
-##		display_under<-tagconnect(DF,display_under)
-##	}
+
+	if(label!="")  {
+		if(any(DF$Name!="") || any(DF$Name2!="")) {
+			stop("Cannot use label once name convention has been established.")
+		}
+	}
+	if(any(DF$Label!="")) {
+		if(name!="" || name2!="") {
+			stop("Cannot use name convention once label has been established.")
+		}
+	}
 
 	tp<-1
-
-## Model test no longer applicable
-##	if(any(DF$Type==5) || any(DF$Type==16)) {
-##		stop("RAM system event event called for in PRA model")
-##	}
-
 
 	info<-test.basic(DF, at,  display_under, tag)
 	thisID<-info[1]
 	parent<-info[2]
 	gp<-info[3]
 	condition<-info[4]
-
-## Model test no longer applicable
-#	if(any(DF$Type==5)) {
-#		stop("repairable system event event called for in non-repairable model")
-#	}
-
-## since this is the case mttf and mttr should not default to NULL
-	if(is.null(mttf))  {stop("active component must have mttf")}
-	if(is.null(mttr))  {stop("active component must have mttr")}
-
-## This duplicates code in test.basic. Only do this once!
-#	gp<-at
-#	if(length(display_under)!=0)  {
-#		if(DF$Type[parent]!=10) {stop("Component stacking only permitted under OR gate")}
-#		if(DF$CParent[display_under]!=at) {stop("Must stack at component under same parent")}
-#		if(length(which(DF$GParent==display_under))>0 )  {
-#			stop("display under connection not available")
-#		}else{
-#			gp<-display_under
-#		}
-#	}
 
 ## default settings for RAM model Active event only
 	etp<-0
@@ -77,8 +57,7 @@ addActive<-function(DF, at, mttf=NULL, mttr=NULL, display_under=NULL, tag="", na
 	Dfrow<-data.frame(
 		ID=	thisID	,
 		GParent=	gp	,
-		CParent=	at	,
-		Level=	DF$Level[parent]+1	,
+		Tag=	tag	,
 		Type=	tp	,
 		CFR=	1/mttf	,
 		PBF=	pbf	,
@@ -89,9 +68,12 @@ addActive<-function(DF, at, mttf=NULL, mttr=NULL, display_under=NULL, tag="", na
 		EType=	etp	,
 		P1=	-1	,
 		P2=	-1	,
-		Tag_Obj=	tag	,
+		Collapse=	0	,
+		Label=	label	,
 		Name=	name	,
 		Name2=	name2	,
+		CParent=	at	,
+		Level=	DF$Level[parent]+1	,
 		Description=	description	,
 		UType=	0	,
 		UP1=	0	,

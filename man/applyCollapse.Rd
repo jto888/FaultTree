@@ -1,37 +1,28 @@
-\name{addDuplicate}
-\alias{addDuplicate}
+\name{applyCollapse}
+\alias{applyCollapse}
 
-\title{ Add a duplicated (repeated) event or entire branch to a fault tree. }
+\title{ Set a gate node for collapsed state on initial rendering. }
 
-\description{Modifies an existing fault tree with the addition of the repeated nodes.}
+\description{Modifies an existing fault tree by setting the Collapse field of the selected node to 1.}
 
 \usage{
-addDuplicate(DF, at, dup_id=NULL, dup_of=NULL, display_under=NULL, 
-		collapse=FALSE) 
+applyCollapse(DF, on)
 }
 
 \arguments{
 \item{DF}{ A fault tree dataframe such as returned from ftree.make or related add... functions.}
-\item{at}{ The ID of the parent node for this addition.}
-\item{dup_id}{The ID or tag name of a component event or root node of a branch to be repeated in a fault tree. Must provide either dup_id or dup_of.}
-\item{dup_of}{Alternative argument for the ID or tag name of a component event or root node of a branch to be repeated in a fault tree. If dup_id is provided, dup_of is ignored.}
-\item{display_under}{Optionally, the ID of a sibling event under an OR gate for vertical alignment of
- only component nodes (MOE, not MOB) in the graphic display.}
-\item{collapse}{A logical to determine whether a branch should be collapsed on initial view.}
+\item{on}{ The ID of the basic element node to be defined uncertain.}
 }
 
 \value{
-Returns the input fault tree dataframe appended with a entry row(s) for the defined component event.
-}
-
-\details{
- This function is used to replicate the source event(s), not just copy for a similar item.
- Both the source and replicated nodes are notated in a MOE column of the fault tree dataframe.
- This notation will be used by future minimal cut set determination. Additionally, future
- editing functions can be notified and likely blocked on these items. 
+Returns the input fault tree dataframe amended with an entry defining collapsed initial state for the  selected node.
 }
 
 \references{
+  Rauzy, Antoine, et. al.  (2013) Open PSA Model Exchange Format v2.0 open-psa.org
+  
+  Limnios, Nikolaos (2007) Fault Trees ISTE Ltd.
+  
   Nicholls, David [Editor] (2005) System Reliability Toolkit  Reliability information Analysis 
   Center
   
@@ -57,7 +48,7 @@ mytree <- addProbability(mytree, at=2, prob=.01, name="switch B failure")
 mytree <- addLogic(mytree, at=1, type= "and", name="A and C failed")
 mytree <- addDuplicate(mytree, at=5, dup_id=3)
 mytree <- addProbability(mytree, at=5, prob=.01, name="switch C failure")
+mytree <- applyCollapse(mytree, on=5)
 }
 
 \keyword{ reliability, risk, failure }
-

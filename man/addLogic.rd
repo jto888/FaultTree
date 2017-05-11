@@ -7,7 +7,7 @@
 
 \usage{
 addLogic(DF, type, at, reversible_cond=FALSE, cond_first=TRUE, human_pbf=NULL,
-		vote_par=NULL, tag="", name="", name2="", description="") 
+		vote_par=NULL, tag="", label="", name="", name2="", description="") 
 }
 
 \arguments{
@@ -20,6 +20,7 @@ addLogic(DF, type, at, reversible_cond=FALSE, cond_first=TRUE, human_pbf=NULL,
 \item{human_pbf}{A probability of failure for a human to respond as needed to an alarm. This value is only used by the alarm gate.}
 \item{vote_par}{ A vector of vote parameters as c(k,n) for k of n voting.}
 \item{tag}{ A very short identifying string (typically 5 characters or less) uniquely identifying a basic event for minimal cutset evaluation}
+\item{label}{An identifying string for the logic gate. Use of label in ftree.make defines the convention for rest of tree construction.}
 \item{name}{A short identifying string (typically less than 24 characters)}
 \item{name2}{ A second line, if needed for the identifying string label}
 \item{description}{ An optional string providing more detail for the resultant event.}
