@@ -117,9 +117,19 @@ addDuplicate<-function(DF, at, dup_id=NULL, dup_of=NULL, display_under=NULL, col
 					}
 				}			
 			}
-##########################################################################			
+##########################################################################
+## this is still the x=1 condition until else, so
+## Collapse specification silently has no effect if called on a basic element (MOE)	
+			if(DF$Type[dup_row]>9) {
+				if(collapse==TRUE) {
+					collapse=1
+				}else{
+				collapse=0
+				}
+			}
 			
 		}else{
+			collapse=0
 			cparent_id<-DF$CParent[dup_row]+id_offset
 			gparent_id<-DF$GParent[dup_row]+id_offset
 			cond_val<-DF$Condition[dup_row]
@@ -176,12 +186,7 @@ addDuplicate<-function(DF, at, dup_id=NULL, dup_of=NULL, display_under=NULL, col
 	## close the for loop
 	}
 	
-	## Collapse specification silently has no effect if called on a basic element (MOE)	
-	if(DF$Type[which(DF$ID==dup_id)]>9) {
-		if(collapse==TRUE) {
-			DF$Collapse[which(DF$ID==dup_id)]=1
-		}
-	}
+
 
 return(DF)
 }
