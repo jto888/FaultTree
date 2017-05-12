@@ -2,7 +2,7 @@ ftree2html<-function(DF,dir="", write_file=FALSE){
 	if(!test.ftree(DF)) stop("first argument must be a fault tree")
 	
 
-if(any(DF$Name!="")) {
+if(any(DF$Name!="" || DF$Name2!="")) {
 	html_string<-paste0(
 		HTMLhead,
 		#hierarchyDF2json(DF,data.col=c(1,5:10,12:17)),
