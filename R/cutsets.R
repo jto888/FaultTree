@@ -6,7 +6,7 @@ cutsets<-function(DF)  {
 	 if(any(DF$Type==15)) {
 		stop("vote gate not recognized by cutsets function")
 	 }	 
-	 if(DF$Type>11) {
+	 if(any(DF$Type>11)) {
 		warning("inhibit, alarm, and priority gates will be treated as and")
 	}
 
@@ -185,6 +185,10 @@ if(max_len>1)  {
 				}
 
 				for(source in 1:smat_rows)  {
+## it is possible for the tmat to have been entirely eliminated by this point
+## must test that we still have length in tmat
+if(length(cs_lists[[tmat]])>0)  {
+				
 				elim_rows<-NULL
 ## **************** edge cases error here if cs_lists[[tmat]] or cs_lists[[smat]] is a vector (dim will return NULL)
 					if(is.vector(cs_lists[[tmat]])) {
@@ -223,8 +227,11 @@ if(max_len>1)  {
 							##}
 						}
 					}
-
-## ready for next source item
+}else{
+## nothing left in cs_lists[[tmat]] to compare
+break
+}
+					## ready for next source item
 				}
 ## Can't figure out why this only impacted last matrix
 ##				row.names(cs_lists[[tmat]])<-as.character(1:dim(cs_lists[[tmat]])[1])
