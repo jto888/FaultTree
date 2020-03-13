@@ -7,11 +7,12 @@
 }
 
 \usage{
-ftree.calc(DF) 
+ftree.calc(DF, use.bdd=FALSE)  
 }
 
 \arguments{
 \item{DF}{ A fault tree dataframe such as returned from ftree.make or related add... functions.}
+\item{use.bdd}{A logical determining whether to use the bdd for probability calculations rather than simple solutions.}
 }
 
 \value{
@@ -31,7 +32,12 @@ Returns a dataframe containing 18 columns for holding data, results, and connect
   Fault Tree Handbook with Aerospace Applications   NASA
   
   Doelp, L.C., Lee, G.K., Linney, R.E., Ormsby R.W. (1984) Quantitative fault tree analysis: Gate-by-gate method Plant/Operations Progress
-Volume 3, Issue 4 American Institute of Chemical Engineers
+ Volume 3, Issue 4 American Institute of Chemical Engineers
+ 
+  Rauzy, Antoine (1993) "New algorithms for fault trees analysis"
+   Reliabiity Engineering System Safety, volume 40
+   
+  Limnios, Nikolaos (2007) Fault Trees ISTE,Ltd.
 }
 
 \examples{

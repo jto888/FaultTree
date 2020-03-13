@@ -1,247 +1,61 @@
-cutsets<-function(DF)  {
-
-	 if(any(DF$Type==16)) {
-		stop("atleast gate requires SCRAM calculation")
-	 }
-	 if(any(DF$Type==15)) {
-		stop("vote gate not recognized by cutsets function")
-	 }	 
-	 if(any(DF$Type>11)) {
-		warning("inhibit, alarm, and priority gates will be treated as and")
-	}
-
-	max_len<-length(which(DF$Type>10))+1
-	cs_lists<-list(NULL)
-	
-if(max_len>1)  {
-	for(len in 2:max_len)  {
-		cs_lists<-c(cs_lists, list(NULL))
-	}
-}
-
-	child_rows<-which(DF$CParent==DF$ID[1])
-
-# test for empty node gate
-	if(length(child_rows)==0)  {
-		stop("empty root node")
-	}
-
-## initialize a CS found list for future collection
-	cs_found<-NULL
-
-## initiate the algorithm by evaluation of root node type
-	if(DF$Type[1]<10)  {
-		stop("root node is not a gate")
-	}
-
-	if(DF$Type[1]==10)  {
-
-## initiate the CS test list using this first child_rows vector
-		cs_test<-as.list(child_rows)
-
-	}else{
-		cs_test<-list(child_rows)
-	}
-
-	eval_item<-1
-	eval_pos<-1
-
-
-	while(!eval_item>length(cs_test))  {
-
-
-		while(eval_pos<=length(cs_test[[eval_item]]))  {
-
-## This time if we find an element 'leaf' of tree we will do nothing
-## Action is taken only on gates as found
-			if(DF$Type[cs_test[[eval_item]][eval_pos] ] == 10)  {
-				child_rows<-which(DF$CParent==DF$ID[cs_test[[eval_item]][eval_pos] ])
-					if(length(child_rows)==0)  {
-						stop(paste0("empty gate found at", as.character(DF$ID[cs_test[[eval_item]][eval_pos] ])))
-
-					}
-
-## remove the gate row we just found from the eval_item vector
-				cs_vec<-cs_test[[eval_item]][-eval_pos]
-##create new vectors to add as list items to cs
-				for(item in 1:length(child_rows)) {
-					cs_test<-c(cs_test, list(c(cs_vec, child_rows[item])))
-				}
-## delete the current eval_item (since it has been replaced on cs list with new items)
-				cs_test<-cs_test[-eval_item]
-## reset eval_pos back to 1, because same eval_item will now be a different vector
-				eval_pos<-1
-			}else{
-				if(DF$Type[cs_test[[eval_item]][eval_pos] ] > 10)  {
-					child_rows<-which(DF$CParent==DF$ID[cs_test[[eval_item]][eval_pos] ])
-						if(length(child_rows)==0)  {
-							stop(paste0("empty gate found at", as.character(DF$ID[cs_test[[eval_item]][eval_pos] ])))
-
-						}
-
-				## and gate elements must replace the cs_test[[eval_item]] [pos]
-					cs_vec<-cs_test[[eval_item]][-eval_pos]
-					cs_vec<-c(cs_vec, child_rows)
-					cs_test[[eval_item]]<-cs_vec
-
-
-
-				## eval_pos stays the same for next pass of loop
-
-				}else{
-## advance the eval_pos, we just passed a leaf element and might end the item while loop
-					eval_pos<-eval_pos+1
-				}
-			}
-
-
-		}
-## we have just gotten to the end of an item vector that must all be components,
-
-## use this opportunity in an existing loop to eliminate any duplicate factors in this vector
-## Need to get the MOE or ID for each element of vector first then get unique
-		id_vec<-NULL
-
-## Need to get the MOE or ID for each element of vector
-		for(item in 1:length(cs_test[[eval_item]]))  {
-			if(DF$MOE[cs_test[[eval_item]][item]]>0) {
-				id_vec<-c(id_vec, DF$MOE[cs_test[[eval_item]][item]])
-			}else{
-				id_vec<-c(id_vec, DF$ID[cs_test[[eval_item]][item]])
-			}
-		}
-##  then get unique vectors, eliminating any duplication within the vector
-		id_vec<-unique(id_vec)
-## sort the vector as an aid to future algorithms
-		id_vec<-id_vec[order(id_vec)]
-
-		len<-length(id_vec)
-
-		if(is.null(cs_lists[[len]])) {
-			cs_lists[[len]]<-id_vec
-		}else{
-			cs_lists[[len]]<-rbind(cs_lists[[len]], id_vec)
-		}
-
-
-##  increment the eval_item, or move this item to a new object
-		eval_item<-eval_item+1
-## reset eval_pos to 1
-		eval_pos<-1
-
-## return to main while loop
-	}
-
-
-## reduce raw cut sets by unique vectors
-	for(mat in 1:max_len)  {
-		if(!is.null(cs_lists[[mat]]))  {
-## sorting is likely unnecessary here, aided development
-## but the matrix must have more than one column!
-		if(length(mat)>1) {
-			cs_lists[[mat]]<-sort.by.cols(cs_lists[[mat]])
-		}
-			cs_lists[[mat]]<-unique(cs_lists[[mat]])
-		}
-	}
-	
-## single row matrices are vectors at this point
-## otherwise matrix row names are all 'id_vec' at this point, so here is fix
-
-	for(list_item in 1:length(cs_lists)) {
-		if(!is.null(cs_lists[[list_item]]))  {
-		
-if(class(cs_lists[[list_item]])=="numeric")  {	
-	cs_lists[[list_item]]<-t(as.matrix(cs_lists[[list_item]]))
-}else{	
-
-			len<-dim(cs_lists[[list_item]])[1]
-			rchrs<-as.character(1:len)
-			matrnms<-NULL
-			for(nm in 1:len)  {
-				thisnm<-paste0("[",rchrs[nm],",]")
-				matrnms<-c(matrnms, thisnm)
-			}
-
-			row.names(cs_lists[[list_item]])<-matrnms
-}
-		}
-	}
-## cs_lists contains all matrices now
-	
-## This is where the single matrix of first order cutsets failed		
-if(max_len>1)  {
-
-
-## this is the generalized brute force algorithm  with 4 nested loops
-	for(smat in 1:(max_len-1))  {
-		if(!is.null(cs_lists[[smat]]) && length(cs_lists[[smat]])>0)  {
-		for( tmat in (smat+1):max_len)  {
-			if(!is.null(cs_lists[[tmat]]) && length(cs_lists[[tmat]])>0)  {
-				if(is.vector(cs_lists[[smat]]))  {
-					smat_rows<-1
-				}else{
-					smat_rows<-dim(cs_lists[[smat]])[1]
-				}
-
-				for(source in 1:smat_rows)  {
-## it is possible for the tmat to have been entirely eliminated by this point
-## must test that we still have length in tmat
-if(length(cs_lists[[tmat]])>0)  {
+cutsets<-function(DF, ft_node=1, method="mocus", by="tag")  {				
 				
-				elim_rows<-NULL
-## **************** edge cases error here if cs_lists[[tmat]] or cs_lists[[smat]] is a vector (dim will return NULL)
-					if(is.vector(cs_lists[[tmat]])) {
-						if(is.vector(cs_lists[[smat]]))  {
-							if(length(intersect(cs_lists[[smat]][source], cs_lists[[tmat]][1]))==smat)  {
-								cs_lists[[tmat]]<-c(0)
-								break
-							}
-						}else{
-							if(length(intersect(cs_lists[[smat]][source,], cs_lists[[tmat]][1]))==smat)  {
-								cs_lists[[tmat]]<-c(0)
-								break
-							}
-						}
-					}else{
-						for(target in 1:dim(cs_lists[[tmat]])[1])  {
-							if(is.vector(cs_lists[[smat]]))  {
-								if(length(intersect(cs_lists[[smat]][source], cs_lists[[tmat]][target,]))==smat)  {
-									elim_rows<-c(elim_rows, target)
-								}
-							}else{
-								if(length(intersect(cs_lists[[smat]][source,], cs_lists[[tmat]][target,]))==smat)  {
-									elim_rows<-c(elim_rows, target)
-								}
-							}
-						}
-
-## the tmat can now be reduced for future iteration through source(s)
-						if(length(elim_rows)>0)  {
-## test here was probably intended to address cs_lists[[tmat]][,1] but now as matrix not needed
-							##if(length(elim_rows)==length(cs_lists[[tmat]][1,]))  {
-							##		 cs_lists[[tmat]]<-c(0)
-							##}else{
-								elim_rows<- (-1)*elim_rows
-								cs_lists[[tmat]]<-cs_lists[[tmat]][elim_rows,]
-							##}
-						}
-					}
-}else{
-## nothing left in cs_lists[[tmat]] to compare
-break
-}
-					## ready for next source item
-				}
-## Can't figure out why this only impacted last matrix
-##				row.names(cs_lists[[tmat]])<-as.character(1:dim(cs_lists[[tmat]])[1])
-			}
-		}
-		}
-	}
-	
-}
-
-
-cs_lists
-}
+	 if(any(DF$Type==16)) {			
+		stop("useer must expand 'atleast' gate in ftree model")		
+	}			
+## pre-processing should be considered to expand 'atleast' gates automatically				
+## pre-processing should resolve vote and alarm gates as modules				
+## no warning should be necessary for inhibit and priority gates				
+				
+	ftree.validate(DF)			
+				
+				
+if(DF$Type[ft_node] < 10)  stop("ft_node must be a gate")				
+				
+chars_in<-DF$Tag				
+## DF$MOE now provided for cpp import, uncertainty removed				
+ints_in<-c(DF$ID, DF$Type, DF$CParent, DF$MOE, DF$EType)				
+## DF$CFR & DF$CRT removed from import				
+nums_in<-c( DF$PBF, DF$P1, DF$P2)				
+ 				
+if(tolower(by)%in% c("tag","tags")) {				
+	out_form<-1 			
+}else{				
+if(tolower(by)%in% c("id","ids")) {				
+	out_form<-0			
+}else{				
+	stop(paste0("'by' argument ", by, " is not recognized"))			
+}}				
+				
+if(tolower(method)=="mocus")  {				
+ret<-.Call( "mocus", chars_in, ints_in, nums_in, ft_node, out_form, PACKAGE = "FaultTree" )				
+}else{				
+if(tolower(method)=="prime-implicants")  {				
+ret<-.Call( "prime_implicants", chars_in, ints_in, nums_in, ft_node, out_form, PACKAGE = "FaultTree" )				
+}else{				
+stop(paste0("method ", method, " not recognized"))				
+}}				
+				
+	if(class(ret)=="list" && class(ret[[1]])=="matrix" && is.vector(ret[[2]]) && nrow(ret[[1]])==length(ret[[2]]) ) {			
+## ret will be a list with single matrix of tag strings and a vector  of order values 				
+		tagmat<-ret[[1]]		
+		orders<-ret[[2]]		
+## create an empty list at size of max(orders)				
+		cs_list<-list(NULL)		
+		if(max(orders)>1)  {		
+			for(len in 2:max(orders))  {	
+				cs_list<-c(cs_list, list(NULL))
+			}	
+		}		
+## unpack the returned  matrix into the cs_list				
+		for(cs_order in 1:max(orders) )  {		
+			ov<-which(orders == cs_order)	
+			if(length(ov)>0)  {	
+				cs_list[[cs_order]]<-tagmat[ov, 1:cs_order]
+			}	
+		}		
+		return(cs_list) 		
+	}else{			
+		return(ret)		
+	}			
+}				
