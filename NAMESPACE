@@ -1,3 +1,6 @@
+useDynLib(FaultTree)
+importFrom(Rcpp, evalCpp)
+
 export(addActive,
 addDemand,
 addDuplicate,

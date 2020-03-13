@@ -47,19 +47,15 @@ or by its unique Tag applied by the user.
 }
 
 \examples{
-mytree <-ftree.make(type="or")
-mytree <- addLogic(mytree, at=1, type= "and", name="A and B failed")
-mytree <- addProbability(mytree, at=2, prob=.01, name="switch A failure")
-mytree <- addProbability(mytree, at=2, prob=.01, name="switch B failure")
-mytree <- addLogic(mytree, at=1, type= "and", name="A and C failed")
-mytree <- addDuplicate(mytree, at=5, dup_id=3)
-mytree <- addProbability(mytree, at=5, prob=.01, name="switch C failure")
-mytree <- addLogic(mytree, at=1, type= "and", name="B and C failed")
-mytree <- addDuplicate(mytree, at=8, dup_id=4)
-mytree <- addDuplicate(mytree, at=8, dup_id=7)
-mycutsets<-cutsets(mytree)
-
-
+minex2<-ftree.make(type="and")
+minex2<-addProbability(minex2, at="top", prob=.01, tag="X1", name="X1")
+minex2<-addLogic(minex2, at="top", type="or", tag="G1", name="G1")
+minex2<-addProbability(minex2, at="G1", prob=.02, tag="X2", name="X2")
+minex2<-addProbability(minex2, at="G1", prob=.03, tag="X3", name="X3")
+minex2<-addLogic(minex2, at="top", type="or", tag="G2", name="G2")
+minex2<-addDuplicate(minex2, at="G2", dup_of="X3")
+minex2<-addProbability(minex2, at="G2", prob=.04, tag="X4", name="X4")
+minex2_cs<-cutsets(minex2)
 }
 
 \keyword{ logic, risk, failure }
