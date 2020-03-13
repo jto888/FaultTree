@@ -1,6 +1,10 @@
 # R build system
 .Rbuildignore
 
+# Folders holding Windows compiled objects
+src-i386
+src-x64
+
 # Windows image file caches
 Thumbs.db
 ehthumbs.db

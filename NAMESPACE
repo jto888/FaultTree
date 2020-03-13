@@ -1,4 +1,4 @@
-useDynLib(FaultTree)
+useDynLib(FaultTree, .registration = TRUE)
 importFrom(Rcpp, evalCpp)
 
 export(addActive,

@@ -6,7 +6,7 @@
 
 
 
-SEXP probability(SEXP chars_in, SEXP ints_in, SEXP nums_in, SEXP ft__node) {			
+SEXP get_probability(SEXP chars_in, SEXP ints_in, SEXP nums_in, SEXP ft__node) {			
 	std::unique_ptr<Ftree>  FT(new Ftree(chars_in, ints_in, nums_in)); 		
 	std::unique_ptr<Table1> T1(new Table1());		
 	std::unique_ptr<Table2> T2(new Table2());		

@@ -28,10 +28,12 @@ if(tolower(by)%in% c("id","ids")) {
 }}				
 				
 if(tolower(method)=="mocus")  {				
-ret<-.Call( "mocus", chars_in, ints_in, nums_in, ft_node, out_form, PACKAGE = "FaultTree" )				
+##ret<-.Call( "mocus", chars_in, ints_in, nums_in, ft_node, out_form, PACKAGE = "FaultTree" )	
+ret<-.Call( mocus, chars_in, ints_in, nums_in, ft_node, out_form)				
 }else{				
 if(tolower(method)=="prime-implicants")  {				
-ret<-.Call( "prime_implicants", chars_in, ints_in, nums_in, ft_node, out_form, PACKAGE = "FaultTree" )				
+##ret<-.Call( "prime_implicants", chars_in, ints_in, nums_in, ft_node, out_form, PACKAGE = "FaultTree" )		
+ret<-.Call( prime_implicants, chars_in, ints_in, nums_in, ft_node, out_form)		
 }else{				
 stop(paste0("method ", method, " not recognized"))				
 }}				

@@ -39,7 +39,7 @@ void solutions(std::unique_ptr<Ftree>& FT, std::unique_ptr<ImpPaths>& Imp,
 std::vector<arma::Mat<int>>  bdd_path_list(std::unique_ptr<Ftree>& FT, std::unique_ptr<ImpPaths>& Imp);	
 
 // implementations found in file probabiity.cpp
-RcppExport SEXP probability( SEXP, SEXP, SEXP, SEXP);
+RcppExport SEXP get_probability( SEXP, SEXP, SEXP, SEXP);
 double BDD_probability(std::unique_ptr<Ftree>& FT, std::unique_ptr<Table2>& T2, std::string bdd);
 
 
