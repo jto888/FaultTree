@@ -1,14 +1,18 @@
 Package: FaultTree
 Type: Package
 Title: Fault Trees for Risk and Reliability Analysis
-Version: 0.2.8
-License: GPL (>= 2)
-Date: 2017-5-7
+Version: 0.3.1
+Date: 2020-3-12
 Author: David J. Silkworth
 Maintainer: Jacob T. Ormerod <jake@openreliability.org>
 Description: Construction, calculation and display of fault trees.
 URL: http://www.openreliability.org/fault-tree-analysis-on-r/
 Suggests: magrittr
+License: GPL (>= 3)
 LazyLoad: yes
+SystemRequirements: C++11
+Imports: Rcpp (>= 0.12.4)
+LinkingTo: Rcpp, RcppArmadillo
+
 
 
