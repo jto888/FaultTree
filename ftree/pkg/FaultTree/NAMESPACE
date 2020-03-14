@@ -1,0 +1,28 @@
+useDynLib(FaultTree, .registration = TRUE)
+importFrom(Rcpp, evalCpp)
+
+export(addActive,
+addDemand,
+addDuplicate,
+addExposed,
+addHouse,
+addLatent,
+addLogic,
+addProbability,
+applyCollapse,
+cutsets,
+addUndeveloped,
+ftree.calc,
+ftree.make,
+ftree2bdd,
+ftree2html,
+ftree2table,
+hierarchyDF2json,
+parameter_conversion,
+pc,
+probability,
+prob2lam,
+tagconnect,
+test.ftree)
+
+importFrom("stats", "qnorm")

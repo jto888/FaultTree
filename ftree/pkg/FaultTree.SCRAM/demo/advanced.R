@@ -1,0 +1,75 @@
+if(exists("mission_time")) rm(mission_time)
+pwr2a<-ftree.make(type="or", name="insufficient", name2="Electrical Power")
+pwr2a<-addLogic(pwr2a, at=1, type="and", name="Both Engines", name2="Fail")
+pwr2a<-addProbability(pwr2a, at=2, prob=1e-3, tag="E1", name="Engine E1", name2="Fails")
+pwr2a<-addProbability(pwr2a, at=2, prob=1e-3, tag="E2", name="Engine E2", name2="Fails")
+pwr2a<-addLogic(pwr2a, at=1, type="and", name="Events Dependent on", name2="Monitoring and Switching")
+pwr2a<-addLogic(pwr2a, at=5, type="or", name="Single Primary", name2="Unit Failure")
+pwr2a<-addLogic(pwr2a, at=6, type="or", name="Single Engine", name2="Failure")
+pwr2a<-addDuplicate(pwr2a, at=7, dup_id=3)
+pwr2a<-addDuplicate(pwr2a, at=7, dup_id=4)
+pwr2a<-addLogic(pwr2a, at=6, type="or", name="Single Primary", name2="Gen Failure")
+pwr2a<-addLogic(pwr2a, at=10, type="or", name="Primary Generation", name2="Failure Side 1")
+pwr2a<-addProbability(pwr2a, at=11, prob=1e-3, tag="G2", name="Generator G2", name2="Fails")
+pwr2a<-addProbability(pwr2a, at=11, prob=1e-4, display_under=12, tag="G2A", name="G2 Conn Open")
+pwr2a<-addProbability(pwr2a, at=11, prob=1e-4, display_under=13, tag="G2B", name="Bleed Air To", name2="G2 Fails")
+pwr2a<-addLogic(pwr2a, at=10, type="or", name="Primary Generation", name2="Failure Side 2")
+pwr2a<-addProbability(pwr2a, at=15, prob=1e-3, tag="G4", name="Generator G4", name2="Fails")
+pwr2a<-addProbability(pwr2a, at=15, prob=1e-4, display_under=16, tag="G4A", name="G4 Conn Open")
+pwr2a<-addProbability(pwr2a, at=15, prob=1e-4, display_under=17, tag="G4B", name="Bleed Air To", name2="G4 Fails")
+pwr2a<-addLogic(pwr2a, at=5, type="or", name="Monotor or Switching", name2="Fails")
+pwr2a<-addProbability(pwr2a, at=19, prob=1e-4, tag="M1", name="Monitor M1", name2="Fails")
+pwr2a<-addProbability(pwr2a, at=19, display_under=20, prob=1e-4, tag="S1", name="Switching S1", name2="Fails")
+pwr2a<-addLogic(pwr2a, at=1, type="or", name="Single Engine Fail with", name2="Generation Loss Other Side")
+pwr2a<-addLogic(pwr2a, at=22, type="and", name="Engine E1 Fail with", name2="Generation Loss Side 2")
+pwr2a<-addDuplicate(pwr2a, at=23, dup_id=3)
+pwr2a<-addLogic(pwr2a, at=23, type="or", name="Generation Loss", name2="Side 2")
+pwr2a<-addDuplicate(pwr2a, at=25, dup_id=15)
+pwr2a<-addLogic(pwr2a, at=25, type="or", name="StandBy Generation", name2="Failure Side 2")
+pwr2a<-addProbability(pwr2a, at=30, prob=1e-3, tag="G3", name="Generator G3", name2="Fails")
+pwr2a<-addProbability(pwr2a, at=30, prob=1e-4, display_under=31, tag="G3A", name="G3 Conn Open")
+pwr2a<-addProbability(pwr2a, at=30, prob=1e-4, display_under=32, tag="G3B", name="Bleed Air To", name2="G3 Fails")
+pwr2a<-addLogic(pwr2a, at=22, type="and", name="Engine E2 Fail with", name2="Generation Loss Side 1")
+pwr2a<-addDuplicate(pwr2a, at=34, dup_id=4)
+pwr2a<-addLogic(pwr2a, at=34, type="or", name="Generation Loss", name2="Side 2")
+pwr2a<-addDuplicate(pwr2a, at=36, dup_id=11)
+pwr2a<-addLogic(pwr2a, at=36, type="or", name="StandBy Generation", name2="Failure Side 1")
+pwr2a<-addProbability(pwr2a, at=41, prob=1e-3, tag="G1", name="Generator G1", name2="Fails")
+pwr2a<-addProbability(pwr2a, at=41, prob=1e-4, display_under=42, tag="G1A", name="G1 Conn Open")
+pwr2a<-addProbability(pwr2a, at=41, prob=1e-4, display_under=43, tag="G1B", name="Bleed Air To", name2="G1 Fails")
+
+ftree2html(pwr2a, write_file=T)
+##
+browseURL("pwr2a.html")
+##
+
+scram.probability(pwr2a, list_out=TRUE)
+##
+scram.importance(pwr2a)
+##
+pwr2a_mcub<-1-(prod(1-scram.probability(pwr2a, list_out=T)[[2]][3]))
+pwr2a_gbg<-ftree.calc(pwr2a)[1,7]
+pwr2a_exact<-scram.probability(pwr2a)
+pwr2a_prob<-c(pwr2a_mcub,pwr2a_gbg,pwr2a_exact)
+probmat<-as.matrix(pwr2a_prob)
+rownames(probmat)<-c("MCUB","Gate-by-Gate","Exact")
+print(probmat)
+##
+pwr2<-pwr2a
+pwr2<-addAtLeast(pwr2, at=1, atleast=3, name="At Least 3 Gen", name2="Sytems Fail")
+pwr2<-addDuplicate(pwr2, at=45, dup_id=41)
+pwr2<-addDuplicate(pwr2, at=45, dup_id=11)
+pwr2<-addDuplicate(pwr2, at=45, dup_id=30)
+pwr2<-addDuplicate(pwr2, at=45, dup_id=15)
+
+pwr2<-applyUncertainty(pwr2, on=3, what="prob", deviate="normal", param=1.6e-4)
+pwr2<-applyUncertainty(pwr2, on=4, what="prob", deviate="normal", param=1.6e-4)
+pwr2<-applyUncertainty(pwr2, on=12, what="prob", deviate="normal", param=1.6e-4)
+pwr2<-applyUncertainty(pwr2, on=16, what="prob", deviate="normal", param=1.6e-4)
+pwr2<-applyUncertainty(pwr2, on=31, what="prob", deviate="normal", param=1.6e-4)
+pwr2<-applyUncertainty(pwr2, on=42, what="prob", deviate="normal", param=1.6e-4)
+
+pwr2_unc<-scram.uncertainty(pwr2, show=c(T,F))
+
+
+

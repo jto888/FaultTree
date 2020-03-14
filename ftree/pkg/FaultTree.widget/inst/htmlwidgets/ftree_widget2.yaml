@@ -1,0 +1,14 @@
+# (uncomment to add a dependency)
+ dependencies:
+  - name: d3
+    version: 3.5.17
+    src: "htmlwidgets/lib"
+    script: d3.min.js
+  - name: ftree
+    version: 0.0.2
+    src: "htmlwidgets/lib"
+    stylesheet: ftree_styles.css
+  - name: jquery
+    version: 3.2.0
+    src: "htmlwidgets/lib"
+    script: jquery.min.js
