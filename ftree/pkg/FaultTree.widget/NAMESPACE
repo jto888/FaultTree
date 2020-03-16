@@ -1,0 +1,4 @@
+export(
+ftree2widget)
+importFrom(FaultTree,test.ftree, hierarchyDF2json)
+importFrom(jsonlite, fromJSON)

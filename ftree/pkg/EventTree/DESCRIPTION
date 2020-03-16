@@ -1,0 +1,12 @@
+Package: EventTree
+Type: Package
+Title: Event Trees for Hazard and Risk Analysis
+Version: 0.0.3
+Date: 2016-4-10
+Author: Jacob T. Ormerod
+Maintainer: Jacob T. Ormerod <jake@openreliability.org>
+Description: A package for constructing, calculating and displaying event trees.
+License: GPL (>= 2)
+LazyLoad: yes
+
+
