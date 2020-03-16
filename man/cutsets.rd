@@ -26,6 +26,8 @@ or by its unique Tag applied by the user.
   
   Ericson, Clifton A. II (2011) Fault Tree Analysis Primer  CreateSpace Inc.
   
+  Ericson, Clifton A. II (2005) Hazard Analysis Techniques for System Safety  John Wiley & Sons  
+  
   Nicholls, David [Editor] (2005) System Reliability Toolkit  Reliability information Analysis 
   Center
   
@@ -44,6 +46,8 @@ or by its unique Tag applied by the user.
    Reliabiity Engineering System Safety, volume 40
    
   Limnios, Nikolaos (2007) Fault Trees ISTE,Ltd.
+  
+  Bedford, Tim, Cooke, Roger (2012) Probabilistic Risk Analysis Foundations and Methods Cambridge University Press
 }
 
 \examples{

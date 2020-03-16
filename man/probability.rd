@@ -23,9 +23,12 @@ the individual cutset probabilities.}
 
 \references{
   Ericson, Clifton A. II (2011) Fault Tree Analysis Primer  CreateSpace Inc.
+  
+  Ericson, Clifton A. II (2005) Hazard Analysis Techniques for System Safety  John Wiley & Sons  
 
-  Rauzy, Antoine (1993) "New algorithms for fault trees analysis"
-   Reliabiity Engineering System Safety, volume 40
+  Rauzy, Antoine (1993) "New algorithms for fault trees analysis" Reliabiity Engineering System Safety, volume 40
    
   Limnios, Nikolaos (2007) Fault Trees ISTE,Ltd.
+  
+  Bedford, Tim, Cooke, Roger (2012) Probabilistic Risk Analysis Foundations and Methods Cambridge University Press
 }
