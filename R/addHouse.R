@@ -14,7 +14,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-addHouse<-function(DF, at, prob=1, label="", name="", name2="", description="")  {
+addHouse<-function(DF, at, prob=1, tag="", label="", name="", name2="", description="")  {
 
 	at <- tagconnect(DF, at)
 
@@ -55,11 +55,15 @@ addHouse<-function(DF, at, prob=1, label="", name="", name2="", description="") 
 		}
 	}
 
-
+## apply default tag names if not specified
+	if(tag=="")  {
+		tag<-paste0("H_", thisID)
+	}
+	
 	Dfrow<-data.frame(
 		ID=	thisID	,
 		GParent=	gp	,
-		Tag=	""	,
+		Tag=	tag	,
 		Type=	tp	,
 		CFR=	-1	,
 		PBF=	prob	,

@@ -33,5 +33,4 @@ mytree <- ftree.make(type="or", name="site power loss")
 ftree2html(mytree)
 }
 
-\keyword{ logic, risk, failure }
 

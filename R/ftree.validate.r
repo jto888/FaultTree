@@ -23,16 +23,16 @@ ftree.validate<-function(DF, analysis="mocus", ft_node=1) {
 		stop("ALARM, VOTE, and atLeast gates are not implemented for cutsets calls")				
 		}
 	}	
-	if(any(DF$Type==14) ) {				
-	warning("PRIORITY gates are implemented as AND gates in cutsets calls")				
-	}				
+##	if(any(DF$Type==14) ) {				
+##	warning("PRIORITY gates are implemented as AND gates in cutsets calls")				
+##	}				
 	if(any(DF$Type==3)) {				
 	stop("Pure Demand event not implemented for cutsets calls")				
 	}				
 ##  issue warning if default tags must be issued.					
-	if(any(DF$Tag[which(DF$Type<9)]=="")) {				
-	warning("Not all basic-events have tags, defaults applied")				
-	}				
+##	if(any(DF$Tag[which(DF$Type<9)]=="")) {				
+##	warning("Not all basic-events have tags, defaults applied")				
+##	}				
 
 					
 ## mission time validation is only applicable to SCRAM processing	

@@ -44,5 +44,4 @@ mytree <- ftree.make(type="or", name="conveyor belt fire")
 hierarchyDF2json(mytree, id.col=1, parent.col=2, data.col=c(1,2))
 }
 
-\keyword{ logic, risk, failure }
 

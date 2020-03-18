@@ -54,5 +54,4 @@ mytree<-addLatent(mytree, at=2, mttf=5,mttr=12/8760,inspect=1/26, name="e-gen se
 mytree <- addDemand(mytree,  at=1, mttf=1, name="incomming power", name2="interruption")
 }
 
-\keyword{ logic, risk, failure }
 

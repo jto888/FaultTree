@@ -44,7 +44,10 @@ addDemand<-function(DF, at, mttf, tag="", label="", name="", name2="", descripti
 	gp<-info[3]
 	condition<-info[4]
 
-
+## apply default tag names if not specified
+	if(tag=="")  {
+		tag<-paste0("E_", thisID)
+	}
 
 	if(!mttf>0)  {stop("demand interval must be greater than zero")}
 

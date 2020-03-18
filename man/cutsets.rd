@@ -62,5 +62,4 @@ minex2<-addProbability(minex2, at="G2", prob=.04, tag="X4", name="X4")
 minex2_cs<-cutsets(minex2)
 }
 
-\keyword{ logic, risk, failure }
 

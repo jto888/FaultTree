@@ -50,5 +50,4 @@ Returns a dataframe holding data, results, and connection information.
 mytree <- ftree.make(type="and", name="a specific undesired event")
 }
 
-\keyword{ logic, risk, failure }
 

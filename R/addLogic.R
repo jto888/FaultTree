@@ -47,6 +47,7 @@ addLogic<-function(DF, type, at, reversible_cond=FALSE, cond_first=TRUE, human_p
 		stop("atleast must be added through FaultTree.SCRAM::addAtLeast")
 	}
 
+
 	tp<-switch(type,
 		or = 10,
 		and = 11,
@@ -155,6 +156,11 @@ addLogic<-function(DF, type, at, reversible_cond=FALSE, cond_first=TRUE, human_p
 		}
 	}
 
+## apply default tag names if not specified
+	if(tag=="")  {
+		tag<-paste0("G_", thisID)
+	}
+	
 	Dfrow<-data.frame(
 		ID=	thisID	,
 		GParent=	at	,

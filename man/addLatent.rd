@@ -51,5 +51,4 @@ mytree <-ftree.make(type="and")
 mytree <- addLatent(mytree, at=1, mttf=5,mttr=12/8760,inspect=1/26, name="e-gen set fails")
 }
 
-\keyword{ logic, risk, failure }
 

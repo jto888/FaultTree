@@ -48,5 +48,4 @@ mytree <-ftree.make(type="or")
 mytree <- addActive(mytree,  at=1, mttf=3, mttr=12/8760,name="pump failure")
 }
 
-\keyword{ logic, risk, failure }
 

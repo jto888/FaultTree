@@ -48,5 +48,4 @@ mytree<-addActive(mytree,at=1,mttf=3,mttr=12/8760, name="Pump")
 mytree <- addProbability(mytree,  at=1, prob=.05, name="common cause", name2="beta factor")
 }
 
-\keyword{ logic, risk, failure }
 

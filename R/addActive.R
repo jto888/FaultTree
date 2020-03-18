@@ -53,6 +53,10 @@ addActive<-function(DF, at, mttf, mttr, display_under=NULL, tag="", label="", na
 		pbf<- pbf - (L-G*(L+M))/(L+M)*exp(-(L+M)*T)
 	}
 
+## apply default tag names if not specified
+	if(tag=="")  {
+		tag<-paste0("E_", thisID)
+	}
 
 	Dfrow<-data.frame(
 		ID=	thisID	,

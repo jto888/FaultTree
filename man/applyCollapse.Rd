@@ -51,4 +51,3 @@ mytree <- addProbability(mytree, at=5, prob=.01, name="switch C failure")
 mytree <- applyCollapse(mytree, on=5)
 }
 
-\keyword{ reliability, risk, failure }

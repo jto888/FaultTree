@@ -76,7 +76,10 @@ addLatent<-function(DF, at, mttf, mttr=NULL, pzero=NULL, inspect=NULL, display_u
 ## Now it is okay to set mttr to -1 for ftree entry
 	if(is.null(mttr)) { mttr<- (-1)}
 
-
+## apply default tag names if not specified
+	if(tag=="")  {
+		tag<-paste0("E_", thisID)
+	}
 
 	Dfrow<-data.frame(
 		ID=	thisID	,

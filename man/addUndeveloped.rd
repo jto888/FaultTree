@@ -47,5 +47,4 @@ mytree<-addActive(mytree,at=1,mttf=3,mttr=12/8760, name="Pump Mechanical", name2
 mytree <- addUndeveloped(mytree,  at=1, prob=.05, name="external causes", name2="of pump failure")
 }
 
-\keyword{ logic, risk, failure }
 

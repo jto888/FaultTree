@@ -45,5 +45,4 @@ mytree <-ftree.make(type="and")
 mytree <- addDemand(mytree,  at=1, mttf=1, name="power interruption")
 }
 
-\keyword{ logic, risk, failure }
 

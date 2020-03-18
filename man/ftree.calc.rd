@@ -53,5 +53,4 @@ minex2<-addProbability(minex2, at="G2", prob=.04, tag="X4", name="X4")
 minex2<-ftree.calc(minex2, use.bdd=TRUE)
 }
 
-\keyword{ logic, risk, failure }
 

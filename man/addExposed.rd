@@ -62,5 +62,4 @@ mytree <- addExposed(mytree,  at=1, mttf=3, name="pump fails",
    name2="before completion")
 }
 
-\keyword{ logic, risk, failure }
 

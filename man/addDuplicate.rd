@@ -59,5 +59,4 @@ mytree <- addDuplicate(mytree, at=5, dup_id=3)
 mytree <- addProbability(mytree, at=5, prob=.01, name="switch C failure")
 }
 
-\keyword{ reliability, risk, failure }
 
