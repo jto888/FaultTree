@@ -26,9 +26,11 @@ SEXP mocus(SEXP chars_in, SEXP ints_in, SEXP nums_in, SEXP ft__node, SEXP out__f
 	std::vector<arma::Mat<int>> PathList = generate_path_list(UniquePaths, FT->get_max_order());
 //	return Rcpp::wrap(PathList);
 
+	int out_control=0;
 	std::vector<arma::Mat<int>> MinCutSets;
 	if(FT->get_max_order() > 1)  {	
 		MinCutSets = extract_minimals(PathList);
+		out_control=1;
 	}else{
 		MinCutSets = PathList;
 	}
@@ -40,7 +42,8 @@ SEXP mocus(SEXP chars_in, SEXP ints_in, SEXP nums_in, SEXP ft__node, SEXP out__f
 // pack_cs places output SEXP objects into cuts			
 	pack_cs(FT, MinCutSets, cuts, out_form);		
 			
-	return Rcpp::List::create(		
+	return Rcpp::List::create(
+		Rcpp::wrap(out_control),
 		cuts->packed_mat,	
 		cuts->orders,	
 		mcub(FT, MinCutSets));	

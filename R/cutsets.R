@@ -38,10 +38,11 @@ ret<-.Call( prime_implicants, chars_in, ints_in, nums_in, ft_node, out_form)
 stop(paste0("method ", method, " not recognized"))				
 }}				
 				
-	if(class(ret)=="list" && class(ret[[1]])=="matrix" && is.vector(ret[[2]]) && nrow(ret[[1]])==length(ret[[2]]) ) {			
+	##if(class(ret)=="list" && class(ret[[1]])=="matrix" && is.vector(ret[[2]]) && nrow(ret[[1]])==length(ret[[2]]) ) {
+	if(ret[[1]]==1)  {
 ## ret will be a list with single matrix of tag strings and a vector  of order values 				
-		tagmat<-ret[[1]]		
-		orders<-ret[[2]]		
+		tagmat<-ret[[2]]		
+		orders<-ret[[3]]		
 ## create an empty list at size of max(orders)				
 		cs_list<-list(NULL)		
 		if(max(orders)>1)  {		
@@ -58,6 +59,6 @@ stop(paste0("method ", method, " not recognized"))
 		}		
 		return(cs_list) 		
 	}else{			
-		return(ret)		
+		return(list(ret[[2]]))	
 	}			
 }				

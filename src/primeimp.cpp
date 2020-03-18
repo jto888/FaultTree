@@ -30,9 +30,11 @@ SEXP prime_implicants(SEXP chars_in, SEXP ints_in, SEXP nums_in, SEXP ft__node, 
 	std::vector<arma::Mat<int>> PathList = bdd_path_list(FT, Imp);
 //	return Rcpp::wrap(PathList);
 
+	int out_control=0;
 	std::vector<arma::Mat<int>> PrimeImplicants;
 	if(Imp->get_max_order() > 1)  {	
 		PrimeImplicants = extract_minimals(PathList);
+		out_control=1;
 	}else{
 		PrimeImplicants = PathList;
 	}
@@ -42,7 +44,8 @@ SEXP prime_implicants(SEXP chars_in, SEXP ints_in, SEXP nums_in, SEXP ft__node, 
 	// pack_cs places output SEXP objects into cuts			
 	pack_cs(FT, PrimeImplicants, cuts, out_form);		
 			
-	return Rcpp::List::create(		
+	return Rcpp::List::create(	
+		Rcpp::wrap(out_control),
 		cuts->packed_mat,	
 		cuts->orders	
 		);	

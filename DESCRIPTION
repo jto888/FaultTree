@@ -1,6 +1,6 @@
 Package: FaultTree
-Version: 0.99.1
-Date: 2020-3-16
+Version: 0.99.2
+Date: 2020-3-18
 Title: Fault Trees for Risk and Reliability Analysis
 Authors@R: c(person("David", "Silkworth", email = "djsilk@openreliability.org", role = "aut"), person("Jacob", "Ormerod", email = "jake@openreliability.org", role = "cre"), person("OpenReliability.org", role = "cph"))
 Description: Construction, calculation and display of fault trees. Methods derived from Clifton A. Ericson II (2005, ISBN: 9780471739425) <DOI:10.1002/0471739421>, Antoine Rauzy (1993) <DOI:10.1016/0951-8320(93)90060-C>, Tim Bedford and Roger Cooke (2012, ISBN: 9780511813597) <DOI:10.1017/CBO9780511813597>, Nikolaos Limnios,  (2007, ISBN: 9780470612484) <DOI: 10.1002/9780470612484>.
