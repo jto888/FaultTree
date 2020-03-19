@@ -43,5 +43,4 @@ mytree <- addProbability(mytree,  at="top", prob=.05, name="common cause", name2
 pumpIDvalue<-tagconnect(mytree, at="p1")
 }
 
-\keyword{ logic, risk, failure }
 

@@ -32,5 +32,3 @@ Returns the lambda value that will produce the fixed probability with environmen
 mission_time<-8760
 mttf=1/prob2lam(.6)
 }
-
-\keyword{ logic, risk, failure }

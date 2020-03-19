@@ -29,5 +29,3 @@ Returns True for object match, else False.
 mytree <- ftree.make(type="or", name="site power loss")
 test.ftree(mytree)
 }
-
-\keyword{ logic, risk, failure }

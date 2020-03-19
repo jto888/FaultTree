@@ -58,5 +58,4 @@ mission_time=20
 mttf<-1/pc(1, .2)
 }
 
-\keyword{ logic, risk, failure }
 

@@ -58,5 +58,4 @@ mission_time=20
 mttf<-1/parameter_conversion("prob2lam", .2)
 }
 
-\keyword{ logic, risk, failure }
 
