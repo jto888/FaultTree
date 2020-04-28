@@ -32,7 +32,11 @@ double BDD_probability(std::unique_ptr<Ftree>& FT, std::unique_ptr<Table2>& T2, 
 			bdd_prob = 1.0;	
 		}else{		
 			double test_result = T2->match(bdd);	
-			if( !test_result < 0.0 )  {	
+// Prof Brian Ripley <ripley@stats.ox.ac.uk>
+// CRAN packages with -Wlogical-not-parentheses warnings  
+// Please remove the warnings before 2020-05-12 to safely retain your package on CRAN. 
+// note: add parentheses around left hand side expression to silence this warning
+			if( (!test_result) < 0.0 )  {	
 				bdd_prob = test_result;
 			}else{	
 				Ite Z(bdd);
