@@ -12,7 +12,7 @@ addLogic(DF, type, at, reversible_cond=FALSE, cond_first=TRUE, human_pbf=NULL,
 
 \arguments{
 \item{DF}{A fault tree dataframe such as returned from ftree.make or related add... functions.}
-\item{type}{A string signifying the type of logic to be applied. Implemented gate types "or","and","inhibit","conditional" (or "cond"), and "alarm" have been implemented.}
+\item{type}{A string signifying the type of logic to be applied. Implemented gate types "or","and","inhibit","conditional" (or "cond"), vote, and "alarm" have been implemented.}
 \item{at}{The ID or tag name of the parent node for this addition.}
 \item{reversible_cond}{A boolean value used only by the conditional gate type indicating whether repair of the input condition is viable to the model.}
 \item{cond_first}{A boolean signifying whether the first child to an INHIBIT, ALARM, or PRIORITY logic gate should be taken as the condition.
