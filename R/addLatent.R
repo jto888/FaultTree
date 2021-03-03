@@ -61,7 +61,7 @@ addLatent<-function(DF, at, mttf, mttr=NULL, inspect=NULL, risk="mean",
 ## pzero is no longer provided as an argument. 
 ## pzero is calculated based on mttr, if it is provided
 	pzero<-0
-	if(length(mttr)>0) {
+	if(length(mttr)>0 && mttr>0) {
 		pzero=mttr/(mttf+mttr)
 	}
 	if(risk == "mean") {
@@ -69,11 +69,15 @@ addLatent<-function(DF, at, mttf, mttr=NULL, inspect=NULL, risk="mean",
 		pf<-1-1/((1/mttf)*Tao)*(1-exp(-(1/mttf)*Tao))
 		pf<- 1-(1-pf)*(1-pzero)
 	}else{
-		## The maximum risk probability
-		pf<-1-1/((1/mttf)*Tao)
+		if(risk == "max")  {
+			## The maximum risk probability
+			pf<-1-exp(-(1/mttf)*Tao) 			
+		}else{
+			stop("only 'mean' or 'max' accepted for risk argument")
+		}
 	}
 ## Now it is okay to set mttr to -1 for ftree entry
-	if(is.null(mttr)) { mttr<- (-1)}
+	if(is.null(mttr) || !mttr>0) { mttr<- (-1)}
 
 
 

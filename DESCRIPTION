@@ -1,5 +1,5 @@
 Package: FaultTree
-Version: 0.99.7
+Version: 0.99.8
 Date: 2021-3-3
 Title: Fault Trees for Risk and Reliability Analysis
 Authors@R: c(person("David", "Silkworth", email = "djsilk@openreliability.org", role = "aut"), person("Jacob", "Ormerod", email = "jake@openreliability.org", role = "cre"), person("OpenReliability.org", role = "cph"))

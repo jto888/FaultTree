@@ -58,8 +58,13 @@ ANDcalc<-function(df)  {
 			if(pFR>0 && pPF>0) {
 	## just in case an implied RT is the  minimum here (not really expected to ever be used)
 	## on second thought, don't do this
-
-				pRT<-min(RTvec)
+	
+#browser()	
+				if(!is.null(RTvec)) {
+					pRT<-min(RTvec)
+				}else{
+					pRT<--1
+				}
 				if(pAct || cAct) {
 					warning("Active component combined with Latent in an AND gate")
 				}
