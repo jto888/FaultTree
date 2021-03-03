@@ -14,8 +14,8 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-addLatent<-function(DF, at, mttf, mttr=NULL, pzero=NULL, inspect=NULL, display_under=NULL,
-		 tag="", label="", name="",name2="", description="")  {
+addLatent<-function(DF, at, mttf, mttr=NULL, inspect=NULL, risk="mean", 
+		 display_under=NULL, tag="", label="", name="",name2="", description="")  {
 
 	at <- tagconnect(DF, at)
 
@@ -63,23 +63,24 @@ addLatent<-function(DF, at, mttf, mttr=NULL, pzero=NULL, inspect=NULL, display_u
 		Tao=inspect
 	}
 
-## pzero argument has been depreciated, pzero will be calculated based on mttr, if it is provided
-
-## default Pzero=0, it is only a calculated value if mttr is provided
+## pzero is no longer provided as an argument. 
+## pzero is calculated based on mttr, if it is provided
 	pzero<-0
 	if(length(mttr)>0) {
 		pzero=mttr/(mttf+mttr)
 	}
+	if(risk == "mean") {
 		## fractional downtime method
-	pf<-1-1/((1/mttf)*Tao)*(1-exp(-(1/mttf)*Tao))
-	pf<- 1-(1-pf)*(1-pzero)
+		pf<-1-1/((1/mttf)*Tao)*(1-exp(-(1/mttf)*Tao))
+		pf<- 1-(1-pf)*(1-pzero)
+	}else{
+		## The maximum risk probability
+		pf<-1-1/((1/mttf)*Tao)
+	}
 ## Now it is okay to set mttr to -1 for ftree entry
 	if(is.null(mttr)) { mttr<- (-1)}
 
-## apply default tag names if not specified
-	if(tag=="")  {
-		tag<-paste0("E_", thisID)
-	}
+
 
 	Dfrow<-data.frame(
 		ID=	thisID	,
