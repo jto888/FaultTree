@@ -1,8 +1,8 @@
-ftree2html<-function(DF,dir="", write_file=FALSE){
+ftree2html<-function(DF,dir="", write_file=TRUE){
 	if(!test.ftree(DF)) stop("first argument must be a fault tree")
 	
-
-if(any(DF$Name!="" || DF$Name2!="")) {
+# ftree.make will force the name convention as "top of tree" if none provided
+if(DF$Name[1]!="") {
 	html_string<-paste0(
 		HTMLhead,
 		#hierarchyDF2json(DF,data.col=c(1,5:10,12:17)),
@@ -12,6 +12,7 @@ if(any(DF$Name!="" || DF$Name2!="")) {
 		'</script>'
 	)
 }else{
+#separate code to handle generation under label convention
 	html_string<-paste0(
 		HTMLhead,
 		#hierarchyDF2json(DF,data.col=c(1,5:10,12:17)),
@@ -30,9 +31,9 @@ if(any(DF$Name!="" || DF$Name2!="")) {
 		eval(parse(text=paste0('write(html_string,"',file_name,'")')))
 
 	}
-
-outDF<-ftree2table(DF)
-outDF 
+## original return here was disruptive during Rmarkdown use
+#outDF<-ftree2table(DF)
+#outDF 
 
 }
 

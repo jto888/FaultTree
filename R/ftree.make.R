@@ -1,5 +1,5 @@
 # ftree.make.R
-# copyright 2015-2017, openreliability.org
+# copyright 2015-2022, openreliability.org
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -26,8 +26,8 @@ ftree.make<-function(type, reversible_cond=FALSE, cond_first=TRUE,
 			stop("cannot use both label and name convention in same tree")
 		}
 	}else{
-		if(name=="" && name2=="") {
-## establish original default name for back portability
+		if(name=="") {
+## establish original default name for back portability, this sets the name-label convention to name
 			name="top event"
 		}
 	}
