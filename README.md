@@ -5,9 +5,10 @@ This R package is used to build a fault tree as a dataframe object. There is no 
 A tree is constructed by building a script with an initial ftree.make() call.  Subsequent addition of 
 add... functions build up the tree.  
 
-The logic gates of a fault tree are calculated from bottom to top
-in a batch fashion. Logic gate calculations are performed using boolean algebra and cross-multiplication of demands (conditional fail rates) 
-with failed state probability values. Latent component events assume exponential fail rates for calculation of fractional downtime values. It is possible to augment this package with the solution of Markov models, but this is a subject for
+By default the logic gates of a fault tree are calculated from bottom to top
+in a batch fashion.  Logic gate calculations are performed using boolean algebra and cross-multiplication of demands (conditional fail rates) 
+with failed state probability values. Latent component events assume exponential fail rates for calculation of fractional downtime values. Probability values may optionally be calculated with more accuracy using binary decision diagram analysis.
+It is possible to augment this package with the solution of Markov models, but this is a subject for
 further development. As is, the presentation of simple results is believed to be more powerful for practical
 purposes than seeking a more complex approach.
 
@@ -15,7 +16,7 @@ Output can be read as a sub-view of the dataframe object holding the tree. Alter
 is available from a generated html file loaded into a browser with internet connectivity (for access to the D3 javascript library via cdn). This package can also be treated as an htmlwidget using the reverse-depend package FaultTree.widget at github/jto888/FaulTree.widget.
 Eventual release to CRAN is expected to include the widget generation.
 
-Minimal cut sets are now determined by the top-down MOCUS algorithm. This is a candidate for future C++ conversion using RcppArmadillo.
+Minimal cut sets are now determined by the top-down MOCUS algorithm or alternatively by analysis of prime implicants by binary decision diagram analysis.
 
 Those new to R and/or fault tree analysis are referred to http://www.openreliability.org/faulttree-users-tutorial/ for comprehensive installation and use instructions.
 
