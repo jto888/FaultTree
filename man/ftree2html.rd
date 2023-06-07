@@ -7,7 +7,7 @@
 }
 
 \usage{
-ftree2html(DF,dir="", write_file=FALSE)
+ftree2html(DF,dir="", write_file=TRUE)
 }
 
 \arguments{
@@ -30,7 +30,7 @@ Optionally, this vector will be written to a file taking the name of the object 
 
 \examples{
 mytree <- ftree.make(type="or", name="site power loss")
-ftree2html(mytree)
+ftree2html(mytree, write_file=FALSE)
 }
 
 

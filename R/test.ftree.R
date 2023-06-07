@@ -1,5 +1,5 @@
 test.ftree<-function(DF) {
-	if(class(DF)!="data.frame") {
+	if(!inherits(DF,"data.frame")) {
 		return(FALSE)
 	}else{
 	if(length(names(DF))!=23)  {
