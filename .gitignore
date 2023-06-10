@@ -5,6 +5,9 @@
 src-i386
 src-x64
 
+#compiled binary objects
+*.0
+*.dll
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
