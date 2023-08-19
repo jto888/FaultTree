@@ -1,5 +1,5 @@
 \name{FaultTree-package}
-\alias{FaultTree}
+\alias{FaultTree-package}
 \docType{package}
 \title{
 Fault Trees for Risk and Reliability Analysis
