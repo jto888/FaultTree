@@ -1,4 +1,4 @@
-ftree2html2 <-function(DF, write_file=TRUE){
+ftree2html2 <-function(DF, DFname="", write_file=TRUE){
 	if(!test.ftree(DF)) stop("first argument must be a fault tree")
 	
 # ftree.make will force the name convention as "top of tree" if none provided
@@ -24,8 +24,11 @@ if(DF$Name[1]!="") {
 }
 
 	if(write_file==TRUE)  {
-		DFname<-paste(deparse(substitute(DF)))
-		file_name<-paste0(DFname,".html")		
+		if(DFname=="") {
+			DFname<-paste(deparse(substitute(DF)))
+		}
+		file_name<-paste0(DFname,".html")
+#browser()		
 		#file_name<-paste0(dir,DFname,".html")
 		#eval(parse(text=paste0('write(html_string,"',file_name,'")')))
 		target_path <- file.path(tempdir(), file_name)

@@ -1,11 +1,13 @@
 ftree.display<-function(DF) {
+	if(!test.ftree(DF)) stop("first argument must be a fault tree")
 	DFname<-paste(deparse(substitute(DF)))
-	file_name<-paste0(DFname,".html")	
+	ftree2html2(DF, DFname=DFname, write_file=TRUE)
+	
+	
+	file_name<-paste0(DFname,".html")
+#browser()	
 	target_path <- file.path(tempdir(), file_name)
-## NEED TO TRAP ERROR THAT FILE DOES NOT EXIST	
-	if(file.exists(target_path) {
-		utils::browseURL(target_path)
-	}else{
-		stop(paste0("html file has not been created for ",DFname)
-	}
+
+	utils::browseURL(target_path)
+
 }

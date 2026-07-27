@@ -1,39 +1,58 @@
-# FaultTree
-## Fault Tree Analysis on R
+FaultTree
+=========
 
-This R package is used to build a fault tree as a dataframe object. There is no GUI associated with this package. 
-A tree is constructed by building a script with an initial ftree.make() call.  Subsequent addition of 
-add... functions build up the tree.  
+Fault Tree Analysis on R
+------------------------
 
-By default the logic gates of a fault tree are calculated from bottom to top
-in a batch fashion.  Logic gate calculations are performed using boolean algebra and cross-multiplication of demands (conditional fail rates) 
-with failed state probability values. Latent component events assume exponential fail rates for calculation of fractional downtime values. Probability values may optionally be calculated with more accuracy using binary decision diagram analysis.
-It is possible to augment this package with the solution of Markov models, but this is a subject for
-further development. As is, the presentation of simple results is believed to be more powerful for practical
-purposes than seeking a more complex approach.
+This R package is used to build a fault tree as a dataframe object. There is no
+GUI associated with this package. A tree is constructed by building a script
+with an initial ftree.make() call. Subsequent addition of add... functions build
+up the tree.
 
-Output can be read as a sub-view of the dataframe object holding the tree. Alternatively, a graphical output
-is available from a generated html file loaded into a browser with internet connectivity (for access to the D3 javascript library via cdn). This package can also be treated as an htmlwidget using the reverse-depend package FaultTree.widget at github/jto888/FaulTree.widget.
+By default the logic gates of a fault tree are calculated from bottom to top in
+a batch fashion. Logic gate calculations are performed using boolean algebra and
+cross-multiplication of demands (conditional fail rates) with failed state
+probability values. Latent component events assume exponential fail rates for
+calculation of fractional downtime values. Probability values may optionally be
+calculated with more accuracy using binary decision diagram analysis. It is
+possible to augment this package with the solution of Markov models, but this is
+a subject for further development. As is, the presentation of simple results is
+believed to be more powerful for practical purposes than seeking a more complex
+approach.
+
+Output can be read as a sub-view of the dataframe object holding the tree.
+Alternatively, a graphical output is available from a generated html file loaded
+into a browser with internet connectivity (for access to the D3 javascript
+library via cdn). This package can also be treated as an htmlwidget using the
+reverse-depend package FaultTree.widget at github/jto888/FaulTree.widget.
 Eventual release to CRAN is expected to include the widget generation.
 
-Minimal cut sets are now determined by the top-down MOCUS algorithm or alternatively by analysis of prime implicants by binary decision diagram analysis.
+Minimal cut sets are now determined by the top-down MOCUS algorithm or
+alternatively by analysis of prime implicants by binary decision diagram
+analysis.
 
-Those new to R and/or fault tree analysis are referred to http://www.openreliability.org/faulttree-users-tutorial/ for comprehensive installation and use instructions.
+Those new to R and/or fault tree analysis are referred to
+http://www.openreliability.org/faulttree-users-tutorial/ for comprehensive
+installation and use instructions.
 
-### Experienced R User Installation 
-```r
+### Experienced R User Installation
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ r
 # Install from this repo in GitHub
 if (packageVersion("devtools") < 1.6) {
   install.packages("devtools") }
 devtools::install_github("jto888/FaultTree")
-```
-```r
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ r
 ## Load library once per session
 library(FaultTree) 
-```
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 **Example Scripts**  
-### Example 1  
-```r
+\#\#\# Example 1
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ r
 tree1 <- ftree.make(type="priority",reversible_cond=TRUE, name="Site power loss")
 tree1 <- addLogic(tree1, at=1, type="or", name="neither emergency", name2="generator operable")
 tree1 <- addLogic(tree1, at=2, type="and", name="Independent failure", name2="of generators")
@@ -48,12 +67,20 @@ tree1 <- ftree.calc(tree1)
 
 tree1[,1:8]
 
-## The tree can be displayed in the browser using the following commands:
-ftree2html(tree1, write_file=TRUE)
-browseURL('tree1.html')
-```		
+## The tree can be displayed in the browser using the following command:
+
+ftree.display(tree1)
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+NOTE: Original example code used for about a decade utilizing a combination of ftree2html followed by browseURL has been depreciated. The original ftree2html function wrote its file to the user workspace; a violationof CRAN policy. The currently applied code appropriately writes to and reads from the tempdir, which is generated upon each R session.
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+ 
+
 ### Example 2
-```r
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ r
 tree2 <- ftree.make(type="or")
 tree2 <- addLogic(tree2, type= "and", at= 1, name="2oo2 Active Pumps Fail")
 tree2 <- addLogic(tree2, type= "or", at= 2, name="Pump A fails")
@@ -65,13 +92,16 @@ tree2 <- ftree.calc(tree2)
 tree2[,1:7]
 
 # Visualization
-ftree2html(tree2, write_file=TRUE)
-browseURL('tree2.html')
-```
+ftree.display(tree2)
 
-### Example 3  **Minimal Cut Set Generation**
-Based on an example described by *Clifton A. Ericson II* in Fault Tree Analysis Primer, *(2011) CreateSpace Inc.*
-```r
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+### Example 3 **Minimal Cut Set Generation**
+
+Based on an example described by *Clifton A. Ericson II* in Fault Tree Analysis
+Primer, *(2011) CreateSpace Inc.*
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ r
 pwr<-ftree.make(type="or", name="insufficient", name2="Electrical Power")
 pwr<-addLogic(pwr, at=1, type="and", name="No Output", name2="G1, G2, G3")
 pwr<-addLogic(pwr, at=2, type="or", name="No Power", name2="From G1")
@@ -122,7 +152,6 @@ pwr<-addDuplicate( pwr, at=80, dup_id=45)
 pwr_cs<-cutsets(pwr)
 
 # Visualization
-ftree2html(pwr, write_file=TRUE)
-browseURL('pwr.html')
+ftree.display(pwr)
 
-```
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
