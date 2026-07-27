@@ -41,7 +41,8 @@ addHouse<-function(DF, at, prob=1, tag="", label="", name="", name2="", descript
 
 ## House can only be placed under AND or INHIBIT (with Cond==1)
 	parentOK<-FALSE	
-	if(DF$Type[which(DF$ID==parent)]==11) {
+	#if(DF$Type[which(DF$ID==parent)]==11) {
+	if (DF$Type[parent] == 11) {
 		parentOK<-TRUE
 	}else{
 		if(DF$Type[which(DF$ID==parent)]==12) {	
