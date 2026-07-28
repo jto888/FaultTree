@@ -1,6 +1,6 @@
 ftree2html2 <-function(DF, DFname="", write_file=TRUE){
 	if(!test.ftree(DF)) stop("first argument must be a fault tree")
-	
+
 # ftree.make will force the name convention as "top of tree" if none provided
 if(DF$Name[1]!="") {
 	html_string<-paste0(
@@ -43,13 +43,30 @@ if(DF$Name[1]!="") {
 
 }
 
+
+## AI generated code to read d3 and js code locally within the package
+
+# 1. Locate the local asset files inside the installed package
+d3_path  <- system.file("html", "d3.v3.min.js", package = "FaultTree")
+jqy_path <- system.file("html", "jquery.min.js", package = "FaultTree")
+# 2. Read the JavaScript code directly into R strings
+# (use collapse="\n" to safely keep the entire JS file intact)
+d3_code  <- paste(readLines(d3_path, warn = FALSE), collapse = "\n")
+jqy_code <- paste(readLines(jqy_path, warn = FALSE), collapse = "\n")
+#remmoved internet calls for required js code
+#<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+#<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+# 3. Inject the actual code directly into your HTML head string below
+
 ############################ HTML strings #####################################
 
-HTMLhead<-'<!DOCTYPE html>
-<meta charset="utf-8">
-<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-<style>
+HTMLhead<- paste0(
+  '<!DOCTYPE html>\n',
+  '<meta charset="utf-8">\n',
+  '<script>\n', jqy_code, '\n</script>\n', 
+  '<style>\n'
+)
+
 html{
   height: 100%;
 }
