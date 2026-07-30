@@ -76,7 +76,7 @@ ftree.display(tree1)
 NOTE: Original example code used for about a decade utilizing a combination of ftree2html followed by browseURL has been depreciated. The original ftree2html function wrote its file to the user workspace; a violationof CRAN policy. The currently applied code appropriately writes to and reads from the tempdir, which is generated upon each R session.
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
- 
+ 
 
 ### Example 2
 

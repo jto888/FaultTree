@@ -46,7 +46,7 @@ addHouse<-function(DF, at, prob=1, tag="", label="", name="", name2="", descript
 		parentOK<-TRUE
 	}else{
 		#if(DF$Type[which(DF$ID==parent)]==12) {
-		if(DF$Type[parent)]==12) {
+		if(DF$Type[parent]==12) {
 			if(condition==1) {
 				parentOK<-TRUE
 			}else{
