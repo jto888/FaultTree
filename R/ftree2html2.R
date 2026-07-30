@@ -60,35 +60,24 @@ jqy_code <- paste(readLines(jqy_path, warn = FALSE), collapse = "\n")
 
 ############################ HTML strings #####################################
 
-HTMLhead<- paste0(
+HTMLhead <- paste0(
   '<!DOCTYPE html>\n',
   '<meta charset="utf-8">\n',
-  '<script>\n', jqy_code, '\n</script>\n', 
-  '<style>\n'
+  '<script>\n', jqy_code, '\n</script>\n',
+  '<style>\n',
+  'html{ height: 100%; }\n',
+  'body { position: absolute; ... }\n',
+  '</style>\n',
+  '<div id="body"></div>\n',
+  '<style>\n',
+  '.node {cursor: pointer;}\n',
+  '.node text {font: 10px sans-serif;font-weight: bold;}\n',
+  '.link {fill: none;stroke: #ccc;stroke-width: 1.5px;}\n',
+  '</style>\n',
+  '<script>\n',
+  'width = 960,height = 800;\n',
+  'var root =\n'
 )
-
-html{
-  height: 100%;
-}
-body {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  margin: 5px;
-}
-</style>
-<div id="body"></div>
-<style>
-.node {cursor: pointer;}
-.node text {font: 10px sans-serif;font-weight: bold;}
-.link {fill: none;stroke: #ccc;stroke-width: 1.5px;}
-</style>
-<script>
-width = 960,height = 800;
-var root =
-'
 
 HTMLd3script<-'
 var llim=1e-25;
