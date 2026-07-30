@@ -28,6 +28,9 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+#extranious html files
+*.html
+
 # =========================
 # Operating System Files
 # =========================
