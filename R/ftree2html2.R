@@ -66,7 +66,7 @@ HTMLhead <- paste0(
   '<script>\n', jqy_code, '\n</script>\n',
   '<style>\n',
   'html{ height: 100%; }\n',
-  'body { position: absolute; ... }\n',
+'body { position: absolute; top: 0; bottom: 0; right: 0; left: 0; margin: 5px; }\n',
   '</style>\n',
   '<div id="body"></div>\n',
   '<style>\n',
