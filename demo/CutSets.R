@@ -47,31 +47,10 @@ pwr<-addDuplicate( pwr, at=80, dup_id=10)
 pwr<-addDuplicate( pwr, at=80, dup_id=20)
 pwr<-addDuplicate( pwr, at=80, dup_id=45) 
 
-pwr_cs<-cutsets(pwr) 
+pwr_cs<-cutsets(pwr,by="id")
+pwr_cs
 
-## get the tags for each element of the cut sets enter the following code
-cs_tags2<-apply(pwr_cs[[2]], c(1,2),function(x) pwr$Tag[which(pwr$ID==x)])
-cs_tags3<-apply(pwr_cs[[3]], c(1,2),function(x) pwr$Tag[which(pwr$ID==x)]) 
 
-## Similarly, get the probability values for each of the elements of the cut sets
-cs_probs2<-apply(pwr_cs[[2]], c(1,2),function(x) pwr$PBF[which(pwr$ID==x)])
-cs_probs3<-apply(pwr_cs[[3]], c(1,2),function(x) pwr$PBF[which(pwr$ID==x)]) 
-
-## Since each row of the cut set represents a single probability resulting from
-## the product of its elements, it is possible to build a probability column
-## to add to the cut set tags now as a dataframe.
-cs_tags2<-cbind(cs_tags2, data.frame('prob'=apply(cs_probs2, 1, function(x) prod(x))))
-cs_tags3<-cbind(cs_tags3, data.frame('prob'=apply(cs_probs3, 1, function(x) prod(x)))) 
-
-## Finally the two objects can be combined to one and sorted (ordered). Lastly, the rows are re-numbered for ascetics.
-nas<-rep(NA,length(cs_tags2[,1]))
-cs_tags2<-cbind(cs_tags2[,1:2],nas, cs_tags2[,3])
-names(cs_tags2)<-names(cs_tags3)
-all_cs<-rbind(cs_tags2, cs_tags3)
-all_cs<-all_cs[order(-all_cs[,4],all_cs[,1], all_cs[,2], all_cs[,3],na.last=FALSE), ]
-row.names(all_cs)<-as.character(1:length(all_cs[,1])) 
-
-print(all_cs)
 
 
 

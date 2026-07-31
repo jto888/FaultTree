@@ -26,7 +26,7 @@ users would not ordinarily call \code{ftree2html2} directly.}
 
 \examples{
 mytree <- ftree.make(type="or", name="site power loss")
-	dontrun{
+\dontrun{
 	ftree.display(mytree)
 	}
 }

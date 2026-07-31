@@ -13,5 +13,7 @@ tree1 <- ftree.calc(tree1)
  
 tree1[,1:8] 
 
-ftree2html(tree1, write_file=TRUE)
-browseURL("tree1.html") 
+#ftree2html(tree1, write_file=TRUE)
+#browseURL("tree1.html") 
+
+ftree.display(tree1)
