@@ -63,7 +63,8 @@ jqy_code <- paste(readLines(jqy_path, warn = FALSE), collapse = "\n")
 HTMLhead <- paste0(
   '<!DOCTYPE html>\n',
   '<meta charset="utf-8">\n',
-  '<script>\n', jqy_code, '\n</script>\n',
+	'<script>\n', jqy_code, '\n</script>\n',
+	'<script>\n', d3_code, '\n</script>\n',
   '<style>\n',
   'html{ height: 100%; }\n',
 'body { position: absolute; top: 0; bottom: 0; right: 0; left: 0; margin: 5px; }\n',
