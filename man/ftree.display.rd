@@ -3,8 +3,8 @@
 
 \title{Display a Fault Tree in the Web Browser}
 
-\description{Writes an interactive HTML representation of an ftree to a temporary
-file and opens it in the user's default web browser.}
+\description{Writes an interactive HTML representation of an ftree object to a 
+temporary file and opens it in the user's default web browser.}
 
 \usage{
 ftree.display(DF)
@@ -20,11 +20,13 @@ return a value.}
 
 \details{Use \code{ftree.display} to view fault trees interactively. Internally this
 function calls \code{ftree2html2()} to construct the HTML content; typical package
-users should not call \code{ftree2html2} directly.}
+users would not ordinarily call \code{ftree2html2} directly.}
 
 \seealso{\code{ftree2html}, \code{ftree2html2}, \code{ftree.make}}
 
 \examples{
 mytree <- ftree.make(type="or", name="site power loss")
-ftree.display(mytree)
+	dontrun{
+	ftree.display(mytree)
+	}
 }

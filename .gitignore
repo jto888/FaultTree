@@ -7,8 +7,8 @@ src-x64
 
 #compiled binary objects
 *.o
-*.0
 *.dll
+
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
@@ -29,7 +29,7 @@ $RECYCLE.BIN/
 *.lnk
 
 #extranious html files
-#*.html
+*.html
 
 # =========================
 # Operating System Files
