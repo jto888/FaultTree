@@ -29,7 +29,7 @@ $RECYCLE.BIN/
 *.lnk
 
 #extranious html files
-*.html
+#*.html
 
 # =========================
 # Operating System Files

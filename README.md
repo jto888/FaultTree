@@ -56,7 +56,87 @@ tree1[,1:8]
 ftree.display(tree1)
 ```
 
-## NOTE: Original example code used for about a decade utilizing a combination of ftree2html followed by browseURL has been depreciated. The original ftree2html function wrote its file to the user workspace; a violationof CRAN policy. The currently applied code appropriately writes to and reads from the tempdir, which is generated upon each R session.
+## NOTE: Original example code used for about a decade utilizing a combination of ftree2html followed by browseURL has been depreciated. The original ftree2html function wrote its file to the user workspace; a violation of CRAN policy. The currently applied code appropriately writes to and reads from the tempdir, which is generated upon each R session.
+
+## Windows terminal and cleanup workflow
+
+For Windows users, `PowerShell` is the modern built-in shell and is generally preferred over older terminal wrappers like Console2. VS Code's integrated terminal can also host PowerShell directly.
+
+From the package root directory, use the cleanup scripts before building or checking the package:
+
+```powershell
+# remove generated package artifacts
+.\cleanup.ps1
+
+# also remove built tarballs and previous R CMD check output
+.\cleanup.ps1 -RemoveTarballs -RemoveRcheck
+```
+
+If you prefer Bash on Windows, use:
+
+```bash
+./cleanup.sh
+./cleanup.sh --remove-tarballs --remove-rcheck
+```
+
+When building and checking the package from a clean clone, use:
+
+```powershell
+& "C:\Program Files\R\R-4.3.3\bin\R.exe" CMD build .
+& "C:\Program Files\R\R-4.3.3\bin\R.exe" CMD check --no-manual FaultTree_1.1.tar.gz
+```
+
+If `R CMD check` requires custom install options, pass them through `--install-args`:
+
+```powershell
+& "C:\Program Files\R\R-4.3.3\bin\R.exe" CMD check --no-manual --install-args="--no-staged-install" FaultTree_1.1.tar.gz
+```
+
+A fresh clone is often the cleanest starting point. From a Git repo root, the following command cleans generated files safely:
+
+```powershell
+git clean -fdx
+```
+
+Use this only when you are sure you want to remove all untracked build artifacts.
+
+## Package development workflow
+
+For working on the package itself, follow this flow:
+
+1. Start from a clean clone of the repository.
+2. Open the package root in VS Code or PowerShell.
+3. Run the cleanup script before build/check to remove generated artifacts:
+
+```powershell
+.\cleanup.ps1
+```
+
+4. Build the package tarball:
+
+```powershell
+& "C:\Program Files\R\R-4.3.3\bin\R.exe" CMD build .
+```
+
+5. Check the built package:
+
+```powershell
+& "C:\Program Files\R\R-4.3.3\bin\R.exe" CMD check --no-manual FaultTree_1.1.tar.gz
+```
+
+6. If you need CRAN-like checks, add `--as-cran`:
+
+```powershell
+& "C:\Program Files\R\R-4.3.3\bin\R.exe" CMD check --no-manual --as-cran FaultTree_1.1.tar.gz
+```
+
+7. If the check process requests custom install options, pass them through `--install-args`:
+
+```powershell
+& "C:\Program Files\R\R-4.3.3\bin\R.exe" CMD check --no-manual --install-args="--no-staged-install" FaultTree_1.1.tar.gz
+```
+
+This workflow keeps the repository clean, avoids stale build artifacts, and ensures that checks run against the generated source package.
 
 ### Example 2
 

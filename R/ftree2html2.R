@@ -47,8 +47,10 @@ if(DF$Name[1]!="") {
 ## AI generated code to read d3 and js code locally within the package
 
 # 1. Locate the local asset files inside the installed package
-d3_path  <- system.file("html", "d3.v3.min.js", package = "FaultTree")
-jqy_path <- system.file("html", "jquery.min.js", package = "FaultTree")
+# moved assets to inst/www to avoid interfering with R's reserved inst/html directory
+# and to remove the 'package subdirectories also used by R' warning.
+d3_path  <- system.file("www", "d3.v3.min.js", package = "FaultTree")
+jqy_path <- system.file("www", "jquery.min.js", package = "FaultTree")
 # 2. Read the JavaScript code directly into R strings
 # (use collapse="\n" to safely keep the entire JS file intact)
 d3_code  <- paste(readLines(d3_path, warn = FALSE), collapse = "\n")

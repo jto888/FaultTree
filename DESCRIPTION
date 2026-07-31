@@ -15,4 +15,4 @@ Author: David Silkworth [aut],
   OpenReliability.org [cph]
 Maintainer: Jacob Ormerod <jake@openreliability.org>
 NeedsCompilation: yes
-Suggests: magrittr
+
