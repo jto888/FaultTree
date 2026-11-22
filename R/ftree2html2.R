@@ -4,7 +4,7 @@ ftree2html2 <-function(DF, DFname="", write_file=TRUE){
 # ftree.make will force the name convention as "top of tree" if none provided
 if(DF$Name[1]!="") {
 	html_string<-paste0(
-		HTMLhead,
+		HTMLhead(),
 		#hierarchyDF2json(DF,data.col=c(1,5:10,12:17)),
 		hierarchyDF2json(DF,data.col=c(1:14,16:17)),
 		';',
@@ -14,7 +14,7 @@ if(DF$Name[1]!="") {
 }else{
 #separate code to handle generation under label convention
 	html_string<-paste0(
-		HTMLhead,
+		HTMLhead(),
 		#hierarchyDF2json(DF,data.col=c(1,5:10,12:17)),
 		hierarchyDF2json(DF,data.col=c(1:15)),
 		';',
@@ -43,6 +43,14 @@ if(DF$Name[1]!="") {
 
 }
 
+
+
+
+## to avoid staged installation issues the HTMLhead must be 
+# returned from a function, so that the system.file functions
+# are not raw functions that will be executed upon initial load
+# of the FaultTree package
+HTMLhead<-function() {
 
 ## AI generated code to read d3 and js code locally within the package
 
@@ -81,6 +89,8 @@ HTMLhead <- paste0(
   'width = 960,height = 800;\n',
   'var root =\n'
 )
+return(HTMLhead)
+}
 
 HTMLd3script<-'
 var llim=1e-25;
